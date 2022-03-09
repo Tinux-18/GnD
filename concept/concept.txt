@@ -1,0 +1,32 @@
+Title: Social Leaders Platform
+
+Color pallette: https://coolors.co/77cde8-363435-c3e1e8-76c8e4-28aee0-9ea0a2
+
+Background-color:  #C3E1E8
+
+Placeholders: https://www.tnb.ro/ro/mihaela-dragan
+
+FONT 
+
+font html:
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300&display=swap" rel="stylesheet">
+
+font css:
+
+font-family: 'Fredoka', sans-serif;
+
+favicon:
+
+<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+
+
+*********
+TODO
+
+change gc shortcut to: git commit -a -m "set-up"
