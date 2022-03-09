@@ -3,10 +3,10 @@ const app = express();
 const compression = require("compression");
 const path = require("path");
 const logger = require("morgan");
-const { hash, compare } = require("../utils/bc");
-const { serverUpload } = require("../utils/multer_upload");
-const { s3Upload } = require("../utils/aws");
-// const db = require("./database/db");
+const { hash, compare } = require("./utils/bc");
+const { serverUpload } = require("./utils/multer_upload");
+const { s3Upload } = require("./utils/aws");
+const db = require("./sql/db");
 
 //middleware
 
