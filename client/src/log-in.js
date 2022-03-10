@@ -1,6 +1,6 @@
-import React from "react";
+import { Component } from "react";
 
-export default class LogIn extends React.Component {
+export default class LogIn extends Component {
     constructor(props) {
         super(props);
     }

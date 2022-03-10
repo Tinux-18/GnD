@@ -1,3 +1,15 @@
 {
-    "javascript.suggest.autoImports": false
+    "javascript.suggest.autoImports": false,
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "server": "localhost",
+            "port": 5432,
+            "driver": "PostgreSQL",
+            "name": "slp",
+            "database": "slp",
+            "username": "constantin",
+            "password": "experience"
+        }
+    ]
 }

@@ -1,4 +1,5 @@
 const express = require("express");
+const cookieSession = require("cookie-session");
 const app = express();
 const compression = require("compression");
 const path = require("path");
@@ -22,9 +23,52 @@ app.use(function (req, res, next) {
     next();
 }); // middleware to prevent your site from being used in clickjacking
 
-app.get("/user/id.json", function (req, res) {
-    res.status("200");
-    res.json({ userId: "cookie session shit" });
+app.use(
+    cookieSession({
+        secret:
+            process.env.SESSION_SECRET ||
+            require("../secrets.json").cookieSessionSecret,
+        maxAge: 1000 * 60 * 60 * 24 * 14,
+        sameSite: true,
+        // from vulnerability encounter
+        secure: true,
+        httpsOnly: true,
+    })
+);
+
+// Routes
+
+app.get("/user/id.json", (req, res) => {
+    if (req.session.userId > 0) {
+        res.status("200");
+        res.json({ isUserLoggedIn: true });
+    } else {
+        res.status("200");
+        res.json({ isUserLoggedIn: false });
+    }
+});
+
+app.post("/user/addProfile.json", function (req, res) {
+    console.log("req.body :>> ", req.body);
+    let { first, second, email, pass } = req.body;
+    hash(pass)
+        .then((hashedPass) => {
+            db.addUser(first, second, email, hashedPass)
+                .then(({ rows }) => {
+                    console.log(`user: ${email} has been added`);
+                    req.session.userId = rows[0].id;
+                    res.status("200");
+                    res.json({ success: true });
+                })
+                .catch((err) => {
+                    console.log(`addUser failed with: ${err}`);
+                    return res.sendStatus(500);
+                });
+        })
+        .catch((err) => {
+            console.log(`hashing failed with: ${err}`);
+            return res.sendStatus(500);
+        });
 });
 
 app.get("*", function (req, res) {

@@ -1,15 +1,17 @@
--- DROP TABLE IF EXISTS users;
+-- -- CREATE tables:
 
--- -- new users table:
+-- DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
     id              SERIAL PRIMARY KEY,
     first           VARCHAR(255) NOT NULL CHECK (first != ''),
     last            VARCHAR(255) NOT NULL CHECK (last != ''),
-    email           VARCHAR(255) NOT NULL UNIQUE,
+    email           VARCHAR(255) NOT NULL CHECK (email != '') UNIQUE,
     password        VARCHAR(255) NOT NULL,
     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
+
+-- DROP TABLE IF EXISTS organisations;
 
 -- CREATE TABLE organisations (
 --     id                  SERIAL PRIMARY KEY,
@@ -20,6 +22,9 @@ CREATE TABLE users (
 --     house_number        VARCHAR(255) NOT NULL,
 --     created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
+
+-- -- INSERT DATA
+
 
 -- INSERT INTO images (url, username, title, description) VALUES (
 --     'https://s3.amazonaws.com/imageboard/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg',
