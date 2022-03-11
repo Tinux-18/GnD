@@ -9,20 +9,9 @@ import ResetPass from "./reset_password";
 export default class Welcome extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            isUserLoggedIn: false,
-        };
     }
     componentDidMount() {
         console.log("Welcome component mounted");
-        fetch(`/user/id.json`)
-            .then((res) => res.json())
-            .then(({ isUserLoggedIn }) => {
-                this.setState({ isUserLoggedIn: isUserLoggedIn });
-            })
-            .catch((err) =>
-                console.log(`fetch user status failed with: ${err}`)
-            );
     }
     render() {
         return (

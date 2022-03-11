@@ -25,11 +25,10 @@ main {
     color: #363435;
 }
 
-#logo {
+.welcome__banner .logo {
     width: 170px;
     height: 170px;
     margin-top: 10px;
-    opacity: 0.8;
 }
 
 form {
@@ -47,4 +46,79 @@ form h2,
     color: crimson;
     width: 180px;
     margin: 0;
+}
+
+#login-link {
+    align-self: center;
+}
+
+nav {
+    height: 80px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    align-self: flex-start;
+}
+
+nav .logo,
+.profile-pic {
+    width: 70px;
+    height: 70px;
+    margin-top: 10px;
+    padding: 15px;
+    overflow: hidden;
+}
+
+.uploader {
+    position: absolute;
+    z-index: 1;
+    left: 31vw;
+    width: 358px;
+    height: 130px;
+    padding: 40px;
+    background-color: #76c8e4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.uploader form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+}
+
+.uploader button {
+    border: 0px;
+    font-size: 1rem;
+}
+
+.close-button {
+    width: 40px;
+    padding: 15px;
+    height: auto;
+    z-index: 3;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+#file {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+
+#file-label {
+    width: 100px;
+    margin: 10px;
+    border: 2px dashed #363435;
+    padding: 10px;
+    font-size: 1rem;
 }

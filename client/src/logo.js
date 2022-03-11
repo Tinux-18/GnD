@@ -10,11 +10,13 @@ export default class Logo extends Component {
     render() {
         return (
             <>
-                <img
-                    src="/logo.jpeg"
-                    alt="Social Leaders Platform logo"
-                    id="logo"
-                ></img>
+                <a href="/">
+                    <img
+                        src="/logo.jpeg"
+                        alt="Social Leaders Platform logo"
+                        className="logo"
+                    ></img>
+                </a>
             </>
         );
     }

@@ -1,4 +1,5 @@
 import { Component } from "react";
+import { Link } from "react-router-dom";
 
 export default class SignIn extends Component {
     constructor(props) {
@@ -49,8 +50,6 @@ export default class SignIn extends Component {
             inputErrors.push("email");
             this.setState({ inputErrors: inputErrors });
         }
-        console.log("this.state.pass1 :>> ", this.state.pass1);
-        console.log("this.state.pass1 :>> ", this.state.pass2);
 
         if (!this.state.pass1) {
             let inputErrors = this.state.inputErrors;
@@ -85,9 +84,11 @@ export default class SignIn extends Component {
                 .then((res) => res.json())
                 .then((postResponse) => {
                     console.log("res :>> ", postResponse);
-
-                    // if error update error message
-                    // if not error location.reload
+                    if (postResponse.success) {
+                        location.reload();
+                    } else {
+                        this.setState({ generalError: true });
+                    }
                 })
                 .catch((err) => {
                     console.log(
@@ -100,12 +101,9 @@ export default class SignIn extends Component {
         }
     }
     confirmPassword(e) {
-        console.log("e :>> ", e);
         if (e.target.value.length <= 1 && e.code == "Backspace") {
-            console.log("Backspace pressed");
             this.setState({ showPasswordConfirmation: false });
         } else {
-            console.log("something else pressed");
             this.setState({ showPasswordConfirmation: true });
         }
     }
@@ -220,6 +218,9 @@ export default class SignIn extends Component {
                         </>
                     )}
                     <button onClick={this.handleSubmit}>Register</button>
+                    <Link to="/login" id="login-link">
+                        Click here to Log in!
+                    </Link>
                 </form>
             </>
         );

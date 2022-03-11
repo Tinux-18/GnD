@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieSession = require("cookie-session");
 const app = express();
+exports.app = app;
 const compression = require("compression");
 const path = require("path");
 const logger = require("morgan");
@@ -15,14 +16,6 @@ app.use(compression());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-app.use(express.static(path.join(__dirname, "..", "client", "public")));
-
-app.use(function (req, res, next) {
-    res.setHeader("x-frame-options", "deny");
-    next();
-}); // middleware to prevent your site from being used in clickjacking
-
 app.use(
     cookieSession({
         secret:
@@ -31,11 +24,15 @@ app.use(
         maxAge: 1000 * 60 * 60 * 24 * 14,
         sameSite: true,
         // from vulnerability encounter
-        secure: true,
-        httpsOnly: true,
+        // secure: true,
+        // httpsOnly: true,
     })
 );
-
+app.use(function (req, res, next) {
+    res.setHeader("x-frame-options", "deny");
+    next();
+}); // middleware to prevent your site from being used in clickjacking
+app.use(express.static(path.join(__dirname, "..", "client", "public")));
 // Routes
 
 app.get("/user/id.json", (req, res) => {
@@ -70,6 +67,52 @@ app.post("/user/addProfile.json", function (req, res) {
             return res.sendStatus(500);
         });
 });
+
+app.get("/user/profile.json", (req, res) => {
+    db.getUsers(req.session.userId)
+        .then(({ rows: profile }) => {
+            res.status("200");
+            res.json(profile[0]);
+        })
+        .catch((err) => {
+            console.log(`getProfile failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
+app.get("/user/profile_pic.json", (req, res) => {
+    db.getProfilePics(req.session.userId)
+        .then(({ rows: profilePics }) => {
+            console.log("rows :>> ", profilePics);
+            res.status("200");
+            res.json(profilePics[0]);
+        })
+        .catch((err) => {
+            console.log(`getProfile failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
+app.post(
+    "/upload/profile_pic.json",
+    serverUpload.single("file"),
+    s3Upload,
+    (req, res) => {
+        console.log("/upload hit");
+        db.addProfilePic(
+            req.session.userId,
+            `https://s3.amazonaws.com/spicedling/${req.file.filename}`
+        )
+            .then(({ rows }) => {
+                res.status("200");
+                res.json(rows[0]);
+            })
+            .catch((err) => {
+                console.log(`addPic failed with: ${err}`);
+                return res.sendStatus(500);
+            });
+    }
+);
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
