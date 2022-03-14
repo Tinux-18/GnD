@@ -38,23 +38,19 @@
     
 -- );
 
+-- INSERT INTO users (first, last, bio, email, password)
+-- VALUES ('George', 'Alexe', 'iubesc pisicile', 'gal@dcb.de', 'oaisengaösoiengö')
+
 -- -- GET DATA
 
 -- SELECT * FROM profile_pics
 -- WHERE user_id = 20
 -- ORDER BY id DESC
 
--- -- INSERT DATA
+-- -- UPDATE DATA
 
-UPDATE users
-SET first = 'Alin'
-WHERE id = 1
-RETURNING email
-
--- INSERT INTO user_profiles (age, city, url, user_id)
--- VALUES ($1, $2, $3, $4)
--- ON CONFLICT (user_id)
--- DO UPDATE
+-- UPDATE users
 -- SET first = 'Alin'
 -- WHERE id = 1
 -- RETURNING email
+

@@ -1,9 +1,10 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
-import ProfilePic from "./profile_pic";
-import Logo from "./logo";
-import Uploader from "./uploader";
-import MyProfile from "./my_profile";
+
+import Logo from "./general/logo";
+import ProfilePic from "./app/profile_pic";
+import Uploader from "./app/uploader";
+import MyProfile from "./app/my_profile";
 
 export default class App extends Component {
     constructor(props) {

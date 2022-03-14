@@ -11,9 +11,11 @@ const db = spicedPg(
         }@localhost:5432/slp`
 );
 
-exports.getUsers = (id) => {
-    if (id) {
-        return db.query("SELECT * FROM users WHERE id = $1", [id]);
+exports.getUsers = (input) => {
+    if (!isNaN(input)) {
+        return db.query("SELECT * FROM users WHERE id = $1", [input]);
+    } else if (typeof input === "string") {
+        return db.query("SELECT * FROM users WHERE email = $1", [input]);
     } else {
         return db.query("SELECT * FROM users");
     }

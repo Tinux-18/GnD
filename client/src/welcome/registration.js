@@ -16,7 +16,7 @@ export default class SignIn extends Component {
         this.confirmPassword = this.confirmPassword.bind(this);
     }
     componentDidMount() {
-        console.log("Registration component mounted");
+        console.log("Registration mounted");
         console.log("this.state :>> ", this.state);
     }
     inputUpdate({ target }) {
@@ -215,7 +215,23 @@ export default class SignIn extends Component {
                             ></input>
                         </>
                     )}
-                    <button onClick={this.handleSubmit}>Register</button>
+                    <div className="buttons">
+                        <button onClick={this.handleSubmit}>Register</button>
+                        <input
+                            type="reset"
+                            value="Reset"
+                            id="reset"
+                            onClick={() => {
+                                this.setState({
+                                    generalError: false,
+                                    passError: false,
+                                    error: false,
+                                    inputErrors: [],
+                                });
+                            }}
+                        ></input>
+                    </div>
+
                     <Link to="/login" id="login-link">
                         Click here to Log in!
                     </Link>

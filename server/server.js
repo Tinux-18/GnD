@@ -68,6 +68,33 @@ app.post("/user/addProfile.json", function (req, res) {
         });
 });
 
+app.post("/user/login", (req, res) => {
+    let { email, pass } = req.body;
+    console.log(`login attempted by ${email}`);
+
+    db.getUsers(email)
+        .then(({ rows }) => {
+            compare(pass, rows[0].password)
+                .then((match) => {
+                    if (match) {
+                        req.session.userId = rows[0].id;
+                        res.status("200");
+                        res.json({ success: true });
+                    } else {
+                        return res.sendStatus(500);
+                    }
+                })
+                .catch((err) => {
+                    console.log(`compare failed with: ${err}`);
+                    return res.sendStatus(500);
+                });
+        })
+        .catch((err) => {
+            console.log(`getUsers failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
 app.get("/user/profile.json", (req, res) => {
     db.getUsers(req.session.userId)
         .then(({ rows: profile }) => {
