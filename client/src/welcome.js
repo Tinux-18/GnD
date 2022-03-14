@@ -15,7 +15,7 @@ export default class Welcome extends Component {
     }
     render() {
         return (
-            <>
+            <div className="welcome">
                 <section className="welcome__banner">
                     <Logo />
                     <h1>The Social Leaders Platform</h1>
@@ -28,7 +28,7 @@ export default class Welcome extends Component {
                         <LogIn />
                     </Route>
                 </BrowserRouter>
-            </>
+            </div>
         );
     }
 }

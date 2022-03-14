@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import ProfilePic from "./profile_pic";
 import Logo from "./logo";
 import Uploader from "./uploader";
+import MyProfile from "./my_profile";
 
 export default class App extends Component {
     constructor(props) {
@@ -83,8 +84,18 @@ export default class App extends Component {
                         showUploader={this.toggleUploader}
                     />
                 </nav>
+                <MyProfile
+                    {...this.state}
+                    profilePic={
+                        <ProfilePic
+                            first={this.state.first}
+                            last={this.state.last}
+                            image={this.state.image}
+                            showUploader={this.toggleUploader}
+                        />
+                    }
+                />
 
-                
                 {this.state.uploaderVisible && (
                     <Uploader
                         hideUploader={this.toggleUploader}
