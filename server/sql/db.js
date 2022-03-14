@@ -41,3 +41,13 @@ exports.getProfilePics = (userId) => {
         return db.query("SELECT * FROM profile_pics");
     }
 };
+
+exports.updateBio = (user_id, bio) =>
+    db.query(
+        `
+        UPDATE users
+        SET bio = $1
+        WHERE id = $2
+        RETURNING email`,
+        [bio, user_id]
+    );

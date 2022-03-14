@@ -6,6 +6,7 @@
 --     id              SERIAL PRIMARY KEY,
 --     first           VARCHAR(255) NOT NULL CHECK (first != ''),
 --     last            VARCHAR(255) NOT NULL CHECK (last != ''),
+--     bio             VARCHAR,
 --     email           VARCHAR(255) NOT NULL CHECK (email != '') UNIQUE,
 --     password        VARCHAR(255) NOT NULL,
 --     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -39,6 +40,21 @@
 
 -- -- GET DATA
 
-SELECT * FROM profile_pics
-WHERE user_id = 20
-ORDER BY id DESC
+-- SELECT * FROM profile_pics
+-- WHERE user_id = 20
+-- ORDER BY id DESC
+
+-- -- INSERT DATA
+
+UPDATE users
+SET first = 'Alin'
+WHERE id = 1
+RETURNING email
+
+-- INSERT INTO user_profiles (age, city, url, user_id)
+-- VALUES ($1, $2, $3, $4)
+-- ON CONFLICT (user_id)
+-- DO UPDATE
+-- SET first = 'Alin'
+-- WHERE id = 1
+-- RETURNING email

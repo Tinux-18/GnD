@@ -4,16 +4,9 @@ import Bio from "./bio";
 export default class MyProfile extends Component {
     constructor(props) {
         super(props);
-        this.updateBio = this.updateBio.bind(this);
     }
     componentDidMount() {
         console.log("My profile mounted");
-        console.log("this.props :>> ", this.props);
-    }
-    updateBio(url) {
-        this.setState({ image: url }, () => {
-            console.log("this :>> ", this);
-        });
     }
     render() {
         return (
@@ -23,8 +16,13 @@ export default class MyProfile extends Component {
                     <h1>
                         {this.props.first} {this.props.last}
                     </h1>
+                    <Bio
+                        bio={this.props.bio}
+                        updateBio={(bio) => {
+                            this.props.updateBio(bio);
+                        }}
+                    />
                 </div>
-                <Bio bio={this.props.bio} updateBio={this.updateBio} />
             </div>
         );
     }

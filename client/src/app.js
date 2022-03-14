@@ -15,8 +15,6 @@ export default class App extends Component {
             bio: "",
             uploaderVisible: false,
         };
-        this.toggleUploader = this.toggleUploader.bind(this);
-        this.updateImage = this.updateImage.bind(this);
         this.getData = this.getData.bind(this);
     }
     componentDidMount() {
@@ -55,23 +53,10 @@ export default class App extends Component {
         this.setState({
             first: profile.first,
             last: profile.last,
+            bio: profile.bio,
             image: profilePic.url,
         });
     }
-    toggleUploader() {
-        this.setState(
-            { uploaderVisible: !this.state.uploaderVisible, refreshPic: true },
-            () => {
-                console.log("this :>> ", this);
-            }
-        );
-    }
-    updateImage(url) {
-        this.setState({ image: url }, () => {
-            console.log("this :>> ", this);
-        });
-    }
-
     render() {
         return (
             <>
@@ -81,7 +66,11 @@ export default class App extends Component {
                         first={this.state.first}
                         last={this.state.last}
                         image={this.state.image}
-                        showUploader={this.toggleUploader}
+                        showUploader={() => {
+                            this.setState({
+                                uploaderVisible: !this.state.uploaderVisible,
+                            });
+                        }}
                     />
                 </nav>
                 <MyProfile
@@ -91,15 +80,25 @@ export default class App extends Component {
                             first={this.state.first}
                             last={this.state.last}
                             image={this.state.image}
-                            showUploader={this.toggleUploader}
+                            showUploader={() => {
+                                this.setState({
+                                    uploaderVisible:
+                                        !this.state.uploaderVisible,
+                                });
+                            }}
                         />
                     }
+                    updateBio={(bio) => {
+                        this.setState({ bio: bio });
+                    }}
                 />
 
                 {this.state.uploaderVisible && (
                     <Uploader
                         hideUploader={this.toggleUploader}
-                        updateImage={this.updateImage}
+                        updateImage={(url) => {
+                            this.setState({ image: url });
+                        }}
                     />
                 )}
             </>

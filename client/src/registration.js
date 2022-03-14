@@ -20,9 +20,7 @@ export default class SignIn extends Component {
         console.log("this.state :>> ", this.state);
     }
     inputUpdate({ target }) {
-        this.setState({ [target.name]: target.value }, () => {
-            // console.log("this.state :>> ", this.state);
-        });
+        this.setState({ [target.name]: target.value }, () => {});
     }
     handleSubmit(e) {
         console.log("Submit: ", this.state);

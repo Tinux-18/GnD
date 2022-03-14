@@ -114,6 +114,19 @@ app.post(
     }
 );
 
+app.post("/user/updateBio.json", function (req, res) {
+    console.log("req.body :>> ", req.body.bio);
+    db.updateBio(req.session.userId, req.body.bio)
+        .then(() => {
+            res.status("200");
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.log(`updateBio failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
