@@ -83,7 +83,7 @@ app.get("/user/profile.json", (req, res) => {
 app.get("/user/profile_pic.json", (req, res) => {
     db.getProfilePics(req.session.userId)
         .then(({ rows: profilePics }) => {
-            console.log("rows :>> ", profilePics);
+            // console.log("rows :>> ", profilePics);
             res.status("200");
             res.json(profilePics[0]);
         })

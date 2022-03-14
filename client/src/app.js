@@ -10,25 +10,52 @@ export default class App extends Component {
         this.state = {
             first: "",
             second: "",
+            image: "",
+            bio: "",
             uploaderVisible: false,
-            refreshPic: false,
         };
         this.toggleUploader = this.toggleUploader.bind(this);
+        this.updateImage = this.updateImage.bind(this);
+        this.getData = this.getData.bind(this);
     }
     componentDidMount() {
         console.log("App component mounted");
-        console.log("this.state :>> ", this.state);
-        fetch(`/user/profile.json`)
-            .then((res) => res.json())
-            .then((profileData) => {
-                this.setState({
-                    first: profileData.first,
-                    last: profileData.last,
-                });
-            })
-            .catch((err) =>
-                console.log(`fetch user status failed with: ${err}`)
+        try {
+            this.getData();
+        } catch (err) {
+            console.log(
+                `fetch user profile or profile pic failed with: ${err}`
             );
+        }
+    }
+    async getData() {
+        function getProfile() {
+            return fetch(`/user/profile.json`)
+                .then((res) => {
+                    return res.json();
+                })
+                .catch((err) =>
+                    console.log(`fetch user status failed with: ${err}`)
+                );
+        }
+
+        function getProfilePic() {
+            return fetch(`/user/profile_pic.json`)
+                .then((res) => {
+                    return res.json();
+                })
+                .catch((err) => {
+                    console.log(`fetch user profile pic failed with: ${err}`);
+                });
+        }
+
+        const profile = await getProfile();
+        const profilePic = await getProfilePic();
+        this.setState({
+            first: profile.first,
+            last: profile.last,
+            image: profilePic.url,
+        });
     }
     toggleUploader() {
         this.setState(
@@ -37,6 +64,11 @@ export default class App extends Component {
                 console.log("this :>> ", this);
             }
         );
+    }
+    updateImage(url) {
+        this.setState({ image: url }, () => {
+            console.log("this :>> ", this);
+        });
     }
 
     render() {
@@ -47,15 +79,16 @@ export default class App extends Component {
                     <ProfilePic
                         first={this.state.first}
                         last={this.state.last}
+                        image={this.state.image}
                         showUploader={this.toggleUploader}
-                        refreshPic={this.state.refreshPic}
                     />
                 </nav>
 
+                
                 {this.state.uploaderVisible && (
                     <Uploader
                         hideUploader={this.toggleUploader}
-                        updateProfilePic={this.updateProfilePic}
+                        updateImage={this.updateImage}
                     />
                 )}
             </>

@@ -10,8 +10,7 @@ export default class Uploader extends Component {
         this.handleChange = this.handleChange.bind(this);
     }
     componentDidMount() {
-        console.log("Uploader component mounted");
-        console.log("this.props :>> ", this.props);
+        console.log("Uploader mounted");
     }
     handleChange(e) {
         this.setState({
@@ -25,7 +24,6 @@ export default class Uploader extends Component {
             this.setState({ error: true });
         }
 
-        console.log("this.state :>> ", this.state);
         const fd = new FormData();
         fd.append("file", this.state.file);
 
@@ -34,9 +32,9 @@ export default class Uploader extends Component {
             body: fd,
         })
             .then((res) => res.json())
-            .then(() => {
-                // console.log("uploadData :>> ", uploadData);
+            .then((uploadData) => {
                 console.log("Upload successful");
+                this.props.updateImage(uploadData.url);
                 this.props.hideUploader();
             })
             .catch((err) => {
