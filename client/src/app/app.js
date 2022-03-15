@@ -1,10 +1,12 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
+import { BrowserRouter, Route } from "react-router-dom";
 
 import Logo from "../general/logo";
 import ProfilePic from "./profile_pic";
 import Uploader from "./uploader";
 import MyProfile from "./my_profile";
+import FindUsers from "./find_users";
 
 export default class App extends Component {
     constructor(props) {
@@ -63,20 +65,8 @@ export default class App extends Component {
             <>
                 <nav>
                     <Logo />
-                    <ProfilePic
-                        first={this.state.first}
-                        last={this.state.last}
-                        image={this.state.image}
-                        showUploader={() => {
-                            this.setState({
-                                uploaderVisible: !this.state.uploaderVisible,
-                            });
-                        }}
-                    />
-                </nav>
-                <MyProfile
-                    {...this.state}
-                    profilePic={
+                    <div className="nav-right">
+                        <a href="/users">Find other leaders</a>
                         <ProfilePic
                             first={this.state.first}
                             last={this.state.last}
@@ -88,11 +78,34 @@ export default class App extends Component {
                                 });
                             }}
                         />
-                    }
-                    updateBio={(bio) => {
-                        this.setState({ bio: bio });
-                    }}
-                />
+                    </div>
+                </nav>
+                <BrowserRouter>
+                    <Route exact path="/">
+                        <MyProfile
+                            {...this.state}
+                            profilePic={
+                                <ProfilePic
+                                    first={this.state.first}
+                                    last={this.state.last}
+                                    image={this.state.image}
+                                    showUploader={() => {
+                                        this.setState({
+                                            uploaderVisible:
+                                                !this.state.uploaderVisible,
+                                        });
+                                    }}
+                                />
+                            }
+                            updateBio={(bio) => {
+                                this.setState({ bio: bio });
+                            }}
+                        />
+                    </Route>
+                    <Route path="/users">
+                        <FindUsers />
+                    </Route>
+                </BrowserRouter>
 
                 {this.state.uploaderVisible && (
                     <Uploader
@@ -103,6 +116,7 @@ export default class App extends Component {
                         }}
                         updateImage={(url) => {
                             this.setState({ image: url });
+                            this.getData();
                         }}
                     />
                 )}

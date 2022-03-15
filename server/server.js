@@ -107,6 +107,19 @@ app.get("/user/profile.json", (req, res) => {
         });
 });
 
+app.get("/last_users.json", (req, res) => {
+    db.getLatestUsers(3, req.query.pattern)
+        .then(({ rows: users }) => {
+            users.filter((user) => user.id != req.session.userId);
+            res.status("200");
+            res.json(users);
+        })
+        .catch((err) => {
+            console.log(`getProfile failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
 app.get("/user/profile_pic.json", (req, res) => {
     db.getProfilePics(req.session.userId)
         .then(({ rows: profilePics }) => {

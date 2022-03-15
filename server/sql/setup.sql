@@ -54,3 +54,4 @@
 -- WHERE id = 1
 -- RETURNING email
 
+SELECT first, last, bio, email FROM users LIMIT 3

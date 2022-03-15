@@ -9,11 +9,38 @@ const db = spicedPg(
 
 exports.getUsers = (input) => {
     if (!isNaN(input)) {
+        // input is a number, expecting ID
         return db.query("SELECT * FROM users WHERE id = $1", [input]);
     } else if (typeof input === "string") {
+        // input is text, expecting email
         return db.query("SELECT * FROM users WHERE email = $1", [input]);
     } else {
         return db.query("SELECT * FROM users");
+    }
+};
+
+exports.getLatestUsers = (limit, pattern) => {
+    if (pattern) {
+        return db.query(
+            `
+    SELECT users.id, first, last, bio, url FROM users
+    LEFT OUTER JOIN profile_pics
+    ON users.id = profile_pics.user_id 
+    WHERE (first ILIKE $2 or last ILIKE $2) 
+    ORDER BY id DESC 
+    LIMIT $1`,
+            [limit, pattern + "%"]
+        );
+    } else {
+        return db.query(
+            `
+    SELECT users.id, first, last, bio, url FROM users
+    LEFT OUTER JOIN profile_pics
+    ON users.id = profile_pics.user_id 
+    ORDER BY id DESC 
+    LIMIT $1`,
+            [limit]
+        );
     }
 };
 
