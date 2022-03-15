@@ -2,12 +2,8 @@ const spicedPg = require("spiced-pg");
 
 const db = spicedPg(
     process.env.DATABASE_URL ||
-        `postgres:${
-            require("/home/spiced/constantin/rue-socialnetwork/secrets.json")
-                .psqlUser
-        }:${
-            require("/home/spiced/constantin/rue-socialnetwork/secrets.json")
-                .psqlPassword
+        `postgres:${require("../../secrets.json").psqlUser}:${
+            require("../../secrets.json").psqlPassword
         }@localhost:5432/slp`
 );
 

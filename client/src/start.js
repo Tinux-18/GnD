@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
-import Welcome from "./welcome";
-import App from "./app";
+import Welcome from "./welcome/welcome";
+import App from "./app/app";
 
 fetch(`/user/id.json`)
     .then((res) => res.json())

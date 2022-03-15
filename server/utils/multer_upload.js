@@ -4,10 +4,7 @@ const path = require("path");
 
 const diskStorage = multer.diskStorage({
     destination: function (req, file, callback) {
-        callback(
-            null,
-            "/home/spiced/constantin/rue-socialnetwork/server/uploads"
-        );
+        callback(null, "/home/tinux/projects/rue-socialnetwork/server/uploads");
     },
     filename: function (req, file, callback) {
         uidSafe(24).then((uid) => {

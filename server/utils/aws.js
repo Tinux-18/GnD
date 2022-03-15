@@ -5,7 +5,7 @@ let secrets;
 if (process.env.NODE_ENV == "production") {
     secrets = process.env; // in prod the secrets are environment variables
 } else {
-    secrets = require("/home/spiced/constantin/rue-socialnetwork/secrets.json");
+    secrets = require("../../secrets.json");
 }
 
 const s3 = new aws.S3({

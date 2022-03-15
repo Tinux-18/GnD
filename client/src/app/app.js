@@ -1,10 +1,10 @@
 import { Component } from "react";
 import { Link } from "react-router-dom";
 
-import Logo from "./general/logo";
-import ProfilePic from "./app/profile_pic";
-import Uploader from "./app/uploader";
-import MyProfile from "./app/my_profile";
+import Logo from "../general/logo";
+import ProfilePic from "./profile_pic";
+import Uploader from "./uploader";
+import MyProfile from "./my_profile";
 
 export default class App extends Component {
     constructor(props) {
@@ -96,7 +96,11 @@ export default class App extends Component {
 
                 {this.state.uploaderVisible && (
                     <Uploader
-                        hideUploader={this.toggleUploader}
+                        hideUploader={() => {
+                            this.setState({
+                                uploaderVisible: !this.state.uploaderVisible,
+                            });
+                        }}
                         updateImage={(url) => {
                             this.setState({ image: url });
                         }}

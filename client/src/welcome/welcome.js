@@ -1,12 +1,12 @@
 import { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import Logo from "./general/logo";
-import Footer from "./general/footer";
+import Logo from "../general/logo";
+import Footer from "../general/footer";
 
-import Registration from "./welcome/registration";
-import LogIn from "./welcome/log-in";
-import ResetPass from "./welcome/reset_password";
+import Registration from "./registration";
+import LogIn from "./log-in";
+import ResetPass from "./reset_password";
 
 export default class Welcome extends Component {
     constructor(props) {

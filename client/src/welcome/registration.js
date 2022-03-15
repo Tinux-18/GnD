@@ -17,7 +17,6 @@ export default class SignIn extends Component {
     }
     componentDidMount() {
         console.log("Registration mounted");
-        console.log("this.state :>> ", this.state);
     }
     inputUpdate({ target }) {
         this.setState({ [target.name]: target.value }, () => {});
