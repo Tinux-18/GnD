@@ -29,14 +29,14 @@ export default function FindUsers() {
                 {users.length < 1 && <h3>We couldn&apos;t find anyone</h3>}
                 {users.map((user) => (
                     <div key={user.id} className="result">
-                        <a href={user.url}>
+                        <a href="#">
                             <img
                                 className="result__img"
                                 src={user.url}
                                 alt={`${user.first} ${user.last}`}
                             ></img>
                         </a>
-                        <a className="result__text" href={user.url}>
+                        <a className="result__text" href="#">
                             {user.first} {user.last}
                         </a>
                     </div>

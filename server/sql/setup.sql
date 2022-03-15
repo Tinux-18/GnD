@@ -47,11 +47,12 @@
 -- WHERE user_id = 20
 -- ORDER BY id DESC
 
+-- SELECT first, last, bio, email FROM users LIMIT 3
+
+
 -- -- UPDATE DATA
 
 -- UPDATE users
 -- SET first = 'Alin'
 -- WHERE id = 1
 -- RETURNING email
-
-SELECT first, last, bio, email FROM users LIMIT 3

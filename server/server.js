@@ -108,7 +108,8 @@ app.get("/user/profile.json", (req, res) => {
 });
 
 app.get("/last_users.json", (req, res) => {
-    db.getLatestUsers(3, req.query.pattern)
+    let limit = req.query.pattern ? undefined : 3;
+    db.getLatestUsers(limit, req.query.pattern)
         .then(({ rows: users }) => {
             users.filter((user) => user.id != req.session.userId);
             res.status("200");
