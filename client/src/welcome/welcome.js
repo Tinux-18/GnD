@@ -1,7 +1,7 @@
 import { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
 
-import Logo from "../general/logo";
+import Logo from "../general/logo.js";
 import Footer from "../general/footer";
 
 import Registration from "./registration";

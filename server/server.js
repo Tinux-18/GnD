@@ -45,6 +45,12 @@ app.get("/user/id.json", (req, res) => {
     }
 });
 
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.status("200");
+    res.json({ success: true });
+});
+
 app.post("/user/addProfile.json", function (req, res) {
     console.log("req.body :>> ", req.body);
     let { first, second, email, pass } = req.body;
@@ -71,7 +77,9 @@ app.post("/user/addProfile.json", function (req, res) {
 app.post("/user/login", (req, res) => {
     let { email, pass } = req.body;
     console.log(`login attempted by ${email}`);
-
+    if (!email) {
+        return res.sendStatus(500);
+    }
     db.getUsers(email)
         .then(({ rows }) => {
             compare(pass, rows[0].password)

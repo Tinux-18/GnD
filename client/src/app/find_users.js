@@ -44,6 +44,7 @@ export default function FindUsers() {
             </div>
             <h3>Looking for someone in particular?</h3>
             <input onChange={(e) => setQuery(e.target.value)} />
+            <a onClick={logOut}>Log out</a>
         </div>
     );
 }
