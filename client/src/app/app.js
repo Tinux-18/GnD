@@ -7,6 +7,7 @@ import ProfilePic from "./profile_pic";
 import Uploader from "./uploader";
 import MyProfile from "./my_profile";
 import FindUsers from "./find_users";
+import OtherProfile from "./other_profile";
 
 export default class App extends Component {
     constructor(props) {
@@ -104,6 +105,9 @@ export default class App extends Component {
                     </Route>
                     <Route path="/users">
                         <FindUsers />
+                    </Route>
+                    <Route path="/other-user/:otherUserId">
+                        <OtherProfile />
                     </Route>
                 </BrowserRouter>
 

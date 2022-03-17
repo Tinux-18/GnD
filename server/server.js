@@ -115,6 +115,32 @@ app.get("/user/profile.json", (req, res) => {
         });
 });
 
+app.get("/user/otherUser.json/:otherUserId", (req, res) => {
+    let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
+    if (req.session.userId == otherUserId) {
+        res.status("200");
+        res.json({ sameUser: true });
+    } else if (otherUserId) {
+        db.getUsers(otherUserId)
+            .then(({ rows: profile }) => {
+                res.status("200");
+                res.json({
+                    first: profile[0].first,
+                    last: profile[0].last,
+                    bio: profile[0].bio,
+                    url: profile[0].url,
+                });
+            })
+            .catch((err) => {
+                console.log(`getProfile failed with: ${err}`);
+                return res.sendStatus(500);
+            });
+    } else {
+        return res.sendStatus(403);
+    }
+    console.log("otherUserId :>> ", otherUserId);
+});
+
 app.get("/last_users.json", (req, res) => {
     let limit = req.query.pattern ? undefined : 3;
     db.getLatestUsers(limit, req.query.pattern)
@@ -132,7 +158,6 @@ app.get("/last_users.json", (req, res) => {
 app.get("/user/profile_pic.json", (req, res) => {
     db.getProfilePics(req.session.userId)
         .then(({ rows: profilePics }) => {
-            // console.log("rows :>> ", profilePics);
             res.status("200");
             res.json(profilePics[0]);
         })

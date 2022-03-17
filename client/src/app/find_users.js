@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-
+import { logOut } from "../hooks/logout";
 export default function FindUsers() {
     const [query, setQuery] = useState("");
     const [users, setUsers] = useState([]);
@@ -11,7 +11,6 @@ export default function FindUsers() {
             .then((res) => res.json())
             .then((usersData) => {
                 if (!abort) {
-                    // console.log("usersData :>> ", usersData);
                     setUsers(usersData);
                 }
             })
@@ -29,14 +28,14 @@ export default function FindUsers() {
                 {users.length < 1 && <h3>We couldn&apos;t find anyone</h3>}
                 {users.map((user) => (
                     <div key={user.id} className="result">
-                        <a href="#">
+                        <a href={`/other-user/:${user.id}`}>
                             <img
                                 className="result__img"
                                 src={user.url}
                                 alt={`${user.first} ${user.last}`}
                             ></img>
                         </a>
-                        <a className="result__text" href="#">
+                        <a className="result__text" href={`/other-user`}>
                             {user.first} {user.last}
                         </a>
                     </div>

@@ -47,7 +47,7 @@
 -- WHERE user_id = 20
 -- ORDER BY id DESC
 
--- SELECT first, last, bio, email FROM users LIMIT 3
+SELECT first, last, bio, email FROM users WHERE id = 20444;
 
 
 -- -- UPDATE DATA

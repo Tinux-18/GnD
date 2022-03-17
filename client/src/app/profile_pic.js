@@ -5,7 +5,6 @@ export default class ProfilePic extends Component {
     }
     componentDidMount() {
         console.log("Profile Pic mounted");
-        console.log("this.props :>> ", this.props);
     }
     render() {
         return (
