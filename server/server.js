@@ -123,13 +123,19 @@ app.get("/user/otherUser.json/:otherUserId", (req, res) => {
     } else if (otherUserId) {
         db.getUsers(otherUserId)
             .then(({ rows: profile }) => {
-                res.status("200");
-                res.json({
-                    first: profile[0].first,
-                    last: profile[0].last,
-                    bio: profile[0].bio,
-                    url: profile[0].url,
-                });
+                console.log("profile.length :>> ", profile.length);
+                console.log("profile.length :>> ", profile);
+                if (profile.length == 0) {
+                    return res.sendStatus(500);
+                } else {
+                    res.status("200");
+                    res.json({
+                        first: profile[0].first,
+                        last: profile[0].last,
+                        bio: profile[0].bio,
+                        url: profile[0].url,
+                    });
+                }
             })
             .catch((err) => {
                 console.log(`getProfile failed with: ${err}`);

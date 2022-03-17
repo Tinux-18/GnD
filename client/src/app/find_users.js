@@ -35,7 +35,10 @@ export default function FindUsers() {
                                 alt={`${user.first} ${user.last}`}
                             ></img>
                         </a>
-                        <a className="result__text" href={`/other-user`}>
+                        <a
+                            className="result__text"
+                            href={`/other-user/:${user.id}`}
+                        >
                             {user.first} {user.last}
                         </a>
                     </div>

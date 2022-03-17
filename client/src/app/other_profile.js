@@ -20,9 +20,10 @@ export default function MyProfile() {
                     }
                 }
             })
-            .catch((err) =>
-                console.log(`fetch last users failed with: ${err}`)
-            );
+            .catch((err) => {
+                console.log(`fetch otherUser failed with: ${err}`);
+                history.push("/");
+            });
 
         return () => {
             abort = true;
