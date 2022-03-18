@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, useHistory } from "react-router";
-export default function MyProfile() {
+import FriendRequestButton from "./friend_request_button";
+
+export default function OtherProfile() {
     const { otherUserId } = useParams();
     let cleanOtherUserId = parseInt(otherUserId.replace(":", ""));
     const history = useHistory();
@@ -9,7 +11,7 @@ export default function MyProfile() {
     useEffect(() => {
         let abort;
 
-        fetch(`/user/otherUser.json/:${cleanOtherUserId}`)
+        fetch(`/other-user.json/:${cleanOtherUserId}`)
             .then((res) => res.json())
             .then((otherUserProfile) => {
                 if (!abort) {
@@ -42,6 +44,7 @@ export default function MyProfile() {
                     {otherUser.first} {otherUser.last}
                 </h1>
                 <p>{otherUser.bio}</p>
+                <FriendRequestButton otherUserId={cleanOtherUserId} />
             </div>
         </div>
     );

@@ -33,8 +33,10 @@ app.use(function (req, res, next) {
     next();
 }); // middleware to prevent your site from being used in clickjacking
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
+
 // Routes
 
+//Get Data
 app.get("/user/id.json", (req, res) => {
     if (req.session.userId > 0) {
         res.status("200");
@@ -45,34 +47,109 @@ app.get("/user/id.json", (req, res) => {
     }
 });
 
-app.get("/logout", (req, res) => {
-    req.session = null;
-    res.status("200");
-    res.json({ success: true });
-});
-
-app.post("/user/addProfile.json", function (req, res) {
-    console.log("req.body :>> ", req.body);
-    let { first, second, email, pass } = req.body;
-    hash(pass)
-        .then((hashedPass) => {
-            db.addUser(first, second, email, hashedPass)
-                .then(({ rows }) => {
-                    console.log(`user: ${email} has been added`);
-                    req.session.userId = rows[0].id;
-                    res.status("200");
-                    res.json({ success: true });
-                })
-                .catch((err) => {
-                    console.log(`addUser failed with: ${err}`);
-                    return res.sendStatus(500);
-                });
+app.get("/user/profile.json", (req, res) => {
+    db.getUsers(req.session.userId)
+        .then(({ rows: profile }) => {
+            res.status("200");
+            res.json(profile[0]);
         })
         .catch((err) => {
-            console.log(`hashing failed with: ${err}`);
+            console.log(`getProfile failed with: ${err}`);
             return res.sendStatus(500);
         });
 });
+
+app.get("/user/profile_pic.json", (req, res) => {
+    db.getProfilePics(req.session.userId)
+        .then(({ rows: profilePics }) => {
+            res.status("200");
+            res.json(profilePics[0]);
+        })
+        .catch((err) => {
+            console.log(`getProfile failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
+app.get("/last_users.json", (req, res) => {
+    let limit = req.query.pattern ? undefined : 3;
+    db.getLatestUsers(limit, req.query.pattern)
+        .then(({ rows: users }) => {
+            users.filter((user) => user.id != req.session.userId);
+            res.status("200");
+            res.json(users);
+        })
+        .catch((err) => {
+            console.log(`getProfile failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
+app.get("/other-user.json/:otherUserId", (req, res) => {
+    let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
+
+    if (req.session.userId == otherUserId) {
+        res.status("200");
+        res.json({ sameUser: true });
+    } else if (otherUserId) {
+        db.getUsers(otherUserId)
+            .then(({ rows: profile }) => {
+                if (profile.length == 0) {
+                    return res.sendStatus(500);
+                } else {
+                    res.status("200");
+                    res.json({
+                        first: profile[0].first,
+                        last: profile[0].last,
+                        bio: profile[0].bio,
+                        url: profile[0].url,
+                    });
+                }
+            })
+            .catch((err) => {
+                console.log(`getProfile failed with: ${err}`);
+                return res.sendStatus(500);
+            });
+    } else {
+        return res.sendStatus(403);
+    }
+});
+
+app.get("/friend-request/status.json/:otherUserId", async (req, res) => {
+    let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
+    console.log("otherUserId :>> ", otherUserId);
+    console.log("otherUserId :>> ", req.session.userId);
+    db.getFriendRequests(req.session.userId, otherUserId)
+        .then(({ rows }) => {
+            if (rows.length == 0) {
+                res.status("200");
+                res.json({ friendRequestStatus: "Make friend request" });
+            } else {
+                let friendRequestStatus = rows[0].accepted
+                    ? "Unfriend"
+                    : "Cancel friend request";
+                res.status("200");
+                res.json({ friendRequestStatus: friendRequestStatus });
+            }
+        })
+        .catch((err) => {
+            console.log(`getFriendRequests failed with: ${err}`);
+        });
+
+    // db.getFriendRequests(otherUserId, req.session.userId)
+    //     .then(({ rows }) => {
+    //         let friendRequestStatus = rows[0].accepted
+    //             ? "Unfriend"
+    //             : "Cancel friend request";
+    //         res.status("200");
+    //         res.json({ friendRequestStatus: friendRequestStatus });
+    //     })
+    //     .catch((err) => {
+    //         console.log(`getFriendRequests failed with: ${err}`);
+    //     });
+});
+
+// Update Cookies
 
 app.post("/user/login", (req, res) => {
     let { email, pass } = req.body;
@@ -103,72 +180,33 @@ app.post("/user/login", (req, res) => {
         });
 });
 
-app.get("/user/profile.json", (req, res) => {
-    db.getUsers(req.session.userId)
-        .then(({ rows: profile }) => {
-            res.status("200");
-            res.json(profile[0]);
-        })
-        .catch((err) => {
-            console.log(`getProfile failed with: ${err}`);
-            return res.sendStatus(500);
-        });
+app.get("/logout", (req, res) => {
+    req.session = null;
+    res.status("200");
+    res.json({ success: true });
 });
 
-app.get("/user/otherUser.json/:otherUserId", (req, res) => {
-    let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
-    if (req.session.userId == otherUserId) {
-        res.status("200");
-        res.json({ sameUser: true });
-    } else if (otherUserId) {
-        db.getUsers(otherUserId)
-            .then(({ rows: profile }) => {
-                console.log("profile.length :>> ", profile.length);
-                console.log("profile.length :>> ", profile);
-                if (profile.length == 0) {
-                    return res.sendStatus(500);
-                } else {
+// Update DB
+
+app.post("/user/addProfile.json", function (req, res) {
+    console.log("req.body :>> ", req.body);
+    let { first, second, email, pass } = req.body;
+    hash(pass)
+        .then((hashedPass) => {
+            db.addUser(first, second, email, hashedPass)
+                .then(({ rows }) => {
+                    console.log(`user: ${email} has been added`);
+                    req.session.userId = rows[0].id;
                     res.status("200");
-                    res.json({
-                        first: profile[0].first,
-                        last: profile[0].last,
-                        bio: profile[0].bio,
-                        url: profile[0].url,
-                    });
-                }
-            })
-            .catch((err) => {
-                console.log(`getProfile failed with: ${err}`);
-                return res.sendStatus(500);
-            });
-    } else {
-        return res.sendStatus(403);
-    }
-    console.log("otherUserId :>> ", otherUserId);
-});
-
-app.get("/last_users.json", (req, res) => {
-    let limit = req.query.pattern ? undefined : 3;
-    db.getLatestUsers(limit, req.query.pattern)
-        .then(({ rows: users }) => {
-            users.filter((user) => user.id != req.session.userId);
-            res.status("200");
-            res.json(users);
+                    res.json({ success: true });
+                })
+                .catch((err) => {
+                    console.log(`addUser failed with: ${err}`);
+                    return res.sendStatus(500);
+                });
         })
         .catch((err) => {
-            console.log(`getProfile failed with: ${err}`);
-            return res.sendStatus(500);
-        });
-});
-
-app.get("/user/profile_pic.json", (req, res) => {
-    db.getProfilePics(req.session.userId)
-        .then(({ rows: profilePics }) => {
-            res.status("200");
-            res.json(profilePics[0]);
-        })
-        .catch((err) => {
-            console.log(`getProfile failed with: ${err}`);
+            console.log(`hashing failed with: ${err}`);
             return res.sendStatus(500);
         });
 });
@@ -206,6 +244,36 @@ app.post("/user/updateBio.json", function (req, res) {
             return res.sendStatus(500);
         });
 });
+
+app.post("/friend-request/add-friendship.json/:otherUserId", (req, res) => {
+    let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
+    db.addFriendship(req.session.userId, otherUserId, "false")
+        .then(() => {
+            res.status("200");
+            res.json({ friendRequestStatus: "Cancel friend request" });
+        })
+        .catch((err) => {
+            console.log(`addFriendship failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
+app.delete(
+    "/friend-request/cancel-friendship.json/:otherUserId",
+    (req, res) => {
+        let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
+        db.cancelFriendRequest(req.session.userId, otherUserId)
+            .then(() => {
+                res.status("200");
+                res.json({ friendRequestStatus: "Make friend request" });
+            })
+            .catch((err) => {
+                console.log(`cancelFriendRequest failed with: ${err}`);
+                return res.sendStatus(500);
+            });
+    }
+);
+// Get index.html
 
 app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));

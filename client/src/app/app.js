@@ -42,23 +42,12 @@ export default class App extends Component {
                 );
         }
 
-        function getProfilePic() {
-            return fetch(`/user/profile_pic.json`)
-                .then((res) => {
-                    return res.json();
-                })
-                .catch((err) => {
-                    console.log(`fetch user profile pic failed with: ${err}`);
-                });
-        }
-
         const profile = await getProfile();
-        const profilePic = await getProfilePic();
         this.setState({
             first: profile.first,
             last: profile.last,
             bio: profile.bio,
-            image: profilePic.url,
+            image: profile.url,
         });
     }
     render() {

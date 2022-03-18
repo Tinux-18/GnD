@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import Bio from "./bio";
+import FriendRequestButton from "./friend_request_button";
 
 export default function MyProfile(props) {
     useEffect(() => {
@@ -19,6 +20,7 @@ export default function MyProfile(props) {
                         props.updateBio(bio);
                     }}
                 />
+                <FriendRequestButton />
             </div>
         </div>
     );
