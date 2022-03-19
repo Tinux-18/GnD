@@ -49,11 +49,15 @@
 -- INSERT INTO users (first, last, bio, email, password)
 -- VALUES ('George', 'Alexe', 'iubesc pisicile', 'gal@dcb.de', 'oaisengaösoiengö')
 
--- INSERT INTO friendship_requests (sender_id, recepient_id,accepted) VALUES (
---     3,
---     4,
---     'false'
--- );
+INSERT INTO friendship_requests (sender_id, recepient_id, accepted) VALUES (
+    205,
+    204,
+    'FALSE')
+ON CONFLICT (sender_id)
+DO UPDATE 
+SET accepted = 'TRUE'
+;
+
 -- INSERT INTO friendship_requests (sender_id, recepient_id,accepted) VALUES (
 --     4,
 --     3,
@@ -66,8 +70,8 @@
 -- WHERE user_id = 20
 -- ORDER BY id DESC
 
--- SELECT first, last, bio, email FROM users WHERE id = 20444;
-SELECT first, last, bio, email FROM users;
+-- SELECT first, last, bio, email FROM users WHERE id = 204;
+-- SELECT first, last, bio, email FROM users;
 
 
 -- CHECK WHETHER THERE ARE ANY OUTGOING REQUESTS - display cancel
@@ -80,6 +84,9 @@ SELECT first, last, bio, email FROM users;
 -- WHERE recepient_id = 2
 -- ORDER BY id DESC
 
+-- SELECT * FROM friendship_requests
+-- WHERE (sender_id = 204 AND recepient_id = 205) or (sender_id = 205 AND recepient_id = 204);
+
 -- -- UPDATE DATA
 
 -- UPDATE users
@@ -91,3 +98,6 @@ SELECT first, last, bio, email FROM users;
 
 -- DELETE FROM friendship_requests
 -- WHERE (sender_id = 1 AND recepient_id = 2) or (recepient_id = 1 AND sender_id = 2);
+
+-- DELETE FROM users
+-- WHERE id= 207;

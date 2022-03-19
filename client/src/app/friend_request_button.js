@@ -7,17 +7,20 @@ export default function FriendRequestButton(props) {
         console.log("FriendRequestButton mounted");
         let abort;
         console.log("otherUserId :>> ", props.otherUserId);
-        fetch(`/friend-request/status.json/:${props.otherUserId}`)
-            .then((res) => res.json())
-            .then((res) => {
-                if (!abort) {
-                    console.log("Friend :>> ", res.friendRequestStatus);
-                    setFrStatus(res.friendRequestStatus);
-                }
-            })
-            .catch((err) =>
-                console.log(`fetch friendRequestStatus failed with: ${err}`)
-            );
+        if (props.otherUserId) {
+            fetch(`/friend-request/status.json/:${props.otherUserId}`)
+                .then((res) => res.json())
+                .then((res) => {
+                    if (!abort) {
+                        console.log("Friend :>> ", res.friendRequestStatus);
+                        setFrStatus(res.friendRequestStatus);
+                    }
+                })
+                .catch((err) =>
+                    console.log(`fetch friendRequestStatus failed with: ${err}`)
+                );
+        }
+
         return () => {
             abort = true;
         };
@@ -43,7 +46,32 @@ export default function FriendRequestButton(props) {
                     console.log(`fetch friendRequestStatus failed with: ${err}`)
                 );
         }
-        if (target.innerText == "Cancel friend request") {
+        if (target.innerText == "Accept friend request") {
+            fetch(
+                `/friend-request/confirm-friendship.json/:${props.otherUserId}`,
+                {
+                    method: "POST",
+                    headers: {
+                        "Content-type": "application/json; charset=UTF-8",
+                    },
+                    body: JSON.stringify({
+                        requestType: target.innerText,
+                    }),
+                }
+            )
+                .then((res) => res.json())
+                .then((res) => {
+                    console.log("Friend :>> ", res.friendRequestStatus);
+                    setFrStatus(res.friendRequestStatus);
+                })
+                .catch((err) =>
+                    console.log(`fetch friendRequestStatus failed with: ${err}`)
+                );
+        }
+        if (
+            target.innerText == "Cancel friend request" ||
+            target.innerText == "Unfriend"
+        ) {
             fetch(
                 `/friend-request/cancel-friendship.json/:${props.otherUserId}`,
                 {

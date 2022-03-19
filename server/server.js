@@ -117,36 +117,38 @@ app.get("/other-user.json/:otherUserId", (req, res) => {
 
 app.get("/friend-request/status.json/:otherUserId", async (req, res) => {
     let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
+    let currentUserId = req.session.userId;
     console.log("otherUserId :>> ", otherUserId);
-    console.log("otherUserId :>> ", req.session.userId);
-    db.getFriendRequests(req.session.userId, otherUserId)
+    console.log("currentUserId :>> ", currentUserId);
+
+    db.getFriendRequests(currentUserId, otherUserId)
         .then(({ rows }) => {
+            let buttonAction;
+
             if (rows.length == 0) {
-                res.status("200");
-                res.json({ friendRequestStatus: "Make friend request" });
+                buttonAction = "Make friend request";
+            } else if (
+                rows[0].sender_id == currentUserId &&
+                rows[0].accepted == false
+            ) {
+                buttonAction = "Cancel friend request";
+            } else if (
+                rows[0].sender_id == otherUserId &&
+                rows[0].accepted == false
+            ) {
+                buttonAction = "Accept friend request";
+            } else if (rows[0].accepted == true) {
+                buttonAction = "Unfriend";
             } else {
-                let friendRequestStatus = rows[0].accepted
-                    ? "Unfriend"
-                    : "Cancel friend request";
-                res.status("200");
-                res.json({ friendRequestStatus: friendRequestStatus });
+                console.log("No condition was met");
             }
+
+            res.status("200");
+            res.json({ friendRequestStatus: buttonAction });
         })
         .catch((err) => {
             console.log(`getFriendRequests failed with: ${err}`);
         });
-
-    // db.getFriendRequests(otherUserId, req.session.userId)
-    //     .then(({ rows }) => {
-    //         let friendRequestStatus = rows[0].accepted
-    //             ? "Unfriend"
-    //             : "Cancel friend request";
-    //         res.status("200");
-    //         res.json({ friendRequestStatus: friendRequestStatus });
-    //     })
-    //     .catch((err) => {
-    //         console.log(`getFriendRequests failed with: ${err}`);
-    //     });
 });
 
 // Update Cookies
@@ -254,6 +256,19 @@ app.post("/friend-request/add-friendship.json/:otherUserId", (req, res) => {
         })
         .catch((err) => {
             console.log(`addFriendship failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
+app.post("/friend-request/confirm-friendship.json/:otherUserId", (req, res) => {
+    let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
+    db.confirmFriendRequest(req.session.userId, otherUserId)
+        .then(() => {
+            res.status("200");
+            res.json({ friendRequestStatus: "Unfriend" });
+        })
+        .catch((err) => {
+            console.log(`confirmFriendRequest failed with: ${err}`);
             return res.sendStatus(500);
         });
 });

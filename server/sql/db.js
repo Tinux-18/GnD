@@ -98,37 +98,26 @@ exports.addFriendship = (sender_id, recepient_id, acceptance_status) =>
     db.query(
         `
         INSERT INTO friendship_requests (sender_id, recepient_id, accepted)
-        VALUES ($1, $2, $3), ($2, $1, $3)
+        VALUES ($1, $2, $3)
         RETURNING accepted`,
         [sender_id, recepient_id, acceptance_status]
     );
 
-exports.getFriendRequestsOneWay = (user_id, type) => {
-    if (type == "outgoing") {
-        return db.query(
-            `
-        SELECT * FROM friendship_requests
-        WHERE sender_id = $1
-        ORDER BY id DESC`,
-            [user_id]
-        );
-    } else if (type == "incoming") {
-        db.query(
-            `
-        SELECT * FROM friendship_requests
-        WHERE recepient_id = $1
-        ORDER BY id DESC`,
-            [user_id]
-        );
-    }
-};
+exports.confirmFriendRequest = (sender_id, recepient_id) =>
+    db.query(
+        `
+        UPDATE friendship_requests
+        SET accepted = true
+        WHERE (sender_id = $1 AND recepient_id = $2) or (recepient_id = $1 AND sender_id = $2)
+        RETURNING accepted;`,
+        [sender_id, recepient_id]
+    );
 
 exports.getFriendRequests = (sender_id, recepient_id) =>
     db.query(
         `
         SELECT * FROM friendship_requests
-        WHERE sender_id = $1 AND recepient_id = $2
-        ORDER BY id DESC`,
+        WHERE (sender_id = $1 AND recepient_id = $2) or (sender_id = $2 AND recepient_id = $1)`,
         [sender_id, recepient_id]
     );
 
@@ -138,14 +127,4 @@ exports.cancelFriendRequest = (sender_id, recepient_id) =>
         DELETE FROM friendship_requests
         WHERE (sender_id = $1 AND recepient_id = $2) or (recepient_id = $1 AND sender_id = $2)`,
         [sender_id, recepient_id]
-    );
-
-exports.confirmFriendRequest = (user_id) =>
-    db.query(
-        `
-        UPDATE friendship_requests
-        SET accepted = true
-        WHERE (sender_id = $1)
-        RETURNING accepted;`,
-        [user_id]
     );
