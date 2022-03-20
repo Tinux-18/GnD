@@ -36,7 +36,7 @@ export default function OtherProfile() {
         <div className="my-profile">
             <img
                 alt={`${otherUser.first} ${otherUser.last}`}
-                src={otherUser.url || "/default_profile_pic.png"}
+                src={otherUser.image || "/default_profile_pic.png"}
                 className="profile-pic"
             />
             <div className="profile">

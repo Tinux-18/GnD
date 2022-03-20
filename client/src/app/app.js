@@ -42,14 +42,17 @@ export default class App extends Component {
         }
 
         const profile = await getProfile();
-        this.setState(
-            {
-                first: profile.first,
-                last: profile.last,
-                bio: profile.bio,
-                image: profile.url,
-            }
+        console.log(
+            "🚀 ~ file: app.js ~ line 45 ~ App ~ getData ~ profile",
+            profile
         );
+
+        this.setState({
+            first: profile.first,
+            last: profile.last,
+            bio: profile.bio,
+            image: profile.image,
+        });
     }
     render() {
         return (

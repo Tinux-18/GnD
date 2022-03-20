@@ -107,7 +107,7 @@ app.get("/other-user.json/:otherUserId", (req, res) => {
                         first: profile[0].first,
                         last: profile[0].last,
                         bio: profile[0].bio,
-                        url: profile[0].url,
+                        image: profile[0].image,
                     });
                 }
             })
@@ -220,7 +220,8 @@ app.post(
     s3Upload,
     (req, res) => {
         console.log("/upload hit");
-        db.addProfilePic(
+
+        db.updateProfilePic(
             req.session.userId,
             `https://s3.amazonaws.com/constantin-portofolio/${req.file.filename}`
         )
@@ -229,8 +230,17 @@ app.post(
                 res.json(rows[0]);
             })
             .catch((err) => {
-                console.log(`addPic failed with: ${err}`);
+                console.log(`updateProfilePic failed with: ${err}`);
                 return res.sendStatus(500);
+            });
+
+        db.addProfilePic(
+            req.session.userId,
+            `https://s3.amazonaws.com/constantin-portofolio/${req.file.filename}`
+        )
+            .then(() => {})
+            .catch((err) => {
+                console.log(`addPic failed with: ${err}`);
             });
     }
 );

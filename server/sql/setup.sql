@@ -1,12 +1,15 @@
 -- -- CREATE tables:
 
--- DROP TABLE IF EXISTS users;
 
+-- DROP TABLE IF EXISTS friendship_requests;
+-- DROP TABLE IF EXISTS profile_pics;
+-- DROP TABLE IF EXISTS users;
 -- CREATE TABLE users (
 --     id              SERIAL PRIMARY KEY,
 --     first           VARCHAR(255) NOT NULL CHECK (first != ''),
 --     last            VARCHAR(255) NOT NULL CHECK (last != ''),
---     bio             VARCHAR,
+--     bio             VARCHAR(255),
+--     image           VARCHAR(255),
 --     email           VARCHAR(255) NOT NULL CHECK (email != '') UNIQUE,
 --     password        VARCHAR(255) NOT NULL,
 --     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -27,7 +30,7 @@
 -- CREATE TABLE profile_pics (
 --     id          SERIAL PRIMARY KEY,
 --     user_id     INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
---     url         VARCHAR(255) NOT NULL
+--     url         VARCHAR(255) NOT NULL,
 --     created_at          TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
 
@@ -70,8 +73,8 @@
 -- WHERE user_id = 20
 -- ORDER BY id DESC
 
-SELECT first, last, bio, email FROM users WHERE last = 'Radu';
--- SELECT first, last, bio, email FROM users;
+SELECT * FROM users WHERE last = 'Radu';
+-- SELECT id, first, last, email, bio, password, image FROM users;
 
 
 -- CHECK WHETHER THERE ARE ANY OUTGOING REQUESTS - display cancel

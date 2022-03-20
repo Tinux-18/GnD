@@ -12,29 +12,22 @@ exports.getUsers = (input) => {
         // input is a number, expecting ID
         return db.query(
             `
-        SELECT users.id, first, last, bio, email, password, url, profile_pics.id AS profile_pic_id FROM users
-        LEFT OUTER JOIN profile_pics
-        ON users.id = profile_pics.user_id
-        WHERE users.id = $1
-        ORDER BY profile_pic_id DESC`,
+        SELECT id, first, last, email, bio, password, image FROM users
+        WHERE id = $1`,
             [input]
         );
     } else if (typeof input === "string") {
         // input is text, expecting email
         return db.query(
             `
-        SELECT users.id, first, last, bio, email, password, url, profile_pics.id AS profile_pic_id FROM users
-        LEFT OUTER JOIN profile_pics
-        ON users.id = profile_pics.user_id
-        WHERE email = $1
-        ORDER BY profile_pic_id DESC`,
+        SELECT id, first, last, email, bio, password, image FROM users
+        WHERE email = $1`,
             [input]
         );
     } else {
+        // input is undefined, returning all users
         return db.query(`
-        SELECT users.id, first, last, bio, email, password, url FROM users
-        LEFT OUTER JOIN profile_pics
-        ON users.id = profile_pics.user_id`);
+        SELECT id, first, last, email, bio, password, image FROM users`);
     }
 };
 
@@ -42,9 +35,7 @@ exports.getLatestUsers = (limit, pattern) => {
     if (pattern) {
         return db.query(
             `
-    SELECT users.id, first, last, bio, url FROM users
-    LEFT OUTER JOIN profile_pics
-    ON users.id = profile_pics.user_id 
+    SELECT id, first, last, bio, image FROM users
     WHERE (first ILIKE $2 or last ILIKE $2) 
     ORDER BY id DESC 
     LIMIT $1`,
@@ -53,9 +44,7 @@ exports.getLatestUsers = (limit, pattern) => {
     } else {
         return db.query(
             `
-    SELECT users.id, first, last, bio, url FROM users
-    LEFT OUTER JOIN profile_pics
-    ON users.id = profile_pics.user_id 
+    SELECT id, first, last, bio, image FROM users
     ORDER BY id DESC 
     LIMIT $1`,
             [limit]
@@ -73,6 +62,16 @@ exports.addProfilePic = (user_id, url) =>
     db.query(
         "INSERT INTO profile_pics (user_id, url) VALUES ($1, $2) RETURNING *",
         [user_id, url]
+    );
+
+exports.updateProfilePic = (user_id, url) =>
+    db.query(
+        `
+        UPDATE users
+        SET image = $1
+        WHERE id = $2
+        RETURNING image`,
+        [url, user_id]
     );
 
 exports.getProfilePics = (userId) => {
