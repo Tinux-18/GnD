@@ -247,47 +247,46 @@ app.post("/user/updateBio.json", function (req, res) {
         });
 });
 
-app.post("/friend-request/add-friendship.json/:otherUserId", (req, res) => {
-    let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
-    db.addFriendship(req.session.userId, otherUserId, "false")
-        .then(() => {
-            res.status("200");
-            res.json({ friendRequestStatus: "Cancel friend request" });
-        })
-        .catch((err) => {
-            console.log(`addFriendship failed with: ${err}`);
-            return res.sendStatus(500);
-        });
-});
-
-app.post("/friend-request/confirm-friendship.json/:otherUserId", (req, res) => {
-    let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
-    db.confirmFriendRequest(req.session.userId, otherUserId)
-        .then(() => {
-            res.status("200");
-            res.json({ friendRequestStatus: "Unfriend" });
-        })
-        .catch((err) => {
-            console.log(`confirmFriendRequest failed with: ${err}`);
-            return res.sendStatus(500);
-        });
-});
-
-app.delete(
-    "/friend-request/cancel-friendship.json/:otherUserId",
-    (req, res) => {
-        let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
-        db.cancelFriendRequest(req.session.userId, otherUserId)
+app.post("/friend-request/upsert-friendship.json", (req, res) => {
+    let { requestType, otherUserId } = req.body;
+    if (requestType == "Make friend request") {
+        db.addFriendship(req.session.userId, otherUserId, "false")
             .then(() => {
                 res.status("200");
-                res.json({ friendRequestStatus: "Make friend request" });
+                res.json({ friendRequestStatus: "Cancel friend request" });
             })
             .catch((err) => {
-                console.log(`cancelFriendRequest failed with: ${err}`);
+                console.log(`addFriendship failed with: ${err}`);
                 return res.sendStatus(500);
             });
+    } else if (requestType == "Accept friend request") {
+        db.confirmFriendRequest(req.session.userId, otherUserId)
+            .then(() => {
+                res.status("200");
+                res.json({ friendRequestStatus: "Unfriend" });
+            })
+            .catch((err) => {
+                console.log(`confirmFriendRequest failed with: ${err}`);
+                return res.sendStatus(500);
+            });
+    } else {
+        return res.sendStatus(500);
     }
-);
+});
+
+app.delete("/friend-request/cancel-friendship.json", (req, res) => {
+    let { otherUserId } = req.body;
+    db.cancelFriendRequest(req.session.userId, otherUserId)
+        .then(() => {
+            res.status("200");
+            res.json({ friendRequestStatus: "Make friend request" });
+        })
+        .catch((err) => {
+            console.log(`cancelFriendRequest failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
 // Get index.html
 
 app.get("*", function (req, res) {
