@@ -34,7 +34,6 @@ export default function LogIn() {
             })
                 .then((res) => res.json())
                 .then((postResponse) => {
-                    console.log("res :>> ", postResponse);
                     if (postResponse.success) {
                         location.replace("\\");
                     } else {

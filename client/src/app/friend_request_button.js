@@ -11,7 +11,6 @@ export default function FriendRequestButton(props) {
                 .then((res) => res.json())
                 .then((res) => {
                     if (!abort) {
-                        console.log("Friend :>> ", res.friendRequestStatus);
                         setFrStatus(res.friendRequestStatus);
                     }
                 })
@@ -83,7 +82,6 @@ export default function FriendRequestButton(props) {
             })
                 .then((res) => res.json())
                 .then((res) => {
-                    console.log("Friend :>> ", res.friendRequestStatus);
                     setFrStatus(res.friendRequestStatus);
                 })
                 .catch((err) =>

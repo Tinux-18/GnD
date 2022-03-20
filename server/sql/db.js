@@ -12,20 +12,22 @@ exports.getUsers = (input) => {
         // input is a number, expecting ID
         return db.query(
             `
-        SELECT users.id, first, last, bio, email, password, url FROM users
+        SELECT users.id, first, last, bio, email, password, url, profile_pics.id AS profile_pic_id FROM users
         LEFT OUTER JOIN profile_pics
         ON users.id = profile_pics.user_id
-        WHERE users.id = $1`,
+        WHERE users.id = $1
+        ORDER BY profile_pic_id DESC`,
             [input]
         );
     } else if (typeof input === "string") {
         // input is text, expecting email
         return db.query(
             `
-        SELECT users.id, first, last, bio, email, password, url FROM users
+        SELECT users.id, first, last, bio, email, password, url, profile_pics.id AS profile_pic_id FROM users
         LEFT OUTER JOIN profile_pics
         ON users.id = profile_pics.user_id
-        WHERE email = $1`,
+        WHERE email = $1
+        ORDER BY profile_pic_id DESC`,
             [input]
         );
     } else {

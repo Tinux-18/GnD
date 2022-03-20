@@ -20,7 +20,7 @@ export default function SignIn() {
     });
 
     useEffect(() => {
-        console.log("HIPSTER Registration mounted");
+        console.log("Registration mounted");
     }, []);
 
     const showConfirmPassword = (e) => {
@@ -70,7 +70,6 @@ export default function SignIn() {
             })
                 .then((res) => res.json())
                 .then((postResponse) => {
-                    console.log("res :>> ", postResponse);
                     if (postResponse.success) {
                         location.reload();
                     } else {

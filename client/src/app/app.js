@@ -1,5 +1,4 @@
 import { Component } from "react";
-import { Link } from "react-router-dom";
 import { BrowserRouter, Route } from "react-router-dom";
 
 import Logo from "../general/logo";
@@ -43,12 +42,14 @@ export default class App extends Component {
         }
 
         const profile = await getProfile();
-        this.setState({
-            first: profile.first,
-            last: profile.last,
-            bio: profile.bio,
-            image: profile.url,
-        });
+        this.setState(
+            {
+                first: profile.first,
+                last: profile.last,
+                bio: profile.bio,
+                image: profile.url,
+            }
+        );
     }
     render() {
         return (

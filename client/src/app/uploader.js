@@ -33,7 +33,6 @@ export default class Uploader extends Component {
         })
             .then((res) => res.json())
             .then((uploadData) => {
-                console.log("Upload successful");
                 this.props.updateImage(uploadData.url);
                 this.props.hideUploader();
             })

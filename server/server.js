@@ -72,12 +72,17 @@ app.get("/user/profile_pic.json", (req, res) => {
 });
 
 app.get("/last_users.json", (req, res) => {
-    let limit = req.query.pattern ? undefined : 3;
+    let limit = req.query.pattern ? undefined : 4;
     db.getLatestUsers(limit, req.query.pattern)
         .then(({ rows: users }) => {
-            users.filter((user) => user.id != req.session.userId);
+            let latestUsers = users.filter(
+                (user) => user.id != req.session.userId
+            );
+            if (latestUsers.length == 4) {
+                latestUsers.pop();
+            }
             res.status("200");
-            res.json(users);
+            res.json(latestUsers);
         })
         .catch((err) => {
             console.log(`getProfile failed with: ${err}`);
@@ -118,9 +123,6 @@ app.get("/other-user.json/:otherUserId", (req, res) => {
 app.get("/friend-request/status.json/:otherUserId", async (req, res) => {
     let otherUserId = parseInt(req.params.otherUserId.replace(":", ""));
     let currentUserId = req.session.userId;
-    console.log("otherUserId :>> ", otherUserId);
-    console.log("currentUserId :>> ", currentUserId);
-
     db.getFriendRequests(currentUserId, otherUserId)
         .then(({ rows }) => {
             let buttonAction;
@@ -140,7 +142,7 @@ app.get("/friend-request/status.json/:otherUserId", async (req, res) => {
             } else if (rows[0].accepted == true) {
                 buttonAction = "Unfriend";
             } else {
-                console.log("No condition was met");
+                console.log("No condition for friend request action was met");
             }
 
             res.status("200");
@@ -191,7 +193,6 @@ app.get("/logout", (req, res) => {
 // Update DB
 
 app.post("/user/addProfile.json", function (req, res) {
-    console.log("req.body :>> ", req.body);
     let { first, second, email, pass } = req.body;
     hash(pass)
         .then((hashedPass) => {
@@ -221,7 +222,7 @@ app.post(
         console.log("/upload hit");
         db.addProfilePic(
             req.session.userId,
-            `https://s3.amazonaws.com/spicedling/${req.file.filename}`
+            `https://s3.amazonaws.com/constantin-portofolio/${req.file.filename}`
         )
             .then(({ rows }) => {
                 res.status("200");
@@ -235,7 +236,6 @@ app.post(
 );
 
 app.post("/user/updateBio.json", function (req, res) {
-    console.log("req.body :>> ", req.body.bio);
     db.updateBio(req.session.userId, req.body.bio)
         .then(() => {
             res.status("200");

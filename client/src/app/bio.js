@@ -19,8 +19,6 @@ export default class Bio extends Component {
         this.setState({ draftBio: target.value }, () => {});
     }
     handleSubmit() {
-        console.log("Submit: ", this.state);
-
         if (!this.state.draftBio) {
             this.setState({ inputError: true });
         } else {
@@ -40,7 +38,6 @@ export default class Bio extends Component {
         })
             .then((res) => res.json())
             .then((postResponse) => {
-                console.log("res :>> ", postResponse);
                 if (postResponse.success) {
                     this.setState({ editMode: false });
                     this.props.updateBio(inputBio);
