@@ -86,6 +86,19 @@ exports.getFriendRequestsForUser = (sender_id) =>
         [sender_id]
     );
 
+exports.getAllFriendRequestsForUser = (sender_id) =>
+    db.query(
+        `
+        SELECT users.id, sender_id, recipient_id, first, last, image, accepted
+        FROM friendship_requests
+        JOIN users
+        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+        OR (accepted = false AND sender_id = $1 AND recipient_id = users.id)
+        `,
+        [sender_id]
+    );
 //Insert Rows
 
 exports.addUser = (first, last, email, password) =>

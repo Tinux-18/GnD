@@ -1,9 +1,15 @@
-import { rateCharacter } from "../redux/characters/slice.js";
+import { receiveFriends, updateFriendRequest } from "../redux/friends/slice";
 
-export async function handleButtonClick(action, dispatch) {
-    const res = await fetch(`/${action}/${userId}`, { method: "POST" });
-    const data = await res.json();
-    if (data.success) {
-        dispatch(rateCharacter(userId, action));
-    }
+export async function receiveUsers() {
+    return async (dispatch) => {
+        const data = await fetch(
+            "/friend-request/status-with-all-users.json"
+        ).then((response) => response.json());
+        dispatch({
+            type: "friends/receiveFriends",
+            payload: {
+                users: data.users,
+            },
+        });
+    };
 }

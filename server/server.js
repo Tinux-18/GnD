@@ -160,10 +160,9 @@ app.get(
 );
 
 app.get("/friend-request/status-with-all-users.json", async (req, res) => {
-    db.getFriendRequestsForUser(req.session.userId)
+    db.getAllFriendRequestsForUser(req.session.userId)
         .then(({ rows }) => {
             res.status("200");
-            // console.log("rows :>> ", rows);
             res.json({ rows });
         })
         .catch((err) => {

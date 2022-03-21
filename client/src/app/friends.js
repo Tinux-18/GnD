@@ -12,7 +12,18 @@ export default function Friends() {
     const pendingFriends = useSelector(
         (state) =>
             state.friends &&
-            state.friends.filter((friend) => friend.accepted == false)
+            state.friends.filter(
+                (friend) =>
+                    friend.accepted == false && friend.id === friend.sender_id
+            )
+    );
+    const awaitingFriends = useSelector(
+        (state) =>
+            state.friends &&
+            state.friends.filter(
+                (friend) =>
+                    friend.accepted == false && friend.id !== friend.sender_id
+            )
     );
     useEffect(() => {
         console.log("friends :>> ", friends);
@@ -97,7 +108,7 @@ export default function Friends() {
                         </div>
                     ))}
                 </div>
-                <h2>Possible friends</h2>
+                <h2>Future friends</h2>
                 <div className="results">
                     {pendingFriends.length < 1 && (
                         <h3>Nobody wants to be your friend</h3>
@@ -126,6 +137,36 @@ export default function Friends() {
                                 }
                             >
                                 Accept friend
+                            </button>
+                        </div>
+                    ))}
+                </div>
+                <h2>Possible friends</h2>
+                <div className="results">
+                    {awaitingFriends.length < 1 && (
+                        <h3>Nobody wants to be your friend</h3>
+                    )}
+                    {awaitingFriends.map((friend) => (
+                        <div key={friend.id} className="result">
+                            <a href={`/other-user/:${friend.id}`}>
+                                <img
+                                    className="result__img"
+                                    src={friend.image}
+                                    alt={`${friend.first} ${friend.last}`}
+                                ></img>
+                            </a>
+                            <a
+                                className="result__text"
+                                href={`/other-user/:${friend.id}`}
+                            >
+                                {friend.first} {friend.last}
+                            </a>
+                            <button
+                                onClick={() =>
+                                    handleClick(friend.id, "unfriend")
+                                }
+                            >
+                                Nevermind
                             </button>
                         </div>
                     ))}

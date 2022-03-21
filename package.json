@@ -47,6 +47,7 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.2",
     "redux-immutable-state-invariant": "^2.1.0",
+    "redux-thunk": "^2.4.1",
     "socket.io": "^3.0.4",
     "socket.io-client": "^3.0.4",
     "spiced-pg": "^1.0.4",

@@ -51,6 +51,7 @@
 -- ALTER TABLE friendship_requests 
 -- RENAME COLUMN recepient_id TO recipient_id;
 
+-- CREATE UNIQUE INDEX ON friendship_requests (least(sender_id, recipient_id), greatest(sender_id, recipient_id));
 
 
 
@@ -84,7 +85,7 @@
 
 -- Not accepted requests to 201
 
--- INSERT INTO friendship_requests (sender_id, recepient_id,accepted)
+-- INSERT INTO friendship_requests (sender_id, recipient_id,accepted)
 -- VALUES  (188, 201, 'false'),
 --         (187, 201, 'false'),
 --         (186, 201, 'false'),
@@ -96,15 +97,15 @@
 
 -- Accepted requests send by 201 (Alin)
 
-INSERT INTO friendship_requests (sender_id, recipient_id,accepted)
-VALUES  (201, 194, 'true'),
-        (201, 193, 'true'),
-        (201, 192, 'true')
-;
+-- INSERT INTO friendship_requests (sender_id, recipient_id,accepted)
+-- VALUES  (201, 194, 'true'),
+--         (201, 193, 'true'),
+--         (201, 192, 'true')
+-- ;
 
--- Accepted requests send to 201 (Alin)
+-- -- Accepted requests send to 201 (Alin)
 
--- INSERT INTO friendship_requests (sender_id, recepient_id,accepted)
+-- INSERT INTO friendship_requests (sender_id, recipient_id,accepted)
 -- VALUES  (191, 201, 'true'),
 --         (190, 201, 'true'),
 --         (189, 201, 'true')
