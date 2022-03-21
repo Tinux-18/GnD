@@ -7,6 +7,7 @@ import Uploader from "./uploader";
 import MyProfile from "./my_profile";
 import FindUsers from "./find_users";
 import OtherProfile from "./other_profile";
+import Friends from "./friends";
 
 export default class App extends Component {
     constructor(props) {
@@ -42,11 +43,6 @@ export default class App extends Component {
         }
 
         const profile = await getProfile();
-        console.log(
-            "🚀 ~ file: app.js ~ line 45 ~ App ~ getData ~ profile",
-            profile
-        );
-
         this.setState({
             first: profile.first,
             last: profile.last,
@@ -61,6 +57,7 @@ export default class App extends Component {
                     <Logo />
                     <div className="nav-right">
                         <a href="/users">Find other leaders</a>
+                        <a href="/friends">Friends</a>
                         <ProfilePic
                             first={this.state.first}
                             last={this.state.last}
@@ -101,6 +98,9 @@ export default class App extends Component {
                     </Route>
                     <Route path="/other-user/:otherUserId">
                         <OtherProfile />
+                    </Route>
+                    <Route path="/friends">
+                        <Friends />
                     </Route>
                 </BrowserRouter>
 

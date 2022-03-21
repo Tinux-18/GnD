@@ -7,7 +7,9 @@ export default function FriendRequestButton(props) {
         let abort;
 
         if (props.otherUserId) {
-            fetch(`/friend-request/status.json/:${props.otherUserId}`)
+            fetch(
+                `/friend-request/status-with-other-user.json/:${props.otherUserId}`
+            )
                 .then((res) => res.json())
                 .then((res) => {
                     if (!abort) {

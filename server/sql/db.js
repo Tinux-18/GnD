@@ -7,6 +7,8 @@ const db = spicedPg(
         }@localhost:5432/slp`
 );
 
+//Get Rows
+
 exports.getUsers = (input) => {
     if (!isNaN(input)) {
         // input is a number, expecting ID
@@ -52,6 +54,40 @@ exports.getLatestUsers = (limit, pattern) => {
     }
 };
 
+exports.getProfilePics = (userId) => {
+    if (userId) {
+        return db.query(
+            "SELECT * FROM profile_pics WHERE user_id = ($1) ORDER BY id DESC",
+            [userId]
+        );
+    } else {
+        return db.query("SELECT * FROM profile_pics");
+    }
+};
+
+exports.getFriendshipBetweenTwoUsers = (sender_id, recipient_id) =>
+    db.query(
+        `
+        SELECT * FROM friendship_requests
+        WHERE (sender_id = $1 AND recipient_id = $2) or (sender_id = $2 AND recipient_id = $1)`,
+        [sender_id, recipient_id]
+    );
+
+exports.getFriendRequestsForUser = (sender_id) =>
+    db.query(
+        `
+        SELECT users.id, first, last, image, accepted
+        FROM friendship_requests
+        JOIN users
+        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
+        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+        `,
+        [sender_id]
+    );
+
+//Insert Rows
+
 exports.addUser = (first, last, email, password) =>
     db.query(
         "INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) RETURNING id",
@@ -64,6 +100,17 @@ exports.addProfilePic = (user_id, url) =>
         [user_id, url]
     );
 
+exports.addFriendship = (sender_id, recipient_id, acceptance_status) =>
+    db.query(
+        `
+        INSERT INTO friendship_requests (sender_id, recipient_id, accepted)
+        VALUES ($1, $2, $3)
+        RETURNING accepted`,
+        [sender_id, recipient_id, acceptance_status]
+    );
+
+//Update Rows
+
 exports.updateProfilePic = (user_id, url) =>
     db.query(
         `
@@ -73,17 +120,6 @@ exports.updateProfilePic = (user_id, url) =>
         RETURNING image`,
         [url, user_id]
     );
-
-exports.getProfilePics = (userId) => {
-    if (userId) {
-        return db.query(
-            "SELECT * FROM profile_pics WHERE user_id = ($1) ORDER BY id DESC",
-            [userId]
-        );
-    } else {
-        return db.query("SELECT * FROM profile_pics");
-    }
-};
 
 exports.updateBio = (user_id, bio) =>
     db.query(
@@ -95,37 +131,22 @@ exports.updateBio = (user_id, bio) =>
         [bio, user_id]
     );
 
-exports.addFriendship = (sender_id, recepient_id, acceptance_status) =>
-    db.query(
-        `
-        INSERT INTO friendship_requests (sender_id, recepient_id, accepted)
-        VALUES ($1, $2, $3)
-        RETURNING accepted`,
-        [sender_id, recepient_id, acceptance_status]
-    );
-
-exports.confirmFriendRequest = (sender_id, recepient_id) =>
+exports.confirmFriendRequest = (sender_id, recipient_id) =>
     db.query(
         `
         UPDATE friendship_requests
         SET accepted = true
-        WHERE (sender_id = $1 AND recepient_id = $2) or (recepient_id = $1 AND sender_id = $2)
+        WHERE (sender_id = $1 AND recipient_id = $2) or (recipient_id = $1 AND sender_id = $2)
         RETURNING accepted;`,
-        [sender_id, recepient_id]
+        [sender_id, recipient_id]
     );
 
-exports.getFriendRequests = (sender_id, recepient_id) =>
-    db.query(
-        `
-        SELECT * FROM friendship_requests
-        WHERE (sender_id = $1 AND recepient_id = $2) or (sender_id = $2 AND recepient_id = $1)`,
-        [sender_id, recepient_id]
-    );
+//Delete Rows
 
-exports.cancelFriendRequest = (sender_id, recepient_id) =>
+exports.cancelFriendRequest = (sender_id, recipient_id) =>
     db.query(
         `
         DELETE FROM friendship_requests
-        WHERE (sender_id = $1 AND recepient_id = $2) or (recepient_id = $1 AND sender_id = $2)`,
-        [sender_id, recepient_id]
+        WHERE (sender_id = $1 AND recipient_id = $2) or (recipient_id = $1 AND sender_id = $2)`,
+        [sender_id, recipient_id]
     );

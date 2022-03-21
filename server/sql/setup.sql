@@ -38,11 +38,24 @@
 -- CREATE TABLE friendship_requests (
 --     id              SERIAL PRIMARY KEY,
 --     sender_id       INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
---     recepient_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+--     recipient_id    INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
 --     accepted        BOOLEAN NOT NULL
 -- );
 
+
+
+
+-- -- ALTER TABLE
+
+
+-- ALTER TABLE friendship_requests 
+-- RENAME COLUMN recepient_id TO recipient_id;
+
+
+
+
 -- -- INSERT DATA
+
 
 -- INSERT INTO profile_pics (user_id, url) VALUES (
 --     10,
@@ -53,19 +66,52 @@
 -- VALUES ('George', 'Alexe', 'iubesc pisicile', 'gal@dcb.de', 'oaisengaösoiengö')
 
 -- INSERT INTO friendship_requests (sender_id, recepient_id, accepted) VALUES (
---     205,
---     204,
+--     201,
+--     196,
 --     'FALSE')
 -- ON CONFLICT (sender_id)
 -- DO UPDATE 
 -- SET accepted = 'TRUE'
 -- ;
 
--- INSERT INTO friendship_requests (sender_id, recepient_id,accepted) VALUES (
---     4,
---     3,
---     'false'
--- );
+-- Not accepted requests by 201
+
+-- INSERT INTO friendship_requests (sender_id, recepient_id,accepted)
+-- VALUES  (201, 197, 'false'),
+--         (201, 196, 'false'),
+--         (201, 195, 'false')
+-- ;
+
+-- Not accepted requests to 201
+
+-- INSERT INTO friendship_requests (sender_id, recepient_id,accepted)
+-- VALUES  (188, 201, 'false'),
+--         (187, 201, 'false'),
+--         (186, 201, 'false'),
+--         (185, 201, 'false'),
+--         (184, 201, 'false'),
+--         (183, 201, 'false')
+        
+-- ;
+
+-- Accepted requests send by 201 (Alin)
+
+INSERT INTO friendship_requests (sender_id, recipient_id,accepted)
+VALUES  (201, 194, 'true'),
+        (201, 193, 'true'),
+        (201, 192, 'true')
+;
+
+-- Accepted requests send to 201 (Alin)
+
+-- INSERT INTO friendship_requests (sender_id, recepient_id,accepted)
+-- VALUES  (191, 201, 'true'),
+--         (190, 201, 'true'),
+--         (189, 201, 'true')
+-- ;
+
+
+
 
 -- -- GET DATA
 
@@ -73,7 +119,7 @@
 -- WHERE user_id = 20
 -- ORDER BY id DESC
 
-SELECT * FROM users WHERE last = 'Radu';
+-- SELECT * FROM users WHERE last = 'Radu';
 -- SELECT id, first, last, email, bio, password, image FROM users;
 
 
