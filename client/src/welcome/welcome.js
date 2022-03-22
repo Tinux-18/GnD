@@ -1,12 +1,12 @@
 import { Component } from "react";
 import { BrowserRouter, Route } from "react-router-dom";
+import ResetPass from "./reset_password";
 
 import Logo from "../general/logo.js";
 import Footer from "../general/footer";
 
 import Registration from "./registration";
 import LogIn from "./log-in";
-import ResetPass from "./reset_password";
 
 export default class Welcome extends Component {
     constructor(props) {
@@ -29,6 +29,9 @@ export default class Welcome extends Component {
                         </Route>
                         <Route path="/login">
                             <LogIn />
+                        </Route>
+                        <Route path="/password-reset">
+                            <ResetPass />
                         </Route>
                     </BrowserRouter>
                 </div>

@@ -31,13 +31,14 @@ body {
     margin-top: 10px;
 }
 
-form {
+form,
+.form {
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
-#registration-form .buttons {
+.form .buttons {
     display: flex;
     gap: 10px;
     align-self: center;
@@ -53,7 +54,7 @@ form h2,
     margin: 0;
 }
 
-#login-link {
+.welcome-link {
     align-self: center;
 }
 

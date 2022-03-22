@@ -13,6 +13,12 @@ const s3 = new aws.S3({
     secretAccessKey: secrets.AWS_SECRET,
 });
 
+const ses = new aws.SES({
+    accessKeyId: secrets.AWS_KEY,
+    secretAccessKey: secrets.AWS_SECRET,
+    region: "us-east-1",
+});
+
 exports.s3Upload = (req, res, next) => {
     if (!req.file) {
         console.log("multer failed");
@@ -40,4 +46,27 @@ exports.s3Upload = (req, res, next) => {
             console.log(`s3 upload failed with: ${err}`);
             return res.sendStatus(500);
         });
+};
+
+exports.sendEmail = function (recipient, message, subject) {
+    return ses
+        .sendEmail({
+            Source: "Constantin Rigu <constantin.c.rigu@gmail.com>",
+            Destination: {
+                ToAddresses: [recipient],
+            },
+            Message: {
+                Body: {
+                    Text: {
+                        Data: message,
+                    },
+                },
+                Subject: {
+                    Data: subject,
+                },
+            },
+        })
+        .promise()
+        .then(() => console.log("SES sent mail succesfully!"))
+        .catch((err) => console.log(`SES failed with: ${err}`));
 };

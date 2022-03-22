@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+
 import { useStatefulFields } from "../hooks/useStatefulFields";
 import { validateInput } from "../hooks/validate_input";
 
@@ -51,8 +53,8 @@ export default function LogIn() {
 
     return (
         <>
-            <form id="registration-form">
-                <label htmlFor="registration-form">
+            <form id="login-form" className="form">
+                <label htmlFor="login-form">
                     <h2>Log in</h2>
                 </label>
                 {inputErrors.length != 0 && (
@@ -103,6 +105,9 @@ export default function LogIn() {
                         }}
                     ></input>
                 </div>
+                <Link to="/password-reset" className="welcome-link">
+                    Reset your password
+                </Link>
             </form>
         </>
     );

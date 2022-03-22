@@ -89,7 +89,7 @@ export default function SignIn() {
 
     return (
         <>
-            <form id="registration-form">
+            <form id="registration-form" className="form">
                 <label htmlFor="registration-form">
                     <h2>Register NOW!</h2>
                 </label>
@@ -196,7 +196,7 @@ export default function SignIn() {
                     ></input>
                 </div>
 
-                <Link to="/login" id="login-link">
+                <Link to="/login" className="welcome-link">
                     Click here to Log in!
                 </Link>
             </form>
