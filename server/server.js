@@ -1,14 +1,44 @@
-const express = require("express");
+// Import libraries
 const cookieSession = require("cookie-session");
-const app = express();
-exports.app = app;
 const compression = require("compression");
 const path = require("path");
 const logger = require("morgan");
+// Import local modules
 const { hash, compare } = require("./utils/bc");
 const { serverUpload } = require("./utils/multer_upload");
 const { s3Upload } = require("./utils/aws");
 const db = require("./sql/db");
+//Set-up server
+const express = require("express");
+const app = express();
+const server = require("http").Server(app);
+const io = require("socket.io")(server, {
+    allowRequest: (req, callback) =>
+        callback(
+            null,
+            req.headers.referer.startsWith(
+                "http://localhost:3000" || process.env.PORT
+            )
+        ),
+});
+
+//Socket connections
+
+io.on("connection", function (socket) {
+    console.log(`socket with the id ${socket.id} is now connected`);
+
+    socket.on("disconnect", function () {
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
+
+    // socket.on("thanks", function (data) {
+    //     console.log(data);
+    // });
+
+    // socket.emit("welcome", {
+    //     message: "Welome. It is nice to see you",
+    // });
+});
 
 //middleware
 
@@ -16,18 +46,22 @@ app.use(compression());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(
-    cookieSession({
-        secret:
-            process.env.SESSION_SECRET ||
-            require("../secrets.json").cookieSessionSecret,
-        maxAge: 1000 * 60 * 60 * 24 * 14,
-        sameSite: true,
-        // from vulnerability encounter
-        // secure: true,
-        // httpsOnly: true,
-    })
-);
+//Cookie session
+const cookieSessionMiddleware = cookieSession({
+    secret:
+        process.env.SESSION_SECRET ||
+        require("../secrets.json").cookieSessionSecret,
+    maxAge: 1000 * 60 * 60 * 24 * 14,
+    sameSite: true,
+    // from vulnerability encounter
+    // secure: true,
+    // httpsOnly: true,
+});
+app.use(cookieSessionMiddleware);
+io.use(function (socket, next) {
+    cookieSessionMiddleware(socket.request, socket.request.res, next);
+});
+
 app.use(function (req, res, next) {
     res.setHeader("x-frame-options", "deny");
     next();
@@ -320,6 +354,6 @@ app.get("*", function (req, res) {
     res.sendFile(path.join(__dirname, "..", "client", "index.html"));
 });
 
-app.listen(process.env.PORT || 3001, function () {
+server.listen(process.env.PORT || 3001, function () {
     console.log("SLP listening \nhttp://localhost:3000");
 });
