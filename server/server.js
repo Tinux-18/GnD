@@ -3,12 +3,17 @@ const cookieSession = require("cookie-session");
 const compression = require("compression");
 const path = require("path");
 const logger = require("morgan");
+const redis = require("redis");
+
 // Import local modules
 const { hash, compare } = require("./utils/bc");
 const { serverUpload } = require("./utils/multer_upload");
-const { s3Upload } = require("./utils/aws");
+const { s3Upload, sendEmail } = require("./utils/aws");
+const { generateRandomString } = require("./utils/generateRandomString");
+
 const db = require("./sql/db");
-//Set-up server
+
+// Server set-up
 const express = require("express");
 const app = express();
 const server = require("http").Server(app);
@@ -21,6 +26,19 @@ const io = require("socket.io")(server, {
             )
         ),
 });
+
+// Redis set-up
+const client = redis.createClient({
+    host: "localhost",
+    port: 6379,
+});
+async function connectClient() {
+    await client.connect();
+}
+
+connectClient();
+
+const redisKeyTimeout = 60 * 10; // in seconds
 
 //Socket connections
 
@@ -233,6 +251,41 @@ app.post("/user/login", (req, res) => {
             console.log(`getUsers failed with: ${err}`);
             return res.sendStatus(500);
         });
+});
+
+app.post("/user/reset-password", async (req, res) => {
+    let { email } = req.body;
+    let code = generateRandomString();
+    console.log(`password reset attempted by ${email}`);
+    if (!email) {
+        return res.sendStatus(500);
+    }
+
+    try {
+        let { rows: user } = await db.getUsers(email);
+        console.log("user :>> ", user);
+        if (user.length == 0) {
+            return res.sendStatus(500);
+        }
+    } catch (err) {
+        console.log(`getUsers failed with: ${err}`);
+        return res.sendStatus(500);
+    }
+
+    try {
+        await client.setEx(email, redisKeyTimeout, code);
+    } catch (err) {
+        console.log(`setting value in redis failed with: ${err}`);
+        return res.sendStatus(500);
+    }
+
+    sendEmail(
+        `tin_metal2000@yahoo.com`,
+        `Please copy the code below into the required field:\n\n${code}`,
+        "Social Leaders Platform password reset"
+    );
+    res.status("200");
+    res.json({ success: true });
 });
 
 app.get("/logout", (req, res) => {

@@ -16,33 +16,31 @@ export default function ResetPass() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        // Push data
-        // if (fields.email && fields.pass1) {
-        //     fetch("/user/login", {
-        //         method: "POST",
-        //         headers: {
-        //             "Content-type": "application/json; charset=UTF-8",
-        //         },
-        //         body: JSON.stringify({
-        //             email: fields.email,
-        //             pass: fields.pass1,
-        //         }),
-        //     })
-        //         .then((res) => res.json())
-        //         .then((postResponse) => {
-        //             if (postResponse.success) {
-        //                 location.replace("\\");
-        //             } else {
-        //                 setGeneralError(true);
-        //             }
-        //         })
-        //         .catch((err) => {
-        //             console.log(
-        //                 `fetch POST in registration failed with: ${err}`
-        //             );
-        //             setGeneralError(true);
-        //         });
-        // }
+        if (fields.email) {
+            fetch("/user/reset-password", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify({
+                    email: fields.email,
+                }),
+            })
+                .then((res) => res.json())
+                .then((postResponse) => {
+                    console.log("postResponse :>> ", postResponse);
+                    // if (postResponse.success) {
+                    //     location.replace("\\");
+                    // } else {
+                    //     setGeneralError(true);
+                    // }
+                })
+                .catch((err) => {
+                    console.log(
+                        `fetch POST in reset password failed with: ${err}`
+                    );
+                });
+        }
     };
 
     const sendRequestForm = (
