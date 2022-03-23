@@ -42,13 +42,13 @@
 --     accepted        BOOLEAN NOT NULL
 -- );
 
--- DROP TABLE IF EXISTS chat_messages;
--- CREATE TABLE chat_messages (
---     id               SERIAL PRIMARY KEY,
---     user_id        INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
---     message TEXT     NOT NULL CHECK (message != ''),
---     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
--- );
+DROP TABLE IF EXISTS chat_messages;
+CREATE TABLE chat_messages (
+    id               SERIAL PRIMARY KEY,
+    user_id        INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    message TEXT     NOT NULL CHECK (message != ''),
+    created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
 
 
 
@@ -163,11 +163,11 @@
 -- SELECT * FROM friendship_requests
 -- WHERE (sender_id = 204 AND recepient_id = 205) or (sender_id = 205 AND recepient_id = 204);
 
-SELECT chat_messages.id, message, chat_messages.created_at, user_id, first, last, image FROM chat_messages 
-LEFT OUTER JOIN users
-ON user_id = users.id
-ORDER BY chat_messages.id DESC
-LIMIT 3;
+-- SELECT chat_messages.id, message, chat_messages.created_at, user_id, first, last, image FROM chat_messages 
+-- LEFT OUTER JOIN users
+-- ON user_id = users.id
+-- ORDER BY chat_messages.id DESC
+-- LIMIT 3;
 
 
 

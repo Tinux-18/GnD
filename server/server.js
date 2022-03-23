@@ -76,25 +76,21 @@ io.on("connection", async function (socket) {
     if (!socket.request.session.userId) {
         return socket.disconnect(true);
     }
-
     console.log(`socket with the id ${socket.id} is now connected`);
-    console.log("socket :>> ", socket.handshake.headers.referer);
     socket.on("disconnect", function () {
         console.log(`socket with the id ${socket.id} is now disconnected`);
     });
 
     const userId = socket.request.session.userId;
 
-    const { rows } = await db.getMessages(10);
+    const { rows: messages } = await db.getMessages(10);
 
-    socket.emit("latestMessages", rows);
+    socket.emit("latestMessages", messages);
 
     socket.on("newMessage", async function (msg) {
         let { rows: newMsg } = await db.addMessage(userId, msg);
         let { rows: newMsgObj } = await db.getMessages(1, newMsg.id);
-        console.log("newMsgObj :>> ", newMsgObj[0]);
-
-        // io.emit("chatMessage", msgObj);
+        io.emit("newMessage", newMsgObj[0]);
     });
 });
 

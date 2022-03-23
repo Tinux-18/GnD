@@ -2,7 +2,7 @@ export default function ChatReducer(messages = null, action) {
     if (action.type == "messages/receiveLatestMessages") {
         messages = action.payload.messages;
     } else if (action.type == "messages/receiveNewMessage") {
-        messages = [...messages, action.payload.message];
+        messages = [action.payload.message, ...messages];
     }
     return messages;
 }

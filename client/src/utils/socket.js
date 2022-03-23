@@ -7,6 +7,7 @@ import {
 export let socket;
 
 export const init = (store) => {
+    console.log("init ran");
     if (!socket) {
         socket = io.connect();
 
