@@ -28,12 +28,12 @@ const io = require("socket.io")(server, {
 });
 
 // Redis set-up
-const client = redis.createClient({
+const redisClient = redis.createClient({
     host: "localhost",
     port: 6379,
 });
 async function connectClient() {
-    await client.connect();
+    await redisClient.connect();
 }
 
 connectClient();
@@ -230,6 +230,37 @@ app.get("/friend-request/status-with-all-users.json", async (req, res) => {
         });
 });
 
+app.post("/user/reset-password.json", async (req, res) => {
+    let { email } = req.body;
+    let code = generateRandomString();
+    console.log(`password reset attempted by ${email}`);
+    if (!email) {
+        return res.sendStatus(500);
+    }
+
+    let { rows: user } = await db.getUsers(email).catch((err) => {
+        console.log(`getUsers failed with: ${err}`);
+        return res.sendStatus(500);
+    });
+    if (user.length == 0) {
+        return res.sendStatus(500);
+    }
+
+    await redisClient.setEx(email, redisKeyTimeout, code).catch((err) => {
+        console.log(`setting value in redis failed with: ${err}`);
+        return res.sendStatus(500);
+    });
+    console.log("code :>> ", code);
+
+    sendEmail(
+        `tin_metal2000@yahoo.com`,
+        `Please copy the code below into the required field:\n\n${code}`,
+        "Social Leaders Platform password reset"
+    );
+    res.status("200");
+    res.json({ success: true, userId: user[0].id });
+});
+
 // Update Cookies
 
 app.post("/user/login", (req, res) => {
@@ -261,41 +292,6 @@ app.post("/user/login", (req, res) => {
         });
 });
 
-app.post("/user/reset-password", async (req, res) => {
-    let { email } = req.body;
-    let code = generateRandomString();
-    console.log(`password reset attempted by ${email}`);
-    if (!email) {
-        return res.sendStatus(500);
-    }
-
-    try {
-        let { rows: user } = await db.getUsers(email);
-        console.log("user :>> ", user);
-        if (user.length == 0) {
-            return res.sendStatus(500);
-        }
-    } catch (err) {
-        console.log(`getUsers failed with: ${err}`);
-        return res.sendStatus(500);
-    }
-
-    try {
-        await client.setEx(email, redisKeyTimeout, code);
-    } catch (err) {
-        console.log(`setting value in redis failed with: ${err}`);
-        return res.sendStatus(500);
-    }
-
-    sendEmail(
-        `tin_metal2000@yahoo.com`,
-        `Please copy the code below into the required field:\n\n${code}`,
-        "Social Leaders Platform password reset"
-    );
-    res.status("200");
-    res.json({ success: true });
-});
-
 app.get("/logout", (req, res) => {
     req.session = null;
     res.status("200");
@@ -324,6 +320,31 @@ app.post("/user/addProfile.json", function (req, res) {
             console.log(`hashing failed with: ${err}`);
             return res.sendStatus(500);
         });
+});
+
+app.post("/user/update-password.json", async (req, res) => {
+    let { userId, email, password, code } = req.body;
+
+    let redisCode = await redisClient.get(email).catch((err) => {
+        console.log(`getting value from redis failed with: ${err}`);
+        return res.sendStatus(500);
+    });
+
+    if (code === redisCode) {
+        let newPass = await hash(password).catch((err) => {
+            console.log(`hashing failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+        await db.updatePassword(userId, newPass).catch((err) => {
+            console.log(`updating password failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+        res.status("200");
+        res.json({ success: true });
+    } else {
+        res.status("304");
+        res.json({ success: false });
+    }
 });
 
 app.post(

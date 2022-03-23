@@ -123,7 +123,6 @@ exports.getMessages = (limit, id) => {
             [limit]
         );
     }
-    
 };
 
 //Insert Rows
@@ -175,6 +174,16 @@ exports.updateBio = (user_id, bio) =>
         WHERE id = $2
         RETURNING email`,
         [bio, user_id]
+    );
+
+exports.updatePassword = (user_id, password) =>
+    db.query(
+        `
+        UPDATE users
+        SET password = $1
+        WHERE id = $2
+        RETURNING email`,
+        [password, user_id]
     );
 
 exports.confirmFriendRequest = (sender_id, recipient_id) =>

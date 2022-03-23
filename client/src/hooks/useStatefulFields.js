@@ -5,5 +5,8 @@ export function useStatefulFields(defaultValue) {
     function inputUpdate({ target }) {
         setFields({ ...fields, [target.name]: target.value });
     }
-    return [fields, inputUpdate];
+    function updateUserId(value) {
+        setFields({ ...fields, userId: value });
+    }
+    return [fields, inputUpdate, updateUserId];
 }

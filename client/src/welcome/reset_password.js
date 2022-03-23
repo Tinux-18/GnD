@@ -2,12 +2,14 @@ import { useStatefulFields } from "../hooks/useStatefulFields";
 import { useState, useEffect } from "react";
 
 export default function ResetPass() {
-    const [fields, inputUpdate] = useStatefulFields({
+    const [fields, inputUpdate, updateUserId] = useStatefulFields({
         email: "",
         pass1: "",
         code: "",
     });
-    const [showPassResetForm, setPassResetForm] = useState(false);
+    const [showPassResetForm, setShowPassResetForm] = useState(false);
+    const [generalError, setGeneralError] = useState(false);
+    const [showSuccess, setShowSuccess] = useState(false);
 
     useEffect(() => {
         console.log("Reset password mounted");
@@ -16,8 +18,8 @@ export default function ResetPass() {
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        if (fields.email) {
-            fetch("/user/reset-password", {
+        if (e.target.name == "sendRequestForm" && fields.email) {
+            fetch("/user/reset-password.json", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
@@ -28,18 +30,42 @@ export default function ResetPass() {
             })
                 .then((res) => res.json())
                 .then((postResponse) => {
-                    console.log("postResponse :>> ", postResponse);
-                    // if (postResponse.success) {
-                    //     location.replace("\\");
-                    // } else {
-                    //     setGeneralError(true);
-                    // }
+                    updateUserId(postResponse.userId);
+                    setShowPassResetForm(postResponse.success);
                 })
                 .catch((err) => {
                     console.log(
                         `fetch POST in reset password failed with: ${err}`
                     );
+                    setGeneralError(true);
                 });
+        } else if (
+            e.target.name == "resetPasswordForm" &&
+            fields.pass1 &&
+            fields.code
+        ) {
+            fetch("/user/update-password.json", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify({
+                    userId: fields.userId,
+                    email: fields.email,
+                    password: fields.pass1,
+                    code: fields.code,
+                }),
+            })
+                .then((res) => res.json())
+                .then((postResponse) => {
+                    setShowSuccess(postResponse.success);
+                })
+                .catch((err) => {
+                    console.log(`fetch update-password failed with: ${err}`);
+                    setGeneralError(true);
+                });
+        } else {
+            setGeneralError(true);
         }
     };
 
@@ -55,6 +81,9 @@ export default function ResetPass() {
                 onChange={inputUpdate}
                 required
             ></input>
+            <button name="sendRequestForm" onClick={handleSubmit}>
+                Submit
+            </button>
         </>
     );
 
@@ -80,6 +109,16 @@ export default function ResetPass() {
                 required
                 onChange={inputUpdate}
             ></input>
+            <button name="resetPasswordForm" onClick={handleSubmit}>
+                Submit
+            </button>
+        </>
+    );
+
+    const successMessage = (
+        <>
+            <h2>Success!!!</h2>
+            <a href="/login">Log in</a>
         </>
     );
 
@@ -89,8 +128,11 @@ export default function ResetPass() {
                 <label htmlFor="reset-password-form">
                     <h2>Reset your password</h2>
                 </label>
+                {generalError && (
+                    <h3 id="error">Something went wrong. Please try again!</h3>
+                )}
                 {showPassResetForm ? resetPasswordForm : sendRequestForm}
-                <button onClick={handleSubmit}>Submit</button>
+                {showSuccess && successMessage}
             </form>
         </>
     );
