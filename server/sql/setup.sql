@@ -42,6 +42,14 @@
 --     accepted        BOOLEAN NOT NULL
 -- );
 
+-- DROP TABLE IF EXISTS chat_messages;
+-- CREATE TABLE chat_messages (
+--     id               SERIAL PRIMARY KEY,
+--     user_id        INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+--     message TEXT     NOT NULL CHECK (message != ''),
+--     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
+
 
 
 
@@ -111,6 +119,24 @@
 --         (189, 201, 'true')
 -- ;
 
+-- INSERT INTO chat_messages (user_id, message) VALUES 
+-- ('201', 'Halt! Who goes there?'),
+-- ('200', 'It is I, Arthur, son of Uther Pendragon, from the castle of Camelot. King of the Britons, defeator of the Saxons, sovereign of all England!'),
+-- ('201', 'Pull the other one!'),
+-- ('200', 'I am. And this my trusty servant Patsy. We have ridden the length and breadth of the land in search of knights who will join me in my court of Camelot. I must speak with your lord and master.'),
+-- ('201', 'What, ridden on a horse?'),
+-- ('200', 'Yes!'),
+-- ('201', 'You are using coconuts!'),
+-- ('200', 'What?'),
+-- ('201', 'You have got two empty halves of coconut and you are bangin them together.'),
+-- ('200', 'So? We have ridden since the snows of winter covered this land, through the kingdom of Mercea, through--'),
+-- ('201', 'Where did you get the coconut?'),
+-- ('200', 'We found them.'),
+-- ('201', 'Found them? In Mercea? The coconut is tropical!'),
+-- ('200', 'What do you mean?'),
+-- ('201', 'Well, this is a temperate zone.'),
+-- ('200', 'The swallow may fly south with the sun or the house martin or the plumber may seek warmer climes in winter yet these are not strangers to our land.');
+
 
 
 
@@ -136,6 +162,14 @@
 
 -- SELECT * FROM friendship_requests
 -- WHERE (sender_id = 204 AND recepient_id = 205) or (sender_id = 205 AND recepient_id = 204);
+
+SELECT chat_messages.id, message, chat_messages.created_at, user_id, first, last, image FROM chat_messages 
+LEFT OUTER JOIN users
+ON user_id = users.id
+ORDER BY chat_messages.id DESC
+LIMIT 3;
+
+
 
 -- -- UPDATE DATA
 

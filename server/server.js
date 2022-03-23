@@ -40,30 +40,13 @@ connectClient();
 
 const redisKeyTimeout = 60 * 10; // in seconds
 
-//Socket connections
-
-io.on("connection", function (socket) {
-    console.log(`socket with the id ${socket.id} is now connected`);
-
-    socket.on("disconnect", function () {
-        console.log(`socket with the id ${socket.id} is now disconnected`);
-    });
-
-    // socket.on("thanks", function (data) {
-    //     console.log(data);
-    // });
-
-    // socket.emit("welcome", {
-    //     message: "Welome. It is nice to see you",
-    // });
-});
-
 //middleware
 
 app.use(compression());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
 //Cookie session
 const cookieSessionMiddleware = cookieSession({
     secret:
@@ -72,6 +55,7 @@ const cookieSessionMiddleware = cookieSession({
     maxAge: 1000 * 60 * 60 * 24 * 14,
     sameSite: true,
     // from vulnerability encounter
+
     // secure: true,
     // httpsOnly: true,
 });
@@ -85,6 +69,34 @@ app.use(function (req, res, next) {
     next();
 }); // middleware to prevent your site from being used in clickjacking
 app.use(express.static(path.join(__dirname, "..", "client", "public")));
+
+//Socket connections
+
+io.on("connection", async function (socket) {
+    if (!socket.request.session.userId) {
+        return socket.disconnect(true);
+    }
+
+    console.log(`socket with the id ${socket.id} is now connected`);
+    console.log("socket :>> ", socket.handshake.headers.referer);
+    socket.on("disconnect", function () {
+        console.log(`socket with the id ${socket.id} is now disconnected`);
+    });
+
+    const userId = socket.request.session.userId;
+
+    const { rows } = await db.getMessages(10);
+
+    socket.emit("latestMessages", rows);
+
+    socket.on("newMessage", async function (msg) {
+        let { rows: newMsg } = await db.addMessage(userId, msg);
+        let { rows: newMsgObj } = await db.getMessages(1, newMsg.id);
+        console.log("newMsgObj :>> ", newMsgObj[0]);
+
+        // io.emit("chatMessage", msgObj);
+    });
+});
 
 // Routes
 

@@ -33,7 +33,7 @@ export default function OtherProfile() {
     }, []);
 
     return (
-        <div className="my-profile">
+        <div className="profile-component">
             <img
                 alt={`${otherUser.first} ${otherUser.last}`}
                 src={otherUser.image || "/default_profile_pic.png"}

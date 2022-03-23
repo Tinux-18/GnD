@@ -8,6 +8,7 @@ import MyProfile from "./my_profile";
 import FindUsers from "./find_users";
 import OtherProfile from "./other_profile";
 import Friends from "./friends";
+import Chat from "./chat";
 
 export default class App extends Component {
     constructor(props) {
@@ -58,6 +59,7 @@ export default class App extends Component {
                     <div className="nav-right">
                         <a href="/users">Find other leaders</a>
                         <a href="/friends">Friends</a>
+                        <a href="/chat">Chat</a>
                         <ProfilePic
                             first={this.state.first}
                             last={this.state.last}
@@ -101,6 +103,9 @@ export default class App extends Component {
                     </Route>
                     <Route path="/friends">
                         <Friends />
+                    </Route>
+                    <Route path="/chat">
+                        <Chat />
                     </Route>
                 </BrowserRouter>
 

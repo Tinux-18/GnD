@@ -78,100 +78,91 @@ export default function Friends() {
         return null;
     }
     return (
-        <div className="friends">
-            <section className="find-users">
-                <h2>Friends</h2>
-                <div className="results">
-                    {friends.length < 1 && <h3>You have not friend here</h3>}
-                    {friends.map((friend) => (
-                        <div key={friend.id} className="result">
-                            <a href={`/other-user/:${friend.id}`}>
-                                <img
-                                    className="result__img"
-                                    src={friend.image}
-                                    alt={`${friend.first} ${friend.last}`}
-                                ></img>
-                            </a>
-                            <a
-                                className="result__text"
-                                href={`/other-user/:${friend.id}`}
-                            >
-                                {friend.first} {friend.last}
-                            </a>
-                            <button
-                                onClick={() =>
-                                    handleClick(friend.id, "unfriend")
-                                }
-                            >
-                                Unfriend
-                            </button>
-                        </div>
-                    ))}
-                </div>
-                <h2>Future friends</h2>
-                <div className="results">
-                    {pendingFriends.length < 1 && (
-                        <h3>Nobody wants to be your friend</h3>
-                    )}
-                    {pendingFriends.map((friend) => (
-                        <div key={friend.id} className="result">
-                            <a href={`/other-user/:${friend.id}`}>
-                                <img
-                                    className="result__img"
-                                    src={friend.image}
-                                    alt={`${friend.first} ${friend.last}`}
-                                ></img>
-                            </a>
-                            <a
-                                className="result__text"
-                                href={`/other-user/:${friend.id}`}
-                            >
-                                {friend.first} {friend.last}
-                            </a>
-                            <button
-                                onClick={() =>
-                                    handleClick(
-                                        friend.id,
-                                        "Accept friend request"
-                                    )
-                                }
-                            >
-                                Accept friend
-                            </button>
-                        </div>
-                    ))}
-                </div>
-                <h2>Possible friends</h2>
-                <div className="results">
-                    {awaitingFriends.length < 1 && (
-                        <h3>Nobody wants to be your friend</h3>
-                    )}
-                    {awaitingFriends.map((friend) => (
-                        <div key={friend.id} className="result">
-                            <a href={`/other-user/:${friend.id}`}>
-                                <img
-                                    className="result__img"
-                                    src={friend.image}
-                                    alt={`${friend.first} ${friend.last}`}
-                                ></img>
-                            </a>
-                            <a
-                                className="result__text"
-                                href={`/other-user/:${friend.id}`}
-                            >
-                                {friend.first} {friend.last}
-                            </a>
-                            <button
-                                onClick={() =>
-                                    handleClick(friend.id, "unfriend")
-                                }
-                            >
-                                Nevermind
-                            </button>
-                        </div>
-                    ))}
-                </div>
-            </section>
-        </div>
+        <section className="component-container">
+            <h2>Friends</h2>
+            <div className="results">
+                {friends.length < 1 && <h3>You have not friend here</h3>}
+                {friends.map((friend) => (
+                    <div key={friend.id} className="result">
+                        <a href={`/other-user/:${friend.id}`}>
+                            <img
+                                className="result__img"
+                                src={friend.image}
+                                alt={`${friend.first} ${friend.last}`}
+                            ></img>
+                        </a>
+                        <a
+                            className="result__text"
+                            href={`/other-user/:${friend.id}`}
+                        >
+                            {friend.first} {friend.last}
+                        </a>
+                        <button
+                            onClick={() => handleClick(friend.id, "unfriend")}
+                        >
+                            Unfriend
+                        </button>
+                    </div>
+                ))}
+            </div>
+            <h2>Future friends</h2>
+            <div className="results">
+                {pendingFriends.length < 1 && (
+                    <h3>Nobody wants to be your friend</h3>
+                )}
+                {pendingFriends.map((friend) => (
+                    <div key={friend.id} className="result">
+                        <a href={`/other-user/:${friend.id}`}>
+                            <img
+                                className="result__img"
+                                src={friend.image}
+                                alt={`${friend.first} ${friend.last}`}
+                            ></img>
+                        </a>
+                        <a
+                            className="result__text"
+                            href={`/other-user/:${friend.id}`}
+                        >
+                            {friend.first} {friend.last}
+                        </a>
+                        <button
+                            onClick={() =>
+                                handleClick(friend.id, "Accept friend request")
+                            }
+                        >
+                            Accept friend
+                        </button>
+                    </div>
+                ))}
+            </div>
+            <h2>Possible friends</h2>
+            <div className="results">
+                {awaitingFriends.length < 1 && (
+                    <h3>Nobody wants to be your friend</h3>
+                )}
+                {awaitingFriends.map((friend) => (
+                    <div key={friend.id} className="result">
+                        <a href={`/other-user/:${friend.id}`}>
+                            <img
+                                className="result__img"
+                                src={friend.image}
+                                alt={`${friend.first} ${friend.last}`}
+                            ></img>
+                        </a>
+                        <a
+                            className="result__text"
+                            href={`/other-user/:${friend.id}`}
+                        >
+                            {friend.first} {friend.last}
+                        </a>
+                        <button
+                            onClick={() => handleClick(friend.id, "unfriend")}
+                        >
+                            Nevermind
+                        </button>
+                    </div>
+                ))}
+            </div>
+        </section>
     );
 }

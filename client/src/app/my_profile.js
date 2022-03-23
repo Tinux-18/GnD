@@ -7,7 +7,7 @@ export default function MyProfile(props) {
     }, []);
 
     return (
-        <div className="my-profile">
+        <div className="profile-component">
             {props.profilePic}
             <div className="profile">
                 <h1>

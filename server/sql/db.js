@@ -99,6 +99,33 @@ exports.getAllFriendRequestsForUser = (sender_id) =>
         `,
         [sender_id]
     );
+
+exports.getMessages = (limit, id) => {
+    if (id) {
+        return db.query(
+            `
+        SELECT chat_messages.id, message, chat_messages.created_at, user_id, first, last, image FROM chat_messages 
+        LEFT OUTER JOIN users
+        ON user_id = users.id
+        WHERE chat_messages.id = $2
+        ORDER BY chat_messages.id DESC
+        LIMIT $1`,
+            [limit, id]
+        );
+    } else {
+        return db.query(
+            `
+        SELECT chat_messages.id, message, chat_messages.created_at, user_id, first, last, image FROM chat_messages 
+        LEFT OUTER JOIN users
+        ON user_id = users.id
+        ORDER BY chat_messages.id DESC
+        LIMIT $1`,
+            [limit]
+        );
+    }
+    
+};
+
 //Insert Rows
 
 exports.addUser = (first, last, email, password) =>
@@ -120,6 +147,12 @@ exports.addFriendship = (sender_id, recipient_id, acceptance_status) =>
         VALUES ($1, $2, $3)
         RETURNING accepted`,
         [sender_id, recipient_id, acceptance_status]
+    );
+
+exports.addMessage = (user_id, message) =>
+    db.query(
+        "INSERT INTO chat_messages (user_id, message) VALUES ($1, $2) RETURNING *",
+        [user_id, message]
     );
 
 //Update Rows

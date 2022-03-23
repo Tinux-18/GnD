@@ -22,7 +22,7 @@ export default function FindUsers() {
         };
     }, [query]);
     return (
-        <div className="find-users">
+        <div className="component-container">
             <h2>Check out our newest leaders</h2>
             <div className="results">
                 {users.length < 1 && <h3>We couldn&apos;t find anyone</h3>}
