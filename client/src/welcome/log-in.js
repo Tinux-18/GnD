@@ -13,14 +13,10 @@ export default function LogIn() {
         console.log("LogIn mounted");
     }, []);
 
-    const validateLogInFields = () => {
-        setInputErrors([]);
-        validateInput(["email", "pass1"], fields, setInputErrors);
-    };
-
     const handleSubmit = (e) => {
         e.preventDefault();
-        validateLogInFields();
+        setInputErrors([]);
+        validateInput(["email", "pass1"], fields, setInputErrors);
 
         // Push data
         if (fields.email && fields.pass1) {

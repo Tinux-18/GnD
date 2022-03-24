@@ -6,7 +6,6 @@ import { validateInput } from "../hooks/validate_input";
 
 export default function SignIn() {
     const [generalError, setGeneralError] = useState(false);
-    const [error, setError] = useState(false);
     const [passError, setpassError] = useState(false);
     const [showPasswordConfirmation, setShowPasswordConfirmation] =
         useState(false);
@@ -31,11 +30,13 @@ export default function SignIn() {
         }
     };
 
-    const confirmPassword = () => {
+    const arePasswordsDifferent = () => {
         if (fields.pass1 !== fields.pass2) {
             setpassError(true);
+            return true;
         } else {
             setpassError(false);
+            return false;
         }
     };
 
@@ -47,15 +48,11 @@ export default function SignIn() {
             fields,
             setInputErrors
         );
-        confirmPassword();
         // Push data
-        if (
-            fields.first &&
-            fields.second &&
-            fields.email &&
-            fields.pass1 &&
-            fields.pass2
-        ) {
+        let noEmptyFields = !Object.values(fields).some(
+            (field) => field.length == 0
+        );
+        if (noEmptyFields && !arePasswordsDifferent()) {
             fetch("/user/addProfile.json", {
                 method: "POST",
                 headers: {
@@ -83,7 +80,7 @@ export default function SignIn() {
                     setGeneralError(true);
                 });
         } else {
-            setError(true);
+            setGeneralError(true);
         }
     };
 
@@ -96,7 +93,7 @@ export default function SignIn() {
                 {inputErrors.length != 0 && (
                     <h3 id="error">Please fill in the required fields</h3>
                 )}
-                {generalError && (
+                {generalError && inputErrors.length == 0 && (
                     <h3 id="error">Something went wrong. Please try again!</h3>
                 )}
                 <label htmlFor="first">First name</label>
@@ -176,7 +173,7 @@ export default function SignIn() {
                             required
                             onChange={inputUpdate}
                             style={{
-                                backgroundColor: error && "#ffafcc",
+                                backgroundColor: passError && "#ffafcc",
                             }}
                         ></input>
                     </>
@@ -191,7 +188,6 @@ export default function SignIn() {
                             setInputErrors([]);
                             setGeneralError(false);
                             setpassError(false);
-                            setError(false);
                         }}
                     ></input>
                 </div>
