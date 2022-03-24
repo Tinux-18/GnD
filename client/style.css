@@ -58,6 +58,10 @@ form h2,
     align-self: center;
 }
 
+.find-users {
+    width: 80px;
+}
+
 nav {
     height: 80px;
     width: 100vw;
@@ -72,12 +76,12 @@ nav {
     height: 100%;
     display: flex;
     align-items: center;
+    gap: 10px;
 }
 
 .nav-right a {
     color: #363435;
     text-decoration: none;
-    width: 100px;
 }
 
 nav .logo,

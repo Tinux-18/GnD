@@ -293,9 +293,8 @@ app.post("/user/login", (req, res) => {
 });
 
 app.get("/logout", (req, res) => {
-    req.session = null;
-    res.status("200");
-    res.json({ success: true });
+    delete req.session.userId;
+    return res.redirect("/");
 });
 
 // Update DB

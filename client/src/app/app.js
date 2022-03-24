@@ -1,5 +1,5 @@
 import { Component } from "react";
-import { BrowserRouter, Route } from "react-router-dom";
+import { BrowserRouter, Route, Link } from "react-router-dom";
 
 import Logo from "../general/logo";
 import ProfilePic from "./profile_pic";
@@ -51,29 +51,46 @@ export default class App extends Component {
             image: profile.image,
         });
     }
+    logout() {
+        fetch(`/user/logout.json`)
+            .then((res) => {
+                console.log("res >> ", res.status);
+            })
+            .catch((err) => console.log(`fetch logout failed with: ${err}`));
+    }
     render() {
         return (
             <>
-                <nav>
-                    <Logo />
-                    <div className="nav-right">
-                        <a href="/users">Find other leaders</a>
-                        <a href="/friends">Friends</a>
-                        <a href="/chat">Chat</a>
-                        <ProfilePic
-                            first={this.state.first}
-                            last={this.state.last}
-                            image={this.state.image}
-                            showUploader={() => {
-                                this.setState({
-                                    uploaderVisible:
-                                        !this.state.uploaderVisible,
-                                });
-                            }}
-                        />
-                    </div>
-                </nav>
                 <BrowserRouter>
+                    <nav>
+                        <Logo />
+                        <div className="nav-right">
+                            <Link
+                                to="/users"
+                                className="welcome-link find-users"
+                            >
+                                Find other leaders
+                            </Link>
+                            <Link to="/friends" className="welcome-link">
+                                Friends
+                            </Link>
+                            <Link to="/chat" className="welcome-link">
+                                Chat
+                            </Link>
+                            <a href="/logout">Logout</a>
+                            <ProfilePic
+                                first={this.state.first}
+                                last={this.state.last}
+                                image={this.state.image}
+                                showUploader={() => {
+                                    this.setState({
+                                        uploaderVisible:
+                                            !this.state.uploaderVisible,
+                                    });
+                                }}
+                            />
+                        </div>
+                    </nav>
                     <Route exact path="/">
                         <MyProfile
                             {...this.state}
