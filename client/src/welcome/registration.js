@@ -22,13 +22,10 @@ export default function SignIn() {
         console.log("Registration mounted");
     }, []);
 
-    const showConfirmPassword = (e) => {
-        if (e.target.value.length <= 1 && e.code == "Backspace") {
-            setShowPasswordConfirmation(false);
-        } else {
-            setShowPasswordConfirmation(true);
-        }
-    };
+    const showConfirmPassword = (e) =>
+        setShowPasswordConfirmation(
+            !(e.target.value.length <= 1 && e.code == "Backspace")
+        );
 
     const arePasswordsDifferent = () => {
         if (fields.pass1 !== fields.pass2) {

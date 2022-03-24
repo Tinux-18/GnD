@@ -137,7 +137,3 @@ export default function ResetPass() {
         </>
     );
 }
-
-// if email is not in DB, show a new module confirming email sent
-
-// if email is in DB, verification code is sent
