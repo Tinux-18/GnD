@@ -1,20 +1,21 @@
-import { Component } from "react";
-export default class ProfilePic extends Component {
-    constructor(props) {
-        super(props);
-    }
-    componentDidMount() {
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleUploader } from "../redux/app/slice";
+
+export default function ProfilePic() {
+    const dispatch = useDispatch();
+    const profile = useSelector((state) => state.app);
+
+    useEffect(() => {
         console.log("Profile Pic mounted");
-    }
-    render() {
-        return (
-            <div id={"profile-pic"} onClick={this.props.showUploader}>
-                <img
-                    alt={`${this.props.first} ${this.props.last}`}
-                    src={this.props.image || "/default_profile_pic.png"}
-                    className="profile-pic"
-                />
-            </div>
-        );
-    }
+    }, []);
+    return (
+        <div id={"profile-pic"} onClick={() => dispatch(toggleUploader(true))}>
+            <img
+                alt={`${profile.first} ${profile.last}`}
+                src={profile.image || "/default_profile_pic.png"}
+                className="profile-pic"
+            />
+        </div>
+    );
 }

@@ -15,10 +15,13 @@ export default function FriendsReducer(friends = null, action) {
     return friends;
 }
 
-export function receiveFriends(friends) {
-    return {
-        type: "friends/receiveFriends",
-        payload: { friends },
+export function receiveFriends() {
+    return async (dispatch) => {
+        const data = await fetch(
+            "/friend-request/status-with-all-users.json"
+        ).then((response) => response.json());
+        const friends = data.rows;
+        dispatch({ type: "friends/receiveFriends", payload: { friends } });
     };
 }
 

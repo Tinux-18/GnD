@@ -1,32 +1,29 @@
-import { Component } from "react";
-export default class Bio extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            editMode: false,
-            draftBio: "",
-            inputError: false,
-            generalError: false,
-        };
-        this.inputUpdate = this.inputUpdate.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.postBio = this.postBio.bind(this);
-    }
-    componentDidMount() {
+import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { updateBio } from "../redux/app/slice";
+
+export default function Bio() {
+    const dispatch = useDispatch();
+    const profile = useSelector((state) => state.app);
+    const [inputError, setInputError] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [draftBio, setDraftBio] = useState();
+    const [generalError, setGeneralError] = useState(false);
+
+    useEffect(() => {
         console.log("Bio mounted");
-    }
-    inputUpdate({ target }) {
-        this.setState({ draftBio: target.value }, () => {});
-    }
-    handleSubmit() {
-        if (!this.state.draftBio) {
-            this.setState({ inputError: true });
+    }, []);
+
+    function handleSubmit() {
+        if (!draftBio) {
+            setInputError(true);
         } else {
-            this.setState({ inputError: false });
-            this.postBio(this.state.draftBio);
+            setInputError(false);
+            postBio(draftBio);
         }
     }
-    postBio(inputBio) {
+
+    function postBio(inputBio) {
         fetch("/user/updateBio.json", {
             method: "POST",
             headers: {
@@ -39,82 +36,59 @@ export default class Bio extends Component {
             .then((res) => res.json())
             .then((postResponse) => {
                 if (postResponse.success) {
-                    this.setState({ editMode: false });
-                    this.props.updateBio(inputBio);
+                    setEditMode(false);
+                    dispatch(updateBio(inputBio));
                 } else {
-                    this.setState({ generalError: true });
+                    setGeneralError(true);
                 }
             })
             .catch((err) => {
                 console.log(`fetch POST in bio failed with: ${err}`);
-                this.setState({ generalError: true });
+                setGeneralError(true);
             });
     }
-    render() {
-        if (this.state.editMode) {
-            return (
-                <>
-                    {this.state.generalError && (
-                        <h3 id="error">
-                            Something went wrong. Please try again!
-                        </h3>
-                    )}
-                    <textarea
-                        className="bio-input"
-                        defaultValue={this.props.bio}
-                        onChange={this.inputUpdate}
-                        style={{
-                            backgroundColor: this.state.inputError
-                                ? "#ffafcc"
-                                : "white",
-                        }}
-                    ></textarea>
-                    <div className="buttons">
-                        <button onClick={this.handleSubmit}>Save</button>
-                        <button
-                            onClick={() => {
-                                this.setState({ editMode: false });
-                            }}
-                        >
-                            Cancel
-                        </button>
-                    </div>
-                </>
-            );
-        } else if (this.props.bio) {
-            return (
-                <>
-                    <p>{this.props.bio}</p>
-                    <div className="buttons">
-                        <button
-                            onClick={() => {
-                                this.setState({ editMode: true });
-                            }}
-                        >
-                            Edit
-                        </button>
-                        <button
-                            onClick={() => {
-                                this.postBio(null);
-                            }}
-                        >
-                            Delete
-                        </button>
-                    </div>
-                </>
-            );
-        } else {
-            return (
-                <>
-                    <a
-                        onClick={() => {
-                            this.setState({ editMode: true });
-                        }}
-                    >
-                        Add your bio
-                    </a>
-                </>
-            );
-        }
+
+    const editModeBio = (
+        <>
+            {generalError && (
+                <h3 id="error">Something went wrong. Please try again!</h3>
+            )}
+            <textarea
+                className="bio-input"
+                defaultValue={profile.bio}
+                onChange={(e) => setDraftBio(e.target.value)}
+                style={{
+                    backgroundColor: inputError ? "#ffafcc" : "white",
+                }}
+            ></textarea>
+            <div className="buttons">
+                <button onClick={handleSubmit}>Save</button>
+                <button onClick={() => setEditMode(false)}>Cancel</button>
+            </div>
+        </>
+    );
+
+    const viewModeBio = (
+        <>
+            <p>{profile.bio}</p>
+            <div className="buttons">
+                <button onClick={() => setEditMode(true)}>Edit</button>
+                <button onClick={() => postBio(null)}>Delete</button>
+            </div>
+        </>
+    );
+
+    const noBio = (
+        <>
+            <a onClick={() => setEditMode(true)}>Add your bio</a>
+        </>
+    );
+
+    if (editMode) {
+        return editModeBio;
+    } else if (profile.bio) {
+        return viewModeBio;
+    } else {
+        return noBio;
     }
 }

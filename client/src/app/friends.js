@@ -26,15 +26,9 @@ export default function Friends() {
             )
     );
     useEffect(() => {
-        console.log("friends :>> ", friends);
+        console.log("Friends mounted");
         if (!friends) {
-            (async () => {
-                const res = await fetch(
-                    "/friend-request/status-with-all-users.json"
-                );
-                const data = await res.json();
-                dispatch(receiveFriends(data.rows));
-            })();
+            dispatch(receiveFriends());
         }
     }, []);
 
@@ -77,6 +71,7 @@ export default function Friends() {
     if (!friends) {
         return null;
     }
+
     return (
         <section className="component-container">
             <h2>Friends</h2>
@@ -84,13 +79,15 @@ export default function Friends() {
                 {friends.length < 1 && <h3>You have not friend here</h3>}
                 {friends.map((friend) => (
                     <div key={friend.id} className="result">
-                        <a href={`/other-user/:${friend.id}`}>
-                            <img
-                                className="result__img"
-                                src={friend.image}
-                                alt={`${friend.first} ${friend.last}`}
-                            ></img>
-                        </a>
+                        {friend.image && (
+                            <a href={`/other-user/:${friend.id}`}>
+                                <img
+                                    className="result__img"
+                                    src={friend.image}
+                                    alt={`${friend.first} ${friend.last}`}
+                                ></img>
+                            </a>
+                        )}
                         <a
                             className="result__text"
                             href={`/other-user/:${friend.id}`}
@@ -112,13 +109,15 @@ export default function Friends() {
                 )}
                 {pendingFriends.map((friend) => (
                     <div key={friend.id} className="result">
-                        <a href={`/other-user/:${friend.id}`}>
-                            <img
-                                className="result__img"
-                                src={friend.image}
-                                alt={`${friend.first} ${friend.last}`}
-                            ></img>
-                        </a>
+                        {friend.image && (
+                            <a href={`/other-user/:${friend.id}`}>
+                                <img
+                                    className="result__img"
+                                    src={friend.image}
+                                    alt={`${friend.first} ${friend.last}`}
+                                ></img>
+                            </a>
+                        )}
                         <a
                             className="result__text"
                             href={`/other-user/:${friend.id}`}
@@ -142,13 +141,15 @@ export default function Friends() {
                 )}
                 {awaitingFriends.map((friend) => (
                     <div key={friend.id} className="result">
-                        <a href={`/other-user/:${friend.id}`}>
-                            <img
-                                className="result__img"
-                                src={friend.image}
-                                alt={`${friend.first} ${friend.last}`}
-                            ></img>
-                        </a>
+                        {friend.image && (
+                            <a href={`/other-user/:${friend.id}`}>
+                                <img
+                                    className="result__img"
+                                    src={friend.image}
+                                    alt={`${friend.first} ${friend.last}`}
+                                ></img>
+                            </a>
+                        )}
                         <a
                             className="result__text"
                             href={`/other-user/:${friend.id}`}

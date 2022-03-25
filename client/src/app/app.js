@@ -1,5 +1,8 @@
-import { Component } from "react";
 import { BrowserRouter, Route, Link } from "react-router-dom";
+import useEventListener from "@use-it/event-listener";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { receiveProfile } from "../redux/app/slice";
 
 import Logo from "../general/logo";
 import ProfilePic from "./profile_pic";
@@ -10,136 +13,63 @@ import OtherProfile from "./other_profile";
 import Friends from "./friends";
 import Chat from "./chat";
 
-export default class App extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            first: "",
-            second: "",
-            image: "",
-            bio: "",
-            uploaderVisible: false,
-        };
-        this.getData = this.getData.bind(this);
-    }
-    componentDidMount() {
-        console.log("App component mounted");
-        try {
-            this.getData();
-        } catch (err) {
-            console.log(
-                `fetch user profile or profile pic failed with: ${err}`
-            );
-        }
-    }
-    async getData() {
-        function getProfile() {
-            return fetch(`/user/profile.json`)
-                .then((res) => {
-                    return res.json();
-                })
-                .catch((err) =>
-                    console.log(`fetch user status failed with: ${err}`)
-                );
+export default function App() {
+    const dispatch = useDispatch();
+    const app = useSelector((state) => state.app);
+
+    useEffect(() => {
+        console.log("App mounted");
+
+        if (!app) {
+            dispatch(receiveProfile());
         }
 
-        const profile = await getProfile();
-        this.setState({
-            first: profile.first,
-            last: profile.last,
-            bio: profile.bio,
-            image: profile.image,
-        });
-    }
-    logout() {
-        fetch(`/user/logout.json`)
-            .then((res) => {
-                console.log("res >> ", res.status);
-            })
-            .catch((err) => console.log(`fetch logout failed with: ${err}`));
-    }
-    render() {
-        return (
-            <>
-                <BrowserRouter>
-                    <nav>
-                        <Logo />
-                        <div className="nav-right">
-                            <Link
-                                to="/users"
-                                className="welcome-link find-users"
-                            >
-                                Find other leaders
-                            </Link>
-                            <Link to="/friends" className="welcome-link">
-                                Friends
-                            </Link>
-                            <Link to="/chat" className="welcome-link">
-                                Chat
-                            </Link>
-                            <a href="/logout">Logout</a>
-                            <ProfilePic
-                                first={this.state.first}
-                                last={this.state.last}
-                                image={this.state.image}
-                                showUploader={() => {
-                                    this.setState({
-                                        uploaderVisible:
-                                            !this.state.uploaderVisible,
-                                    });
-                                }}
-                            />
-                        </div>
-                    </nav>
-                    <Route exact path="/">
-                        <MyProfile
-                            {...this.state}
-                            profilePic={
-                                <ProfilePic
-                                    first={this.state.first}
-                                    last={this.state.last}
-                                    image={this.state.image}
-                                    showUploader={() => {
-                                        this.setState({
-                                            uploaderVisible:
-                                                !this.state.uploaderVisible,
-                                        });
-                                    }}
-                                />
-                            }
-                            updateBio={(bio) => {
-                                this.setState({ bio: bio });
-                            }}
-                        />
-                    </Route>
-                    <Route path="/users">
-                        <FindUsers />
-                    </Route>
-                    <Route path="/other-user/:otherUserId">
-                        <OtherProfile />
-                    </Route>
-                    <Route path="/friends">
-                        <Friends />
-                    </Route>
-                    <Route path="/chat">
-                        <Chat />
-                    </Route>
-                </BrowserRouter>
+        // useEventListener("onKeyPress", (e) => {
+        //     console.log("e :>> ", e);
+        // });
+    }, []);
 
-                {this.state.uploaderVisible && (
-                    <Uploader
-                        hideUploader={() => {
-                            this.setState({
-                                uploaderVisible: !this.state.uploaderVisible,
-                            });
-                        }}
-                        updateImage={(url) => {
-                            this.setState({ image: url });
-                            this.getData();
-                        }}
-                    />
-                )}
-            </>
-        );
+    if (!app) {
+        return null;
     }
+
+    return (
+        <>
+            <BrowserRouter>
+                <nav>
+                    <Logo />
+                    <div className="nav-right">
+                        <Link to="/users" className="welcome-link find-users">
+                            Find other leaders
+                        </Link>
+                        <Link to="/friends" className="welcome-link">
+                            Friends
+                        </Link>
+                        <Link to="/chat" className="welcome-link">
+                            Chat
+                        </Link>
+                        <a href="/logout">Logout</a>
+                        <ProfilePic />
+                    </div>
+                </nav>
+                <Route exact path="/">
+                    <MyProfile profilePic={<ProfilePic />} />
+                </Route>
+                <Route path="/users">
+                    <FindUsers />
+                </Route>
+                <Route path="/other-user/:otherUserId">
+                    <OtherProfile />
+                </Route>
+                <Route path="/friends">
+                    <Friends />
+                </Route>
+                <Route path="/chat">
+                    <Chat />
+                </Route>
+            </BrowserRouter>
+
+            {app.uploaderVisible && <Uploader />}
+        </>
+    );
 }

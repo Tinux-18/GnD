@@ -22,6 +22,7 @@
     "@testing-library/react": "^11.2.2",
     "@testing-library/user-event": "^13.5.0",
     "@types/react-router-dom": "^5.1.8",
+    "@use-it/event-listener": "^0.1.7",
     "aws-sdk": "^2.815.0",
     "babel-loader": "^8.2.2",
     "bcryptjs": "^2.4.3",

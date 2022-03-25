@@ -1,31 +1,24 @@
-import { Component } from "react";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { updateImage, toggleUploader } from "../redux/app/slice";
 // TODO
 // - close with esc
 // - close with click outside
-export default class Uploader extends Component {
-    constructor(props) {
-        super(props);
-        this.state = { error: false, generalError: false };
-        this.handleUpload = this.handleUpload.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-    }
-    componentDidMount() {
+
+export default function Uploader() {
+    const dispatch = useDispatch();
+    const [generalError, setGeneralError] = useState(false);
+    const [file, setFile] = useState();
+
+    useEffect(() => {
         console.log("Uploader mounted");
-    }
-    handleChange(e) {
-        this.setState({
-            [e.target.name]: e.target.files[0],
-        });
-    }
-    handleUpload(e) {
+    }, []);
+
+    function handleUpload(e) {
         e.preventDefault();
 
-        if (!this.state.file) {
-            this.setState({ error: true });
-        }
-
         const fd = new FormData();
-        fd.append("file", this.state.file);
+        fd.append("file", file);
 
         fetch("/upload/profile_pic.json", {
             method: "POST",
@@ -33,50 +26,44 @@ export default class Uploader extends Component {
         })
             .then((res) => res.json())
             .then((uploadData) => {
-                console.log("uploadData :>> ", uploadData);
-                this.props.updateImage(uploadData.image);
-                this.props.hideUploader();
+                dispatch(updateImage(uploadData.image));
+                dispatch(toggleUploader(false));
             })
             .catch((err) => {
                 console.log(`fetch upload data failed with: ${err}`);
-                this.setState({ generalError: true });
+                setGeneralError(true);
             });
     }
-    render() {
-        return (
-            <div className="uploader">
-                <img
-                    src="/close_button2.png"
-                    alt="close uploader button"
-                    className="close-button"
-                    onClick={this.props.hideUploader}
-                ></img>
-                {this.state.generalError && (
-                    <h3 id="error">Something went wrong. Please try again!</h3>
-                )}
-                <form className="upload-form" onSubmit={this.handleUpload}>
-                    <div>
-                        <input
-                            type="file"
-                            name="file"
-                            id="file"
-                            accept="image/*"
-                            required
-                            onChange={this.handleChange}
-                        />
-                        <label
-                            htmlFor="file"
-                            id="file-label"
-                            style={{
-                                backgroundColor: this.state.error && "#ffafcc",
-                            }}
-                        >
-                            Your best pic
-                        </label>
-                    </div>
-                    <button>Upload</button>
-                </form>
-            </div>
-        );
-    }
+
+    return (
+        <div className="uploader">
+            <img
+                src="/close_button2.png"
+                alt="close uploader button"
+                className="close-button"
+                onClick={() => dispatch(toggleUploader(false))}
+            ></img>
+            {generalError && (
+                <h3 id="error">Something went wrong. Please try again!</h3>
+            )}
+            <form className="upload-form" onSubmit={handleUpload}>
+                <div>
+                    <input
+                        type="file"
+                        name="file"
+                        id="file"
+                        accept="image/*"
+                        required
+                        onChange={(e) => {
+                            setFile(e.target.files[0]);
+                        }}
+                    />
+                    <label htmlFor="file" id="file-label">
+                        Your best pic
+                    </label>
+                </div>
+                <button>Upload</button>
+            </form>
+        </div>
+    );
 }

@@ -5,7 +5,6 @@ export default function FindUsers() {
 
     useEffect(() => {
         let abort;
-        console.log(`"${query}" has been rendered!`);
         fetch(`/last_users.json?pattern=${query}`)
             .then((res) => res.json())
             .then((usersData) => {
