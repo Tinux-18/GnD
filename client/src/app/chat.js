@@ -19,6 +19,7 @@ export default function Chat() {
         if (fields.msg) {
             socket.emit("newMessage", fields.msg);
         }
+        inputUpdate({ target: { name: "msg", value: "" } });
     }
 
     if (!messages) {
@@ -55,6 +56,7 @@ export default function Chat() {
                 <button onClick={handleClick}>Submit</button>
                 <textarea
                     name="msg"
+                    value={fields.msg}
                     onChange={inputUpdate}
                     onKeyPress={(e) => {
                         if (e.key == "Enter") {
