@@ -42,13 +42,13 @@
 --     accepted        BOOLEAN NOT NULL
 -- );
 
-DROP TABLE IF EXISTS chat_messages;
-CREATE TABLE chat_messages (
-    id               SERIAL PRIMARY KEY,
-    user_id        INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    message TEXT     NOT NULL CHECK (message != ''),
-    created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- DROP TABLE IF EXISTS chat_messages;
+-- CREATE TABLE chat_messages (
+--     id               SERIAL PRIMARY KEY,
+--     user_id        INTEGER NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+--     message TEXT     NOT NULL CHECK (message != ''),
+--     created_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
 
 
@@ -74,7 +74,7 @@ CREATE TABLE chat_messages (
 -- INSERT INTO users (first, last, bio, email, password)
 -- VALUES ('George', 'Alexe', 'iubesc pisicile', 'gal@dcb.de', 'oaisengaösoiengö')
 
--- INSERT INTO friendship_requests (sender_id, recepient_id, accepted) VALUES (
+-- INSERT INTO friendship_requests (sender_id, recipient_id, accepted) VALUES (
 --     201,
 --     196,
 --     'FALSE')
@@ -85,57 +85,49 @@ CREATE TABLE chat_messages (
 
 -- Not accepted requests by 201
 
--- INSERT INTO friendship_requests (sender_id, recepient_id,accepted)
--- VALUES  (201, 197, 'false'),
---         (201, 196, 'false'),
---         (201, 195, 'false')
--- ;
+INSERT INTO friendship_requests (sender_id, recipient_id,accepted)
+VALUES  (211, 197, 'false'),
+        (211, 196, 'false'),
+        (211, 195, 'false')
+;
 
 -- Not accepted requests to 201
 
 -- INSERT INTO friendship_requests (sender_id, recipient_id,accepted)
--- VALUES  (188, 201, 'false'),
---         (187, 201, 'false'),
---         (186, 201, 'false'),
---         (185, 201, 'false'),
---         (184, 201, 'false'),
---         (183, 201, 'false')
+-- VALUES  (188, 211, 'false'),
+--         (187, 211, 'false'),
+--         (186, 211, 'false'),
+--         (185, 211, 'false'),
+--         (184, 211, 'false'),
+--         (183, 211, 'false')
         
 -- ;
 
 -- Accepted requests send by 201 (Alin)
 
 -- INSERT INTO friendship_requests (sender_id, recipient_id,accepted)
--- VALUES  (201, 194, 'true'),
---         (201, 193, 'true'),
---         (201, 192, 'true')
+-- VALUES  (211, 194, 'true'),
+--         (211, 193, 'true'),
+--         (211, 192, 'true')
 -- ;
 
 -- -- Accepted requests send to 201 (Alin)
 
 -- INSERT INTO friendship_requests (sender_id, recipient_id,accepted)
--- VALUES  (191, 201, 'true'),
---         (190, 201, 'true'),
---         (189, 201, 'true')
+-- VALUES  (191, 211, 'true'),
+--         (190, 211, 'true'),
+--         (189, 211, 'true')
 -- ;
 
 -- INSERT INTO chat_messages (user_id, message) VALUES 
--- ('201', 'Halt! Who goes there?'),
--- ('200', 'It is I, Arthur, son of Uther Pendragon, from the castle of Camelot. King of the Britons, defeator of the Saxons, sovereign of all England!'),
--- ('201', 'Pull the other one!'),
--- ('200', 'I am. And this my trusty servant Patsy. We have ridden the length and breadth of the land in search of knights who will join me in my court of Camelot. I must speak with your lord and master.'),
--- ('201', 'What, ridden on a horse?'),
--- ('200', 'Yes!'),
--- ('201', 'You are using coconuts!'),
--- ('200', 'What?'),
--- ('201', 'You have got two empty halves of coconut and you are bangin them together.'),
--- ('200', 'So? We have ridden since the snows of winter covered this land, through the kingdom of Mercea, through--'),
--- ('201', 'Where did you get the coconut?'),
--- ('200', 'We found them.'),
--- ('201', 'Found them? In Mercea? The coconut is tropical!'),
--- ('200', 'What do you mean?'),
--- ('201', 'Well, this is a temperate zone.'),
--- ('200', 'The swallow may fly south with the sun or the house martin or the plumber may seek warmer climes in winter yet these are not strangers to our land.');
+-- ('211', 'You have got two empty halves of coconut and you are bangin them together.'),
+-- ('210', 'So? We have ridden since the snows of winter covered this land, through the kingdom of Mercea, through--'),
+-- ('211', 'Where did you get the coconut?'),
+-- ('210', 'We found them.'),
+-- ('211', 'Found them? In Mercea? The coconut is tropical!'),
+-- ('210', 'What do you mean?'),
+-- ('211', 'Well, this is a temperate zone.'),
+-- ('210', 'The swallow may fly south with the sun or the house martin or the plumber may seek warmer climes in winter yet these are not strangers to our land.');
 
 
 
@@ -184,4 +176,4 @@ CREATE TABLE chat_messages (
 -- WHERE (sender_id = 1 AND recepient_id = 2) or (recepient_id = 1 AND sender_id = 2);
 
 -- DELETE FROM users
--- WHERE id= 205;
+-- WHERE id > 198;
