@@ -1,32 +1,20 @@
-Title: Social Leaders Platform
+Market in Romania:
 
-Color pallette: https://coolors.co/77cde8-363435-c3e1e8-76c8e4-28aee0-9ea0a2
+Gift card (restaurants and co) selling site - https://cadou.ialoc.ro/c/donatie-kane-medici
 
-Background-color:  #C3E1E8
+https://doneaza.pago.ro/
 
-Placeholders: https://www.tnb.ro/ro/mihaela-dragan
+https://doneaza.pago.ro/termeni&conditii.htm
 
-FONT 
+https://doneaza.pago.ro/Regulament%20campanie%20Pago%20edi%C8%9Bia%202.pdf
 
-font html:
+https://doneaza.pago.ro/regulament-campanie-doneaza/
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300&display=swap" rel="stylesheet">
+https://www.bursabinelui.ro/BursaBinelui/
 
-font css:
+https://galantom.ro/    
 
-font-family: 'Fredoka', sans-serif;
+Name:
 
-favicon:
-
-<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-<link rel="manifest" href="/site.webmanifest">
-
-
-*********
-TODO
-
-change gc shortcut to: git commit -a -m "set-up"
+dar prin dar
+give through gifts

@@ -6,8 +6,8 @@
             "server": "localhost",
             "port": 5432,
             "driver": "PostgreSQL",
-            "name": "slp",
-            "database": "slp",
+            "name": "dar",
+            "database": "dar",
             "username": "tinux",
             "password": "experience"
         }
