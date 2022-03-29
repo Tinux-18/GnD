@@ -55,10 +55,17 @@ authRouter.get("/logout", (req, res) => {
     return res.redirect("/");
 });
 
-authRouter.get("/user/id.json", (req, res) => {
+authRouter.get("/user/roles.json", async (req, res) => {
     if (req.session.userId > 0) {
-        res.status("200");
-        res.json({ isUserLoggedIn: true });
+        db.getUsers(req.session.userId)
+            .then(({ rows: profile }) => {
+                res.status("200");
+                res.json({ ...profile[0], isUserLoggedIn: true });
+            })
+            .catch((err) => {
+                console.log(`getProfile failed with: ${err}`);
+                return res.sendStatus(500);
+            });
     } else {
         res.status("200");
         res.json({ isUserLoggedIn: false });

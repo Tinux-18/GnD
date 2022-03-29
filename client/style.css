@@ -13,6 +13,10 @@ body {
     gap: 60px;
     justify-content: center;
 }
+
+#cards {
+    height: 50vh;
+}
 .welcome__line {
     height: 410px;
     border-left: 2px solid #6d6e71;
@@ -29,10 +33,9 @@ body {
     color: #363435;
 }
 
-.welcome__banner .logo {
-    width: 170px;
-    height: 170px;
-    margin-top: 10px;
+.welcome img {
+    width: 380px;
+    height: 260px;
 }
 
 form,
@@ -66,7 +69,8 @@ form h2,
     width: 80px;
 }
 
-nav {
+nav,
+footer {
     height: 90px;
     width: 100vw;
     display: flex;
@@ -77,11 +81,21 @@ nav {
     background-color: #86c1e3;
 }
 
+.welcome_message {
+    height: 20vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+    background-color: #61b99a;
+    justify-content: center;
+}
+
 .nav-right {
     height: 100%;
     display: flex;
     align-items: center;
     gap: 10px;
+    padding-right: 15px;
 }
 
 .nav-left {
@@ -91,7 +105,8 @@ nav {
     gap: 10px;
 }
 
-.nav-right a {
+.nav-right a,
+.nav-left a {
     color: #363435;
     text-decoration: none;
 }

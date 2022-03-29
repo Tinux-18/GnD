@@ -7,21 +7,18 @@ import Registration from "./registration";
 import LogIn from "./log-in";
 import ResetPass from "./reset_password";
 
-export default function Welcome() {
+export default function Auth() {
     useEffect(() => {
         console.log("Welcome mounted");
     }, []);
     return (
         <>
-            <nav>
-                <div className="nav-left">
-                    <Logo />
-                    <h1>Dar din Dar</h1>
-                </div>
+            <nav className="nav">
+                <Logo />
             </nav>
             <div className="welcome">
                 <BrowserRouter>
-                    <Route exact path="/">
+                    <Route exact path="/auth">
                         <LogIn />
                         <div className="welcome__line"></div>
                         <Registration />

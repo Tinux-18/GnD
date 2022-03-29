@@ -4,8 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { receiveProfile } from "../redux/app/slice";
 
 import Logo from "../general/logo";
+import Footer from "../general/footer";
 import ProfilePic from "./profile_pic";
 import Uploader from "./uploader";
+import Cards from "./cards";
+import Auth from "../auth/auth";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -19,6 +22,24 @@ export default function App() {
         }
     }, []);
 
+    const loggedOutNav = (
+        <>
+            <Link to="/auth" className="welcome-link">
+                Login
+            </Link>
+        </>
+    );
+
+    const loggedInNav = (
+        <>
+            <Link to="/ngo" className="welcome-link">
+                Your organisation
+            </Link>
+            <a href="/logout">Logout</a>
+            {/* <ProfilePic /> */}
+        </>
+    );
+
     if (!app) {
         return null;
     }
@@ -26,28 +47,20 @@ export default function App() {
     return (
         <>
             <BrowserRouter>
-                <nav>
-                    <Logo />
-                    <div className="nav-right">
-                        <Link to="/users" className="welcome-link find-users">
-                            Find other leaders
-                        </Link>
-                        <Link to="/friends" className="welcome-link">
-                            Friends
-                        </Link>
-                        <Link to="/chat" className="welcome-link">
-                            Chat
-                        </Link>
-                        <a href="/logout">Logout</a>
-                        <ProfilePic />
-                    </div>
-                </nav>
-                {/* <Route exact path="/">
-                    <MyProfile profilePic={<ProfilePic />} />
-                </Route> */}
+                <Route exact path="/">
+                    <nav>
+                        <Logo />
+                        <div className="nav-right">
+                            {app.isUserLoggedIn ? loggedInNav : loggedOutNav}
+                        </div>
+                    </nav>
+                    <Cards />
+                    <Footer />
+                </Route>
+                <Route path="/auth">
+                    <Auth />
+                </Route>
             </BrowserRouter>
-
-            {app.uploaderVisible && <Uploader />}
         </>
     );
 }

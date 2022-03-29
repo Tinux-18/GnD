@@ -13,9 +13,10 @@ export default function AppReducer(app = null, action) {
 
 export function receiveProfile() {
     return async (dispatch) => {
-        const app = await fetch("/user/profile.json").then((response) =>
+        const app = await fetch("/user/roles.json").then((response) =>
             response.json()
         );
+        console.log("app :>> ", app);
         dispatch({ type: "app/receiveProfile", payload: { app } });
     };
 }

@@ -3,7 +3,7 @@ import { render, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
 import { MemoryRouter } from "react-router-dom";
-import SignIn from "../../client/src/welcome/registration";
+import SignIn from "../../client/src/auth/registration";
 
 test("Registration should render", () => {
     const { container } = render(

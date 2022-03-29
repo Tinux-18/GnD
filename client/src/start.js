@@ -10,7 +10,7 @@ import { init } from "./utils/socket.js";
 
 // Import components
 import ReactDOM from "react-dom";
-import Welcome from "./welcome/welcome";
+import Auth from "./auth/auth";
 import App from "./app/app";
 
 // Redux set-up
@@ -21,19 +21,9 @@ const store = createStore(
     composeEnhancers(applyMiddleware(...middlewares))
 );
 
-fetch(`/user/id.json`)
-    .then((res) => res.json())
-    .then(({ isUserLoggedIn }) => {
-        if (isUserLoggedIn) {
-            init(store);
-            ReactDOM.render(
-                <Provider store={store}>
-                    <App />
-                </Provider>,
-                document.querySelector("main")
-            );
-        } else {
-            ReactDOM.render(<Welcome />, document.querySelector("main"));
-        }
-    })
-    .catch((err) => console.log(`fetch user status failed with: ${err}`));
+ReactDOM.render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    document.querySelector("main")
+);
