@@ -2,7 +2,7 @@ export default function Logo() {
     return (
         <a href="/">
             <img
-                src="/logo.jpeg"
+                src="/logo.png"
                 alt="Social Leaders Platform logo"
                 className="logo"
             ></img>

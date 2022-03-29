@@ -126,7 +126,7 @@ export default function SignIn() {
                 <label htmlFor="email">Email</label>
                 <input
                     name="email"
-                    id="email"
+                    id="registration_email"
                     type="email"
                     maxLength="255"
                     placeholder="miha.dragan@tnb.ro"
@@ -142,7 +142,7 @@ export default function SignIn() {
                 <label htmlFor="pass1">Password</label>
                 <input
                     name="pass1"
-                    id="pass1"
+                    id="registration_pass1"
                     type="password"
                     minLength="3"
                     placeholder="***"
@@ -179,8 +179,7 @@ export default function SignIn() {
                     <button onClick={handleSubmit}>Register</button>
                     <input
                         type="reset"
-                        value="Reset"
-                        id="reset"
+                        value="Clear"
                         onClick={() => {
                             setInputErrors([]);
                             setGeneralError(false);
@@ -188,10 +187,6 @@ export default function SignIn() {
                         }}
                     ></input>
                 </div>
-
-                <Link to="/login" className="welcome-link">
-                    Click here to Log in!
-                </Link>
             </form>
         </>
     );

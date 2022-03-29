@@ -9,21 +9,22 @@ import ResetPass from "./reset_password";
 
 export default function Welcome() {
     useEffect(() => {
-        console.log("Welcome password mounted");
+        console.log("Welcome mounted");
     }, []);
     return (
         <>
-            <div className="welcome">
-                <section className="welcome__banner">
+            <nav>
+                <div className="nav-left">
                     <Logo />
-                    <h1>The Social Leaders Platform</h1>
-                </section>
+                    <h1>Dar din Dar</h1>
+                </div>
+            </nav>
+            <div className="welcome">
                 <BrowserRouter>
                     <Route exact path="/">
-                        <Registration />
-                    </Route>
-                    <Route path="/login">
                         <LogIn />
+                        <div className="welcome__line"></div>
+                        <Registration />
                     </Route>
                     <Route path="/password-reset">
                         <ResetPass />

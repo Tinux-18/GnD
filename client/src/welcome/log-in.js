@@ -62,7 +62,7 @@ export default function LogIn() {
                 <label htmlFor="email">Email</label>
                 <input
                     name="email"
-                    id="email"
+                    id="login_email"
                     type="email"
                     maxLength="255"
                     placeholder="miha.dragan@tnb.ro"
@@ -77,7 +77,7 @@ export default function LogIn() {
                 <label htmlFor="pass1">Password</label>
                 <input
                     name="pass1"
-                    id="pass1"
+                    id="login_pass1"
                     type="password"
                     minLength="3"
                     placeholder="***"
@@ -93,8 +93,7 @@ export default function LogIn() {
                     <button onClick={handleSubmit}>Log in</button>
                     <input
                         type="reset"
-                        value="Reset"
-                        id="reset"
+                        value="Clear"
                         onClick={() => {
                             setGeneralError(false);
                             setInputErrors([]);

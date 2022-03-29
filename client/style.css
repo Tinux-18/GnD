@@ -1,5 +1,5 @@
 body {
-    background-color: #c3e1e8;
+    background-color: #f6fbef;
     font-family: "Fredoka", sans-serif;
     margin: 0;
     display: flex;
@@ -10,9 +10,13 @@ body {
     height: 80vh;
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 60px;
+    justify-content: center;
 }
-
+.welcome__line {
+    height: 410px;
+    border-left: 2px solid #6d6e71;
+}
 .welcome__banner {
     margin: 15px;
     height: 80px;
@@ -63,16 +67,24 @@ form h2,
 }
 
 nav {
-    height: 80px;
+    height: 90px;
     width: 100vw;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 15px;
     align-self: flex-start;
+    background-color: #86c1e3;
 }
 
 .nav-right {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.nav-left {
     height: 100%;
     display: flex;
     align-items: center;
@@ -86,9 +98,8 @@ nav {
 
 nav .logo,
 .profile-pic {
-    width: 70px;
-    height: 70px;
-    margin-top: 10px;
+    width: 80px;
+    height: 80px;
     padding: 15px;
     overflow: hidden;
 }
