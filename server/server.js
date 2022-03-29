@@ -49,29 +49,29 @@ io.use(function (socket, next) {
 
 //Socket connections
 
-io.on("connection", async function (socket) {
-    const userId = socket.request.session.userId;
+// io.on("connection", async function (socket) {
+//     const userId = socket.request.session.userId;
 
-    if (!userId) {
-        return socket.disconnect(true);
-    }
+//     if (!userId) {
+//         return socket.disconnect(true);
+//     }
 
-    console.log(`socket with the id ${socket.id} is now connected`);
+//     console.log(`socket with the id ${socket.id} is now connected`);
 
-    socket.on("disconnect", function () {
-        console.log(`socket with the id ${socket.id} is now disconnected`);
-    });
+//     socket.on("disconnect", function () {
+//         console.log(`socket with the id ${socket.id} is now disconnected`);
+//     });
 
-    const { rows: messages } = await db.getMessages(10);
+//     const { rows: messages } = await db.getMessages(10);
 
-    socket.emit("latestMessages", messages);
+//     socket.emit("latestMessages", messages);
 
-    socket.on("newMessage", async function (msg) {
-        let { rows: newMsg } = await db.addMessage(userId, msg);
-        let { rows: newMsgObj } = await db.getMessages(1, newMsg.id);
-        io.emit("newMessage", newMsgObj[0]);
-    });
-});
+//     socket.on("newMessage", async function (msg) {
+//         let { rows: newMsg } = await db.addMessage(userId, msg);
+//         let { rows: newMsgObj } = await db.getMessages(1, newMsg.id);
+//         io.emit("newMessage", newMsgObj[0]);
+//     });
+// });
 
 // Routes
 

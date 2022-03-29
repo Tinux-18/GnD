@@ -4,7 +4,7 @@ const db = spicedPg(
     process.env.DATABASE_URL ||
         `postgres:${require("../../secrets.json").psqlUser}:${
             require("../../secrets.json").psqlPassword
-        }@localhost:5432/slp`
+        }@localhost:5432/dar`
 );
 
 //Get Rows

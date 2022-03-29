@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Link } from "react-router-dom";
-import useEventListener from "@use-it/event-listener";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { receiveProfile } from "../redux/app/slice";
@@ -7,11 +6,6 @@ import { receiveProfile } from "../redux/app/slice";
 import Logo from "../general/logo";
 import ProfilePic from "./profile_pic";
 import Uploader from "./uploader";
-import MyProfile from "./my_profile";
-import FindUsers from "./find_users";
-import OtherProfile from "./other_profile";
-import Friends from "./friends";
-import Chat from "./chat";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -23,10 +17,6 @@ export default function App() {
         if (!app) {
             dispatch(receiveProfile());
         }
-
-        // useEventListener("onKeyPress", (e) => {
-        //     console.log("e :>> ", e);
-        // });
     }, []);
 
     if (!app) {
@@ -52,21 +42,9 @@ export default function App() {
                         <ProfilePic />
                     </div>
                 </nav>
-                <Route exact path="/">
+                {/* <Route exact path="/">
                     <MyProfile profilePic={<ProfilePic />} />
-                </Route>
-                <Route path="/users">
-                    <FindUsers />
-                </Route>
-                <Route path="/other-user/:otherUserId">
-                    <OtherProfile />
-                </Route>
-                <Route path="/friends">
-                    <Friends />
-                </Route>
-                <Route path="/chat">
-                    <Chat />
-                </Route>
+                </Route> */}
             </BrowserRouter>
 
             {app.uploaderVisible && <Uploader />}
