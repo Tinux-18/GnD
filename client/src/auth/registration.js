@@ -17,6 +17,8 @@ export default function SignIn() {
         pass1: "",
         pass2: "",
     });
+    const [ngoCheck, setNgoCheck] = useState(false);
+    const [checkError, setCheckError] = useState(false);
 
     useEffect(() => {
         console.log("Registration mounted");
@@ -45,37 +47,41 @@ export default function SignIn() {
             fields,
             setInputErrors
         );
+
+        setCheckError(!ngoCheck);
+
         // Push data
+
         let noEmptyFields = !Object.values(fields).some(
             (field) => field.length == 0
         );
-        if (noEmptyFields && !arePasswordsDifferent()) {
-            fetch("/user/addProfile.json", {
-                method: "POST",
-                headers: {
-                    "Content-type": "application/json; charset=UTF-8",
-                },
-                body: JSON.stringify({
-                    first: fields.first,
-                    second: fields.second,
-                    email: fields.email,
-                    pass: fields.pass1,
-                }),
-            })
-                .then((res) => res.json())
-                .then((postResponse) => {
-                    if (postResponse.success) {
-                        location.reload();
-                    } else {
-                        setGeneralError(true);
-                    }
-                })
-                .catch((err) => {
-                    console.log(
-                        `fetch POST in registration failed with: ${err}`
-                    );
-                    setGeneralError(true);
-                });
+        if (noEmptyFields && !arePasswordsDifferent() && ngoCheck) {
+            // fetch("/user/addProfile.json", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-type": "application/json; charset=UTF-8",
+            //     },
+            //     body: JSON.stringify({
+            //         first: fields.first,
+            //         second: fields.second,
+            //         email: fields.email,
+            //         pass: fields.pass1,
+            //     }),
+            // })
+            //     .then((res) => res.json())
+            //     .then((postResponse) => {
+            //         if (postResponse.success) {
+            //             location.reload();
+            //         } else {
+            //             setGeneralError(true);
+            //         }
+            //     })
+            //     .catch((err) => {
+            //         console.log(
+            //             `fetch POST in registration failed with: ${err}`
+            //         );
+            //         setGeneralError(true);
+            //     });
         } else {
             setGeneralError(true);
         }
@@ -85,12 +91,12 @@ export default function SignIn() {
         <>
             <form id="registration-form" className="form">
                 <label htmlFor="registration-form">
-                    <h2>Register NOW!</h2>
+                    <h2>Register</h2>
                 </label>
-                {inputErrors.length != 0 && (
+                {(inputErrors.length != 0 || checkError) && (
                     <h3 id="error">Please fill in the required fields</h3>
                 )}
-                {generalError && inputErrors.length == 0 && (
+                {generalError && inputErrors.length == 0 && !checkError && (
                     <h3 id="error">Something went wrong. Please try again!</h3>
                 )}
                 <label htmlFor="first">First name</label>
@@ -175,6 +181,22 @@ export default function SignIn() {
                         ></input>
                     </>
                 )}
+                <div>
+                    <input
+                        type="checkbox"
+                        id="ngo-check"
+                        name="ngoCheck"
+                        onChange={(e) => setNgoCheck(e.target.checked)}
+                    ></input>
+                    <label
+                        htmlFor="ngo-check"
+                        style={{
+                            color: checkError ? "red" : "black",
+                        }}
+                    >
+                        Also register a NGO
+                    </label>
+                </div>
                 <div className="buttons">
                     <button onClick={handleSubmit}>Register</button>
                     <input
@@ -184,6 +206,7 @@ export default function SignIn() {
                             setInputErrors([]);
                             setGeneralError(false);
                             setpassError(false);
+                            setCheckError(false);
                         }}
                     ></input>
                 </div>

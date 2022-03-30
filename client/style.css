@@ -61,6 +61,10 @@ form h2,
     margin: 0;
 }
 
+#ngo-check {
+    margin-right: 10px;
+}
+
 .welcome-link {
     align-self: center;
 }
