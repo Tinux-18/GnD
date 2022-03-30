@@ -6,11 +6,10 @@ const logger = require("morgan");
 
 // Import local modules
 
-const db = require("./sql/db");
 const userProfileRouter = require("./routers/user_profile");
 const otherProfileRouter = require("./routers/other_profile");
 const profilePicRouter = require("./routers/profile_pic");
-const friendRequestRouter = require("./routers/friend_requests");
+const ngoRouter = require("./routers/ngo");
 const authRouter = require("./routers/auth");
 const { xFrameHeader } = require("./middleware/x_frame");
 const cookieSessionConfig = require("./utils/cookieSession");
@@ -79,7 +78,7 @@ app.use([
     userProfileRouter,
     otherProfileRouter,
     profilePicRouter,
-    friendRequestRouter,
+    ngoRouter,
     authRouter,
 ]);
 

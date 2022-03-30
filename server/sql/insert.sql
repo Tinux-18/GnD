@@ -1,7 +1,16 @@
--- INSERT INTO profile_pics (user_id, url) VALUES (
---     10,
---     'https://s3.amazonaws.com/imageboard/jAVZmnxnZ-U95ap2-PLliFFF7TO0KqZm.jpg'
--- );
+INSERT INTO ngos (registration_complete, verified,representative_user_id, display_name, description, facebook, website, contact_email, instagram, tiktok) VALUES (
+    false, false, 3, 'dcb', 'lovely folks', 'q@p', null, null, null, null
+)
+ON CONFLICT (representative_user_id)
+DO UPDATE 
+SET display_name = 'code4',
+    description = 'code4',
+    facebook = 'code4',
+    website = 'code4',
+    contact_email = 'code4',
+    instagram = 'code4',
+    tiktok = 'code4'
+;
 
 -- INSERT INTO users (first, last, bio, email, password)
 -- VALUES ('George', 'Alexe', 'iubesc pisicile', 'gal@dcb.de', 'oaisengaösoiengö')

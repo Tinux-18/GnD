@@ -86,18 +86,14 @@ exports.getFriendRequestsForUser = (sender_id) =>
         [sender_id]
     );
 
-exports.getAllFriendRequestsForUser = (sender_id) =>
+exports.getNgoProfileByUser = (user_id) =>
     db.query(
         `
-        SELECT users.id, sender_id, recipient_id, first, last, image, accepted
-        FROM friendship_requests
-        JOIN users
-        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
-        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
-        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
-        OR (accepted = false AND sender_id = $1 AND recipient_id = users.id)
+        SELECT *
+        FROM ngos
+        WHERE representative_user_id = $1
         `,
-        [sender_id]
+        [user_id]
     );
 
 exports.getMessages = (limit, id) => {
@@ -133,10 +129,53 @@ exports.addUser = (role, first, last, email, password) =>
         [role, first, last, email, password]
     );
 
-exports.addProfilePic = (user_id, url) =>
+exports.addNgoProfileBasic = (
+    registration_complete,
+    verified,
+    representative_user_id,
+    display_name,
+    description,
+    facebook,
+    website,
+    contact_email,
+    instagram,
+    tiktok
+) =>
     db.query(
-        "INSERT INTO profile_pics (user_id, url) VALUES ($1, $2) RETURNING *",
-        [user_id, url]
+        `INSERT INTO ngos (
+            registration_complete, 
+            verified,
+            representative_user_id, 
+            display_name, 
+            description, 
+            facebook,  
+            instagram, 
+            tiktok,
+            website, 
+            contact_email
+            )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
+        ON CONFLICT (representative_user_id)
+        DO UPDATE 
+        SET display_name = $4,
+            description = $5,
+            facebook = $6,
+            instagram = $7,
+            tiktok = $8,
+            website = $9,
+            contact_email = $10`,
+        [
+            registration_complete,
+            verified,
+            representative_user_id,
+            display_name,
+            description,
+            facebook,
+            instagram,
+            tiktok,
+            website,
+            contact_email,
+        ]
     );
 
 exports.addFriendship = (sender_id, recipient_id, acceptance_status) =>
@@ -166,14 +205,46 @@ exports.updateProfilePic = (user_id, url) =>
         [url, user_id]
     );
 
-exports.updateBio = (user_id, bio) =>
+exports.updateNgoProfileLegal = (
+    representative_user_id,
+    legal_name,
+    registration_number,
+    county,
+    street,
+    extra_address,
+    founding_date,
+    funds,
+    bank,
+    iban,
+    bic
+) =>
     db.query(
         `
-        UPDATE users
-        SET bio = $1
-        WHERE id = $2
-        RETURNING email`,
-        [bio, user_id]
+        UPDATE ngos
+        SET legal_name = $2,
+            registration_number = $3,
+            county = $4,
+            street = $5,
+            extra_address = $6,
+            founding_date = $7,
+            funds = $8,
+            bank = $9,
+            iban = $10,
+            bic = $11
+        WHERE representative_user_id = $1`,
+        [
+            representative_user_id,
+            legal_name,
+            registration_number,
+            county,
+            street,
+            extra_address,
+            founding_date,
+            funds,
+            bank,
+            iban,
+            bic,
+        ]
     );
 
 exports.updatePassword = (user_id, password) =>
@@ -198,10 +269,10 @@ exports.confirmFriendRequest = (sender_id, recipient_id) =>
 
 //Delete Rows
 
-exports.cancelFriendRequest = (sender_id, recipient_id) =>
+exports.removeNgo = (representative_user_id) =>
     db.query(
         `
-        DELETE FROM friendship_requests
-        WHERE (sender_id = $1 AND recipient_id = $2) or (recipient_id = $1 AND sender_id = $2)`,
-        [sender_id, recipient_id]
+        DELETE FROM ngos
+        WHERE representative_user_id = $1`,
+        [representative_user_id]
     );

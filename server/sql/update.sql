@@ -1,9 +1,14 @@
 -- -- UPDATE DATA
 
--- UPDATE users
--- SET first = 'Alin'
--- WHERE id = 1
--- RETURNING email
+UPDATE ngos
+SET legal_name = 'code4',
+    registration_number = 'code4',
+    county = 'code4',
+    street = 'code4',
+    extra_address = 'code4',
+    founding_date = '02/20/1995',
+    funds = 40000
+WHERE representative_user_id = 3
 
 -- -- DELETE DATA
 
