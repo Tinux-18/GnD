@@ -14,7 +14,7 @@ exports.getUsers = (input) => {
         // input is a number, expecting ID
         return db.query(
             `
-        SELECT id, first, last, email, bio, password, image FROM users
+        SELECT id, role, first, last, email, password, image FROM users
         WHERE id = $1`,
             [input]
         );
@@ -22,14 +22,14 @@ exports.getUsers = (input) => {
         // input is text, expecting email
         return db.query(
             `
-        SELECT id, first, last, email, bio, password, image FROM users
+        SELECT id, role, first, last, email, password, image FROM users
         WHERE email = $1`,
             [input]
         );
     } else {
         // input is undefined, returning all users
         return db.query(`
-        SELECT id, first, last, email, bio, password, image FROM users`);
+        SELECT id, role, first, last, email, password, image FROM users`);
     }
 };
 
@@ -127,10 +127,10 @@ exports.getMessages = (limit, id) => {
 
 //Insert Rows
 
-exports.addUser = (first, last, email, password) =>
+exports.addUser = (role, first, last, email, password) =>
     db.query(
-        "INSERT INTO users (first, last, email, password) VALUES ($1, $2, $3, $4) RETURNING id",
-        [first, last, email, password]
+        "INSERT INTO users (role, first, last, email, password) VALUES ($1, $2, $3, $4, $5) RETURNING id",
+        [role, first, last, email, password]
     );
 
 exports.addProfilePic = (user_id, url) =>

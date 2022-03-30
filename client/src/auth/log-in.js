@@ -33,7 +33,7 @@ export default function LogIn() {
                 .then((res) => res.json())
                 .then((postResponse) => {
                     if (postResponse.success) {
-                        location.replace("\\");
+                        location.replace("/");
                     } else {
                         setGeneralError(true);
                     }

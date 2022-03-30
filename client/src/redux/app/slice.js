@@ -3,8 +3,8 @@ export default function AppReducer(app = null, action) {
         app = action.payload.app;
     } else if (action.type == "app/updateImage") {
         app = { ...app, image: action.payload.image };
-    } else if (action.type == "app/updateBio") {
-        app = { ...app, bio: action.payload.bio };
+    } else if (action.type == "app/updateRole") {
+        app = { ...app, ngoRegistration: action.payload.ngoCheck };
     } else if (action.type == "app/toggleUploader") {
         app = { ...app, uploaderVisible: action.payload.uploaderVisibility };
     }
@@ -32,6 +32,13 @@ export function updateBio(bio) {
     return {
         type: "app/updateBio",
         payload: { bio },
+    };
+}
+
+export function updateRole(newRole) {
+    return {
+        type: "app/updateRole",
+        payload: { newRole },
     };
 }
 

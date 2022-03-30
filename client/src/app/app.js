@@ -60,6 +60,9 @@ export default function App() {
                 <Route path="/auth">
                     <Auth />
                 </Route>
+                <Route path="/password-reset">
+                    <Auth />
+                </Route>
             </BrowserRouter>
         </>
     );

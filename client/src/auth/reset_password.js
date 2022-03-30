@@ -118,7 +118,7 @@ export default function ResetPass() {
     const successMessage = (
         <>
             <h2>Success!!!</h2>
-            <a href="/login">Log in</a>
+            <a href="/auth">Log in</a>
         </>
     );
 

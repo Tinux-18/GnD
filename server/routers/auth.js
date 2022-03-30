@@ -21,6 +21,29 @@ const redisKeyTimeout = 60 * 10; // in seconds
 
 // Routes
 
+authRouter.post("/user/addProfile.json", function (req, res) {
+    console.log("req.body :>> ", req.body);
+    let { first, second, email, pass1, role } = req.body;
+    hash(pass1)
+        .then((hashedPass) => {
+            db.addUser(role, first, second, email, hashedPass)
+                .then(({ rows }) => {
+                    console.log(`user: ${email} has been added`);
+                    req.session.userId = rows[0].id;
+                    res.status("200");
+                    res.json({ success: true });
+                })
+                .catch((err) => {
+                    console.log(`addUser failed with: ${err}`);
+                    return res.sendStatus(500);
+                });
+        })
+        .catch((err) => {
+            console.log(`hashing failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
+
 authRouter.post("/user/login", (req, res) => {
     let { email, pass } = req.body;
     console.log(`login attempted by ${email}`);

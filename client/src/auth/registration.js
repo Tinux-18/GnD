@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 import { useStatefulFields } from "../hooks/update_stateful_fields";
@@ -18,7 +17,6 @@ export default function SignIn() {
         pass2: "",
     });
     const [ngoCheck, setNgoCheck] = useState(false);
-    const [checkError, setCheckError] = useState(false);
 
     useEffect(() => {
         console.log("Registration mounted");
@@ -48,40 +46,36 @@ export default function SignIn() {
             setInputErrors
         );
 
-        setCheckError(!ngoCheck);
-
         // Push data
 
         let noEmptyFields = !Object.values(fields).some(
             (field) => field.length == 0
         );
-        if (noEmptyFields && !arePasswordsDifferent() && ngoCheck) {
-            // fetch("/user/addProfile.json", {
-            //     method: "POST",
-            //     headers: {
-            //         "Content-type": "application/json; charset=UTF-8",
-            //     },
-            //     body: JSON.stringify({
-            //         first: fields.first,
-            //         second: fields.second,
-            //         email: fields.email,
-            //         pass: fields.pass1,
-            //     }),
-            // })
-            //     .then((res) => res.json())
-            //     .then((postResponse) => {
-            //         if (postResponse.success) {
-            //             location.reload();
-            //         } else {
-            //             setGeneralError(true);
-            //         }
-            //     })
-            //     .catch((err) => {
-            //         console.log(
-            //             `fetch POST in registration failed with: ${err}`
-            //         );
-            //         setGeneralError(true);
-            //     });
+        if (noEmptyFields && !arePasswordsDifferent()) {
+            const role = ngoCheck ? "organiser" : "donor";
+
+            console.log("fields :>> ", { ...fields, role: role });
+            fetch("/user/addProfile.json", {
+                method: "POST",
+                headers: {
+                    "Content-type": "application/json; charset=UTF-8",
+                },
+                body: JSON.stringify({ ...fields, role: role }),
+            })
+                .then((res) => res.json())
+                .then((postResponse) => {
+                    if (postResponse.success) {
+                        location.replace("/");
+                    } else {
+                        setGeneralError(true);
+                    }
+                })
+                .catch((err) => {
+                    console.log(
+                        `fetch POST in registration failed with: ${err}`
+                    );
+                    setGeneralError(true);
+                });
         } else {
             setGeneralError(true);
         }
@@ -93,10 +87,10 @@ export default function SignIn() {
                 <label htmlFor="registration-form">
                     <h2>Register</h2>
                 </label>
-                {(inputErrors.length != 0 || checkError) && (
+                {inputErrors.length != 0 && (
                     <h3 id="error">Please fill in the required fields</h3>
                 )}
-                {generalError && inputErrors.length == 0 && !checkError && (
+                {generalError && inputErrors.length == 0 && (
                     <h3 id="error">Something went wrong. Please try again!</h3>
                 )}
                 <label htmlFor="first">First name</label>
@@ -188,14 +182,7 @@ export default function SignIn() {
                         name="ngoCheck"
                         onChange={(e) => setNgoCheck(e.target.checked)}
                     ></input>
-                    <label
-                        htmlFor="ngo-check"
-                        style={{
-                            color: checkError ? "red" : "black",
-                        }}
-                    >
-                        Also register a NGO
-                    </label>
+                    <label htmlFor="ngo-check">Also register a NGO</label>
                 </div>
                 <div className="buttons">
                     <button onClick={handleSubmit}>Register</button>
