@@ -247,6 +247,22 @@ exports.updateNgoProfileLegal = (
         ]
     );
 
+exports.updateNgoDocuments = (
+    representative_user_id,
+    statute,
+    representative_id,
+    logo
+) =>
+    db.query(
+        `
+        UPDATE ngos
+        SET logo = $2,
+            statute = $3,
+            representative_id = $4
+        WHERE representative_user_id = $1`,
+        [representative_user_id, logo, statute, representative_id]
+    );
+
 exports.updatePassword = (user_id, password) =>
     db.query(
         `

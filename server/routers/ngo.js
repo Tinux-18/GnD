@@ -13,6 +13,18 @@ ngoRouter.get("/ngo/profile.json", async (req, res) => {
         });
 });
 
+ngoRouter.post("/ngo/store-registration-part.json", async (req, res) => {
+    const { registrationPart } = req.body;
+    req.session.registrationPart = registrationPart;
+    res.status("200");
+    res.json({ success: true });
+});
+
+ngoRouter.get("/ngo/registration-part.json", async (req, res) => {
+    res.status("200");
+    res.json({ registrationPart: req.session.registrationPart });
+});
+
 ngoRouter.post("/ngo/upsert-profile.json", (req, res) => {
     db.addNgoProfileBasic(
         false,

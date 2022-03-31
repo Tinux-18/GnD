@@ -20,25 +20,30 @@ const ses = new aws.SES({
 });
 
 exports.s3Upload = (req, res, next) => {
-    if (!req.file) {
+    if (req.files.length == 0) {
         console.log("multer failed");
         return res.sendStatus(500);
     }
+    let promises = [];
+    for (const file in req.files) {
+        if (Object.hasOwnProperty.call(req.files, file)) {
+            const { filename, mimetype, size, path } = req.files[file][0];
+            promises.push(
+                s3
+                    .putObject({
+                        Bucket: "constantin-portofolio",
+                        ACL: "public-read",
+                        Key: filename,
+                        Body: fs.createReadStream(path),
+                        ContentType: mimetype,
+                        ContentLength: size,
+                    })
+                    .promise()
+            );
+        }
+    }
 
-    const { filename, mimetype, size, path } = req.file;
-
-    const promise = s3
-        .putObject({
-            Bucket: "constantin-portofolio",
-            ACL: "public-read",
-            Key: filename,
-            Body: fs.createReadStream(path),
-            ContentType: mimetype,
-            ContentLength: size,
-        })
-        .promise();
-
-    promise
+    Promise.all(promises)
         .then(() => {
             next();
         })

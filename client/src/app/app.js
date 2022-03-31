@@ -5,10 +5,11 @@ import { receiveProfile } from "../redux/app/slice";
 
 import Logo from "../general/logo";
 import Footer from "../general/footer";
-import ProfilePic from "./profile_pic";
-import Uploader from "./uploader";
+import ProfilePic from "../general/profile_pic";
+import Uploader from "../general/uploader";
 import Cards from "./cards";
 import Auth from "../auth/auth";
+import NgoArea from "../ngo/ngo_area";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -22,6 +23,22 @@ export default function App() {
         }
     }, []);
 
+    if (!app) {
+        return null;
+    }
+
+    const loggedInNav = (
+        <>
+            {app.role == "organiser" && (
+                <Link to="/ngo-area" className="welcome-link">
+                    Your organisation
+                </Link>
+            )}
+            <a href="/logout">Logout</a>
+            <ProfilePic />
+        </>
+    );
+
     const loggedOutNav = (
         <>
             <Link to="/auth" className="welcome-link">
@@ -29,20 +46,6 @@ export default function App() {
             </Link>
         </>
     );
-
-    const loggedInNav = (
-        <>
-            <Link to="/ngo" className="welcome-link">
-                Your organisation
-            </Link>
-            <a href="/logout">Logout</a>
-            {/* <ProfilePic /> */}
-        </>
-    );
-
-    if (!app) {
-        return null;
-    }
 
     return (
         <>
@@ -55,7 +58,6 @@ export default function App() {
                         </div>
                     </nav>
                     <Cards />
-                    <Footer />
                 </Route>
                 <Route path="/auth">
                     <Auth />
@@ -63,7 +65,11 @@ export default function App() {
                 <Route path="/password-reset">
                     <Auth />
                 </Route>
+                <Route path="/ngo-area">
+                    <NgoArea />
+                </Route>
             </BrowserRouter>
+            <Footer />
         </>
     );
 }

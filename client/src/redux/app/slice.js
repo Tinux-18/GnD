@@ -16,7 +16,6 @@ export function receiveProfile() {
         const app = await fetch("/user/roles.json").then((response) =>
             response.json()
         );
-        console.log("app :>> ", app);
         dispatch({ type: "app/receiveProfile", payload: { app } });
     };
 }

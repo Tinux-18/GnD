@@ -8,7 +8,7 @@ const logger = require("morgan");
 
 const userProfileRouter = require("./routers/user_profile");
 const otherProfileRouter = require("./routers/other_profile");
-const profilePicRouter = require("./routers/profile_pic");
+const uploadRouter = require("./routers/upload");
 const ngoRouter = require("./routers/ngo");
 const authRouter = require("./routers/auth");
 const { xFrameHeader } = require("./middleware/x_frame");
@@ -77,7 +77,7 @@ io.use(function (socket, next) {
 app.use([
     userProfileRouter,
     otherProfileRouter,
-    profilePicRouter,
+    uploadRouter,
     ngoRouter,
     authRouter,
 ]);

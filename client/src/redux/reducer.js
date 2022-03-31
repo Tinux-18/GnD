@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
-import FriendsReducer from "./friends/slice.js";
+import NgoReducer from "./ngo/slice.js";
 import ChatReducer from "./chat/slice.js";
 import AppReducer from "./app/slice.js";
 
 const rootReducer = combineReducers({
-    friends: FriendsReducer,
+    ngo: NgoReducer,
     messages: ChatReducer,
     app: AppReducer,
 });

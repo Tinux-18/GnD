@@ -1,10 +1,10 @@
 const express = require("express");
-const profilePicRouter = express.Router();
+const uploadRouter = express.Router();
 const db = require("../sql/db");
 const { serverUpload } = require("../middleware/multer_upload");
 const { s3Upload } = require("../middleware/aws");
 
-profilePicRouter.get("/user/profile_pic.json", (req, res) => {
+uploadRouter.get("/user/profile_pic.json", (req, res) => {
     db.getProfilePics(req.session.userId)
         .then(({ rows: profilePics }) => {
             res.status("200");
@@ -16,10 +16,9 @@ profilePicRouter.get("/user/profile_pic.json", (req, res) => {
         });
 });
 
-profilePicRouter.post(
+uploadRouter.post(
     "/upload/profile_pic.json",
     serverUpload.single("file"),
-    s3Upload,
     (req, res) => {
         db.updateProfilePic(
             req.session.userId,
@@ -45,4 +44,40 @@ profilePicRouter.post(
     }
 );
 
-module.exports = profilePicRouter;
+uploadRouter.post(
+    "/upload/documents.json",
+    serverUpload.fields([
+        { name: "statute", maxCount: 1 },
+        { name: "representativeId", maxCount: 1 },
+        { name: "logo", maxCount: 1 },
+    ]),
+    s3Upload,
+    (req, res) => {
+        let fileUrls = { statute: null, representativeId: null, logo: null };
+        for (const file in req.files) {
+            if (file && Object.hasOwnProperty.call(req.files, file)) {
+                const { fieldname, filename } = req.files[file][0];
+                fileUrls[
+                    fieldname
+                ] = `https://s3.amazonaws.com/constantin-portofolio/${filename}`;
+            }
+        }
+
+        db.updateNgoDocuments(
+            req.session.userId,
+            fileUrls.statute,
+            fileUrls.representativeId,
+            fileUrls.logo
+        )
+            .then(() => {
+                res.status("200");
+                res.json({ success: true });
+            })
+            .catch((err) => {
+                console.log(`/upload/documents.json failed with: ${err}`);
+                return res.sendStatus(500);
+            });
+    }
+);
+
+module.exports = uploadRouter;
