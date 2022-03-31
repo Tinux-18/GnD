@@ -22,7 +22,6 @@ const redisKeyTimeout = 60 * 10; // in seconds
 // Routes
 
 authRouter.post("/user/addProfile.json", function (req, res) {
-    console.log("req.body :>> ", req.body);
     let { first, second, email, pass1, role } = req.body;
     hash(pass1)
         .then((hashedPass) => {

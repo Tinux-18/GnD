@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useStatefulFields } from "../hooks/update_stateful_fields";
+import { useStatefulFields } from "../hooks/update_stateful_fields ";
 import { validateInput } from "../hooks/validate_input";
 
 export default function NgoRegistrationBasic(props) {
@@ -11,6 +11,7 @@ export default function NgoRegistrationBasic(props) {
         const data = await fetch("/ngo/profile.json").then((response) =>
             response.json()
         );
+
         if (data.rows[0]) {
             updateAll({
                 display_name: data.rows[0].display_name,
@@ -34,7 +35,6 @@ export default function NgoRegistrationBasic(props) {
         );
 
         if (fields.display_name && fields.description && fields.facebook) {
-            console.log("fields :>> ", fields);
             fetch("/ngo/upsert-profile.json", {
                 method: "POST",
                 headers: {
@@ -58,7 +58,6 @@ export default function NgoRegistrationBasic(props) {
                 });
         }
     };
-
     return (
         <div className="welcome">
             <form id="registration-form" className="form">

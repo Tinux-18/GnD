@@ -134,12 +134,12 @@ exports.addNgoProfileBasic = (
     verified,
     representative_user_id,
     display_name,
-    description,
-    facebook,
     website,
     contact_email,
+    facebook,
     instagram,
-    tiktok
+    tiktok,
+    description
 ) =>
     db.query(
         `INSERT INTO ngos (
@@ -259,9 +259,54 @@ exports.updateNgoDocuments = (
         SET logo = $2,
             statute = $3,
             representative_id = $4
-        WHERE representative_user_id = $1`,
+        WHERE representative_user_id = $1
+        RETURNING statute, representative_id, logo`,
         [representative_user_id, logo, statute, representative_id]
     );
+
+exports.updateRegistrationStatus = (
+    representative_user_id,
+    registration_complete
+) =>
+    db.query(
+        `
+        UPDATE ngos
+        SET registration_complete = $2
+        WHERE representative_user_id = $1`,
+        [representative_user_id, registration_complete]
+    );
+
+exports.deleteDocument = (representative_user_id, documentType) => {
+    if (documentType == "statute") {
+        return db.query(
+            `
+        UPDATE ngos
+        SET statute = null
+        WHERE representative_user_id = $1`,
+            [representative_user_id]
+        );
+    }
+
+    if (documentType == "representativeId") {
+        return db.query(
+            `
+        UPDATE ngos
+        SET representative_id = null
+        WHERE representative_user_id = $1`,
+            [representative_user_id]
+        );
+    }
+
+    if (documentType == "logo") {
+        return db.query(
+            `
+        UPDATE ngos
+        SET logo = null
+        WHERE representative_user_id = $1`,
+            [representative_user_id]
+        );
+    }
+};
 
 exports.updatePassword = (user_id, password) =>
     db.query(

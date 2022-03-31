@@ -309,6 +309,35 @@ nav .logo,
     border: 2px dashed #363435;
     padding: 10px;
     font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#file-link {
+    width: 100px;
+    margin: 10px;
+    border: 2px dashed #32715b;
+    color: #32715b;
+    padding: 10px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+}
+
+#file-delete {
+    width: 100px;
+    margin: 10px;
+    border: 2px dashed #dc4c3f;
+    color: #dc4c3f;
+    padding: 10px;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
 }
 
 footer {

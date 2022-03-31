@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { useStatefulFields } from "../hooks/update_stateful_fields";
+import { useStatefulFields } from "../hooks/update_stateful_fields ";
 import { validateInput } from "../hooks/validate_input";
 
 export default function SignIn() {
@@ -54,7 +54,6 @@ export default function SignIn() {
         if (noEmptyFields && !arePasswordsDifferent()) {
             const role = ngoCheck ? "organiser" : "donor";
 
-            console.log("fields :>> ", { ...fields, role: role });
             fetch("/user/addProfile.json", {
                 method: "POST",
                 headers: {

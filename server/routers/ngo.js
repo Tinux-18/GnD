@@ -13,24 +13,30 @@ ngoRouter.get("/ngo/profile.json", async (req, res) => {
         });
 });
 
-ngoRouter.post("/ngo/store-registration-part.json", async (req, res) => {
-    const { registrationPart } = req.body;
-    req.session.registrationPart = registrationPart;
-    res.status("200");
-    res.json({ success: true });
-});
-
-ngoRouter.get("/ngo/registration-part.json", async (req, res) => {
-    res.status("200");
-    res.json({ registrationPart: req.session.registrationPart });
-});
-
 ngoRouter.post("/ngo/upsert-profile.json", (req, res) => {
+    for (const key in req.body) {
+        if (Object.hasOwnProperty.call(req.body, key)) {
+            if (req.body[key] === "") {
+                req.body[key] = null;
+            }
+        }
+    }
+    let dbQueryInput = {
+        display_name: null,
+        website: null,
+        contact_email: null,
+        facebook: null,
+        instagram: null,
+        tiktok: null,
+        description: null,
+        ...req.body,
+    };
+
     db.addNgoProfileBasic(
         false,
         false,
         req.session.userId,
-        ...Object.values(req.body)
+        ...Object.values(dbQueryInput)
     )
         .then(() => {
             res.status("200");
@@ -43,7 +49,29 @@ ngoRouter.post("/ngo/upsert-profile.json", (req, res) => {
 });
 
 ngoRouter.post("/ngo/update-legal-profile.json", (req, res) => {
-    db.updateNgoProfileLegal(req.session.userId, ...Object.values(req.body))
+    for (const key in req.body) {
+        if (Object.hasOwnProperty.call(req.body, key)) {
+            if (req.body[key] === "") {
+                req.body[key] = null;
+            }
+        }
+    }
+
+    let dbQueryInput = {
+        legal_name: null,
+        registration_number: null,
+        county: null,
+        street: null,
+        extra_address: null,
+        founding_date: null,
+        funds: null,
+        bank: null,
+        iban: null,
+        bic: null,
+        ...req.body,
+    };
+
+    db.updateNgoProfileLegal(req.session.userId, ...Object.values(dbQueryInput))
         .then(() => {
             res.status("200");
             res.json({ success: true });
@@ -66,4 +94,15 @@ ngoRouter.delete("/ngo/delete-profile.json", (req, res) => {
         });
 });
 
+ngoRouter.post("/ngo/store-registration-part.json", async (req, res) => {
+    const { registrationPart } = req.body;
+    req.session.registrationPart = registrationPart;
+    res.status("200");
+    res.json({ success: true });
+});
+
+ngoRouter.get("/ngo/registration-part.json", async (req, res) => {
+    res.status("200");
+    res.json({ registrationPart: req.session.registrationPart });
+});
 module.exports = ngoRouter;
