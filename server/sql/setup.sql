@@ -21,7 +21,7 @@
 --     id                      SERIAL PRIMARY KEY,
 --     representative_user_id  INTEGER NOT NULL UNIQUE REFERENCES users(id),
 --     display_name            VARCHAR(255),
---     description             VARCHAR(255),
+--     description             VARCHAR,
 --     website                 VARCHAR(255),
 --     contact_email           VARCHAR(255),
 --     instagram               VARCHAR(255),
@@ -48,12 +48,16 @@
 
 DROP TABLE IF EXISTS donations;
 CREATE TABLE donations (
-    id          SERIAL PRIMARY KEY,
-    user_id     INTEGER NOT NULL REFERENCES users(id),
-    ngo_id      INTEGER NOT NULL REFERENCES ngos(id),
-    amount      INTEGER,
-    accepted    BOOLEAN NOT NULL,
-    created_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    id              SERIAL PRIMARY KEY,
+    sender_id       INTEGER NOT NULL REFERENCES users(id),
+    ngo_id          INTEGER NOT NULL REFERENCES ngos(id),
+    amount          INTEGER,
+    accepted        BOOLEAN NOT NULL,
+    receiver_name   VARCHAR(255),
+    receiver_email  VARCHAR(255),
+    card_message    VARCHAR,
+    card_id         VARCHAR(255),
+    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 -- -- ALTER TABLE

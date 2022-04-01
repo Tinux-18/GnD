@@ -81,13 +81,13 @@ exports.getDonationsForNgo = (ngo_id, limit) =>
                 amount, 
                 accepted,
                 donations.created_at, 
-                user_id,
+                sender_id,
                 first, 
                 last, 
                 email 
         FROM donations
         LEFT OUTER JOIN users
-        ON user_id = users.id
+        ON sender_id = users.id
         WHERE ngo_id = $1
         ORDER BY id DESC 
         LIMIT $2
@@ -187,12 +187,39 @@ exports.addNgoProfileBasic = (
         ]
     );
 
-exports.addDonation = (user_id, ngo_id, amount, accepted) =>
+exports.addDonation = (
+    sender_id,
+    ngo_id,
+    amount,
+    accepted,
+    receiver_name,
+    receiver_email,
+    card_id,
+    card_message
+) =>
     db.query(
         `
-        INSERT INTO donations (user_id, ngo_id, amount, accepted)
-        VALUES ($1, $2, $3, $4)`,
-        [user_id, ngo_id, amount, accepted]
+        INSERT INTO donations (
+            sender_id, 
+            ngo_id, 
+            amount, 
+            accepted, 
+            receiver_name, 
+            receiver_email, 
+            card_id, 
+            card_message
+        )
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)`,
+        [
+            sender_id,
+            ngo_id,
+            amount,
+            accepted,
+            receiver_name,
+            receiver_email,
+            card_id,
+            card_message,
+        ]
     );
 
 exports.addMessage = (user_id, message) =>
@@ -322,12 +349,12 @@ exports.removeDonationByNgoId = (id) =>
         [id]
     );
 
-exports.removeDonationByUserId = (id) =>
+exports.removeDonationByUserId = (sender_id) =>
     db.query(
         `
         DELETE FROM donations
-        WHERE user_id = $1`,
-        [id]
+        WHERE sender_id = $1`,
+        [sender_id]
     );
 
 exports.removeNgo = (representative_user_id) =>

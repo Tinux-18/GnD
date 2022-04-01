@@ -9,7 +9,7 @@ export default function Logo() {
                 ></img>
             </a>
             <a href="/">
-                <h1 className="welcome-link">Dar din Dar</h1>
+                <h1 className="welcome-link">Gifts that keep on giving</h1>
             </a>
         </div>
     );

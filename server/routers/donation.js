@@ -30,4 +30,40 @@ donationRouter.post("/donation/update-donation-status.json", (req, res) => {
         });
 });
 
+donationRouter.post("/donation/make-donation.json", (req, res) => {
+    for (const key in req.body) {
+        if (Object.hasOwnProperty.call(req.body, key)) {
+            if (req.body[key] === "") {
+                req.body[key] = null;
+            }
+        }
+    }
+
+    let dbQueryInput = {
+        sender_id: req.session.userId,
+        ngo_id: null,
+        amount: null,
+        accepted: true,
+        receiver_name: null,
+        receiver_email: null,
+        card_id: null,
+        card_message: null,
+        ...req.body,
+    };
+
+    if (dbQueryInput.amount > 100) {
+        dbQueryInput.accepted = "false";
+    }
+    console.log("object :>> ", dbQueryInput);
+
+    db.addDonation(...Object.values(dbQueryInput))
+        .then(() => {
+            res.status("200");
+            res.json({ success: true });
+        })
+        .catch((err) => {
+            console.log(`acceptDonation failed with: ${err}`);
+            return res.sendStatus(500);
+        });
+});
 module.exports = donationRouter;
