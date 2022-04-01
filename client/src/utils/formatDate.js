@@ -13,7 +13,7 @@ exports.formatDate = (sqlDate) => {
     return dateObj.toLocaleString().replace(",", " at");
 };
 
-exports.formatDateToInput = (sqlDate) => {
+exports.formatDateForInputPopulation = (sqlDate) => {
     let dateParams = sqlDate.replace("T", " ").replace("Z", "").split(/[- :]/);
     return `${dateParams[0]}-${dateParams[1]}-${dateParams[2]}`;
 };

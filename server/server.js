@@ -7,12 +7,12 @@ const logger = require("morgan");
 // Import local modules
 
 const userProfileRouter = require("./routers/user_profile");
-const otherProfileRouter = require("./routers/other_profile");
+const donationRouter = require("./routers/donation");
 const uploadRouter = require("./routers/upload");
 const ngoRouter = require("./routers/ngo");
 const authRouter = require("./routers/auth");
 const { xFrameHeader } = require("./middleware/x_frame");
-const cookieSessionConfig = require("./utils/cookieSession");
+const cookieSessionConfig = require("./utils/cookie_session_configurator");
 // Server set-up
 const express = require("express");
 const app = express();
@@ -76,7 +76,7 @@ io.use(function (socket, next) {
 
 app.use([
     userProfileRouter,
-    otherProfileRouter,
+    donationRouter,
     uploadRouter,
     ngoRouter,
     authRouter,

@@ -10,7 +10,9 @@ export default function NgoRegistrationDocuments(props) {
     useEffect(async () => {
         let abort;
 
-        const data = props.ngoProfile;
+        const data = await fetch("/ngo/profile.json").then((response) =>
+            response.json()
+        );
 
         if (!abort) {
             if (data) {
@@ -45,6 +47,7 @@ export default function NgoRegistrationDocuments(props) {
                 .then((res) => res.json())
                 .then(() => {
                     setClear(!clear);
+                    location.reload();
                 })
                 .catch((err) => {
                     console.log(`fetch upload data failed with: ${err}`);

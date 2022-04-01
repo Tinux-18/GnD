@@ -1,7 +1,7 @@
 const express = require("express");
 const authRouter = express.Router();
 const db = require("../sql/db");
-const { generateRandomString } = require("../utils/generateRandomString");
+const { generateRandomString } = require("../utils/random_string_generator");
 const { sendEmail } = require("../middleware/aws");
 const { hash, compare } = require("../utils/bc");
 const redis = require("redis");

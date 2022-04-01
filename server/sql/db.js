@@ -73,17 +73,26 @@ exports.getFriendshipBetweenTwoUsers = (sender_id, recipient_id) =>
         [sender_id, recipient_id]
     );
 
-exports.getFriendRequestsForUser = (sender_id) =>
+exports.getDonationsForNgo = (ngo_id, limit) =>
     db.query(
         `
-        SELECT users.id, first, last, image, accepted
-        FROM friendship_requests
-        JOIN users
-        ON (accepted = false AND recipient_id = $1 AND sender_id = users.id)
-        OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
-        OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)
+        SELECT 
+                donations.id,  
+                amount, 
+                accepted,
+                donations.created_at, 
+                user_id,
+                first, 
+                last, 
+                email 
+        FROM donations
+        LEFT OUTER JOIN users
+        ON user_id = users.id
+        WHERE ngo_id = $1
+        ORDER BY id DESC 
+        LIMIT $2
         `,
-        [sender_id]
+        [ngo_id, limit]
     );
 
 exports.getNgoProfileByUser = (user_id) =>
@@ -178,13 +187,12 @@ exports.addNgoProfileBasic = (
         ]
     );
 
-exports.addFriendship = (sender_id, recipient_id, acceptance_status) =>
+exports.addDonation = (user_id, ngo_id, amount, accepted) =>
     db.query(
         `
-        INSERT INTO friendship_requests (sender_id, recipient_id, accepted)
-        VALUES ($1, $2, $3)
-        RETURNING accepted`,
-        [sender_id, recipient_id, acceptance_status]
+        INSERT INTO donations (user_id, ngo_id, amount, accepted)
+        VALUES ($1, $2, $3, $4)`,
+        [user_id, ngo_id, amount, accepted]
     );
 
 exports.addMessage = (user_id, message) =>
@@ -276,6 +284,60 @@ exports.updateRegistrationStatus = (
         [representative_user_id, registration_complete]
     );
 
+exports.updatePassword = (user_id, password) =>
+    db.query(
+        `
+        UPDATE users
+        SET password = $1
+        WHERE id = $2
+        RETURNING email`,
+        [password, user_id]
+    );
+
+exports.acceptDonation = (id) =>
+    db.query(
+        `
+        UPDATE donations
+        SET accepted = true
+        WHERE id = $1
+        RETURNING accepted;`,
+        [id]
+    );
+
+//Delete Rows
+
+exports.removeDonationById = (id) =>
+    db.query(
+        `
+        DELETE FROM donations
+        WHERE id = $1`,
+        [id]
+    );
+
+exports.removeDonationByNgoId = (id) =>
+    db.query(
+        `
+        DELETE FROM donations
+        WHERE ngo_id = $1`,
+        [id]
+    );
+
+exports.removeDonationByUserId = (id) =>
+    db.query(
+        `
+        DELETE FROM donations
+        WHERE user_id = $1`,
+        [id]
+    );
+
+exports.removeNgo = (representative_user_id) =>
+    db.query(
+        `
+        DELETE FROM ngos
+        WHERE representative_user_id = $1`,
+        [representative_user_id]
+    );
+
 exports.deleteDocument = (representative_user_id, documentType) => {
     if (documentType == "statute") {
         return db.query(
@@ -307,33 +369,3 @@ exports.deleteDocument = (representative_user_id, documentType) => {
         );
     }
 };
-
-exports.updatePassword = (user_id, password) =>
-    db.query(
-        `
-        UPDATE users
-        SET password = $1
-        WHERE id = $2
-        RETURNING email`,
-        [password, user_id]
-    );
-
-exports.confirmFriendRequest = (sender_id, recipient_id) =>
-    db.query(
-        `
-        UPDATE friendship_requests
-        SET accepted = true
-        WHERE (sender_id = $1 AND recipient_id = $2) or (recipient_id = $1 AND sender_id = $2)
-        RETURNING accepted;`,
-        [sender_id, recipient_id]
-    );
-
-//Delete Rows
-
-exports.removeNgo = (representative_user_id) =>
-    db.query(
-        `
-        DELETE FROM ngos
-        WHERE representative_user_id = $1`,
-        [representative_user_id]
-    );

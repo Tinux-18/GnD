@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useStatefulFields } from "../hooks/update_stateful_fields ";
 import { validateInput } from "../hooks/validate_input";
-import { formatDateToInput } from "../utils/formatDate";
+import { formatDateForInputPopulation } from "../utils/formatDate";
 
 export default function NgoRegistrationLegal(props) {
     const [generalError, setGeneralError] = useState(false);
@@ -188,7 +188,7 @@ export default function NgoRegistrationLegal(props) {
                     id="founding_date"
                     value={
                         fields.founding_date
-                            ? formatDateToInput(fields.founding_date)
+                            ? formatDateForInputPopulation(fields.founding_date)
                             : ""
                     }
                     type="date"
