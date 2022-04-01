@@ -16,9 +16,8 @@ export default function NgoRegistrationLegal(props) {
     useEffect(async () => {
         let abort;
 
-        const ngoProfile = await fetch("/ngo/profile.json").then((response) =>
-            response.json()
-        );
+        const ngoProfile = props.ngoProfile;
+
         if (!abort) {
             if (ngoProfile) {
                 updateAll({

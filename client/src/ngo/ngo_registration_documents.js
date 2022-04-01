@@ -10,16 +10,14 @@ export default function NgoRegistrationDocuments(props) {
     useEffect(async () => {
         let abort;
 
-        const data = await fetch("/ngo/profile.json").then((response) =>
-            response.json()
-        );
+        const data = props.ngoProfile;
 
         if (!abort) {
-            if (data.rows) {
+            if (data) {
                 setFileLinks({
-                    statute: data.rows.statute,
-                    representativeId: data.rows.representative_id,
-                    logo: data.rows.logo,
+                    statute: data.statute,
+                    representativeId: data.representative_id,
+                    logo: data.logo,
                 });
             }
         }

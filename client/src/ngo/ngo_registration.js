@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { receiveNgoProfile } from "../redux/ngo/slice";
 import NgoRegistrationBasic from "./ngo_registration_basic";
 import NgoRegistrationLegal from "./ngo_registration_legal";
 import NgoRegistrationDocuments from "./ngo_registration_documents";
@@ -8,10 +10,14 @@ import ProfilePic from "../general/profile_pic";
 export default function NgoRegistration() {
     const [generalError, setGeneralError] = useState(false);
     const [subForm, setSubForm] = useState();
+    const dispatch = useDispatch();
+    const ngoProfile = useSelector((state) => state.ngo);
 
     useEffect(async () => {
         console.log("Ngo registration mounted");
         let abort;
+
+        dispatch(receiveNgoProfile());
 
         if (subForm) {
             fetch("/ngo/store-registration-part.json", {
@@ -42,6 +48,10 @@ export default function NgoRegistration() {
         };
     }, [subForm]);
 
+    if (!ngoProfile) {
+        return null;
+    }
+
     return (
         <>
             <nav className="nav">
@@ -64,17 +74,20 @@ export default function NgoRegistration() {
                 {subForm == 1 && (
                     <NgoRegistrationBasic
                         nextSubform={() => setSubForm(subForm + 1)}
+                        ngoProfile={ngoProfile}
                     />
                 )}
                 {subForm == 2 && (
                     <NgoRegistrationLegal
                         nextSubform={() => setSubForm(subForm + 1)}
                         prevSubform={() => setSubForm(subForm - 1)}
+                        ngoProfile={ngoProfile}
                     />
                 )}
                 {subForm == 3 && (
                     <NgoRegistrationDocuments
                         prevSubform={() => setSubForm(subForm - 1)}
+                        ngoProfile={ngoProfile}
                     />
                 )}
             </div>
