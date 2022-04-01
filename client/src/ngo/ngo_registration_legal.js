@@ -16,22 +16,22 @@ export default function NgoRegistrationLegal(props) {
     useEffect(async () => {
         let abort;
 
+        const ngoProfile = await fetch("/ngo/profile.json").then((response) =>
+            response.json()
+        );
         if (!abort) {
-            const data = await fetch("/ngo/profile.json").then((response) =>
-                response.json()
-            );
-            if (data.rows[0]) {
+            if (ngoProfile) {
                 updateAll({
-                    legal_name: data.rows[0].legal_name,
-                    registration_number: data.rows[0].registration_number,
-                    county: data.rows[0].county,
-                    street: data.rows[0].street,
-                    extra_address: data.rows[0].extra_address,
-                    founding_date: data.rows[0].founding_date,
-                    funds: data.rows[0].funds,
-                    bank: data.rows[0].bank,
-                    iban: data.rows[0].iban,
-                    bic: data.rows[0].bic,
+                    legal_name: ngoProfile.legal_name,
+                    registration_number: ngoProfile.registration_number,
+                    county: ngoProfile.county,
+                    street: ngoProfile.street,
+                    extra_address: ngoProfile.extra_address,
+                    founding_date: ngoProfile.founding_date,
+                    funds: ngoProfile.funds,
+                    bank: ngoProfile.bank,
+                    iban: ngoProfile.iban,
+                    bic: ngoProfile.bic,
                 });
             }
         }

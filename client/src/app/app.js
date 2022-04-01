@@ -10,6 +10,8 @@ import Uploader from "../general/uploader";
 import Cards from "./cards";
 import Auth from "../auth/auth";
 import NgoArea from "../ngo/ngo_area";
+import NgoRegistration from "../ngo/ngo_registration";
+import ShoppingForm from "./shopping_form";
 
 export default function App() {
     const dispatch = useDispatch();
@@ -62,11 +64,14 @@ export default function App() {
                 <Route path="/auth">
                     <Auth />
                 </Route>
-                <Route path="/password-reset">
-                    <Auth />
-                </Route>
                 <Route path="/ngo-area">
                     <NgoArea />
+                </Route>
+                <Route path="/ngo-registration">
+                    <NgoRegistration />
+                </Route>
+                <Route path="/shopping/:card">
+                    <ShoppingForm />
                 </Route>
             </BrowserRouter>
             <Footer />

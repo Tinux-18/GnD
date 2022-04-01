@@ -100,9 +100,6 @@ export default function LogIn() {
                         }}
                     ></input>
                 </div>
-                <Link to="/password-reset" className="welcome-link">
-                    Reset your password
-                </Link>
             </form>
         </>
     );

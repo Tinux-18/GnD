@@ -127,7 +127,6 @@ authRouter.post("/user/reset-password.json", async (req, res) => {
 
 authRouter.post("/user/update-password.json", async (req, res) => {
     let { userId, email, password, code } = req.body;
-
     let redisCode = await redisClient.get(email).catch((err) => {
         console.log(`getting value from redis failed with: ${err}`);
         return res.sendStatus(500);

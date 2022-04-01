@@ -347,3 +347,16 @@ footer {
 footer p {
     margin: 20px;
 }
+
+menu {
+    width: 30vw;
+    align-self: flex-start;
+}
+
+.ngo-area {
+    display: flex;
+}
+
+.ngo-area__main {
+    width: 70vw;
+}

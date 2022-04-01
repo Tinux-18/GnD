@@ -10,10 +10,10 @@ export default function Cards() {
                 <h2>Choose a card and make a gift that matters</h2>
             </div>
             <div className="welcome" id="cards">
-                <a href="#">
+                <a href="/shopping/:chirstmas">
                     <img alt="christmas card" src="/cards/christmas.jpg" />
                 </a>
-                <a href="#">
+                <a href="/shopping/:thank-you">
                     <img alt="thank you card" src="cards/thank-you.webp" />
                 </a>
             </div>

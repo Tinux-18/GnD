@@ -6,7 +6,7 @@ ngoRouter.get("/ngo/profile.json", async (req, res) => {
     db.getNgoProfileByUser(req.session.userId)
         .then(({ rows }) => {
             res.status("200");
-            res.json({ rows });
+            res.json({ ...rows[0] });
         })
         .catch((err) => {
             console.log(`getFriendRequestsForUser failed with: ${err}`);

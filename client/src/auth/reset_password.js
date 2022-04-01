@@ -7,6 +7,7 @@ export default function ResetPass() {
         pass1: "",
         code: "",
     });
+    const [userId, setUserId] = useState();
     const [showPassResetForm, setShowPassResetForm] = useState(false);
     const [generalError, setGeneralError] = useState(false);
     const [showSuccess, setShowSuccess] = useState(false);
@@ -30,7 +31,7 @@ export default function ResetPass() {
             })
                 .then((res) => res.json())
                 .then((postResponse) => {
-                    updateUserId(postResponse.userId);
+                    setUserId(postResponse.userId);
                     setShowPassResetForm(postResponse.success);
                 })
                 .catch((err) => {
@@ -50,7 +51,7 @@ export default function ResetPass() {
                     "Content-type": "application/json; charset=UTF-8",
                 },
                 body: JSON.stringify({
-                    userId: fields.userId,
+                    userId: userId,
                     email: fields.email,
                     password: fields.pass1,
                     code: fields.code,
@@ -97,7 +98,6 @@ export default function ResetPass() {
                 maxLength="255"
                 placeholder="saf3234f"
                 onChange={inputUpdate}
-                required
             ></input>
             <label htmlFor="pass1">Enter a new password</label>
             <input
@@ -117,8 +117,7 @@ export default function ResetPass() {
 
     const successMessage = (
         <>
-            <h2>Success!!!</h2>
-            <a href="/auth">Log in</a>
+            <h2 style={{ "align-self": "center" }}>Success!!!</h2>
         </>
     );
 
@@ -131,7 +130,8 @@ export default function ResetPass() {
                 {generalError && (
                     <h3 id="error">Something went wrong. Please try again!</h3>
                 )}
-                {showPassResetForm ? resetPasswordForm : sendRequestForm}
+                {showPassResetForm && !showSuccess && resetPasswordForm}
+                {!showPassResetForm && !showSuccess && sendRequestForm}
                 {showSuccess && successMessage}
             </form>
         </>

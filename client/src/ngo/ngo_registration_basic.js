@@ -1,26 +1,29 @@
 import { useState, useEffect } from "react";
 import { useStatefulFields } from "../hooks/update_stateful_fields ";
 import { validateInput } from "../hooks/validate_input";
+import { useDispatch, useSelector } from "react-redux";
 
 export default function NgoRegistrationBasic(props) {
     const [generalError, setGeneralError] = useState(false);
     const [inputErrors, setInputErrors] = useState([]);
     const [fields, inputUpdate, updateAll] = useStatefulFields({});
+    const dispatch = useDispatch();
+    const ngoProfile = useSelector((state) => state.ngo);
 
     useEffect(async () => {
         const data = await fetch("/ngo/profile.json").then((response) =>
             response.json()
         );
 
-        if (data.rows[0]) {
+        if (data) {
             updateAll({
-                display_name: data.rows[0].display_name,
-                description: data.rows[0].description,
-                facebook: data.rows[0].facebook,
-                website: data.rows[0].website,
-                contact_email: data.rows[0].contact_email,
-                instagram: data.rows[0].instagram,
-                tiktok: data.rows[0].tiktok,
+                display_name: data.display_name,
+                description: data.description,
+                facebook: data.facebook,
+                website: data.website,
+                contact_email: data.contact_email,
+                instagram: data.instagram,
+                tiktok: data.tiktok,
             });
         }
     }, []);

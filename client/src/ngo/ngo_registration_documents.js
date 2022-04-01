@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
-import { validateInput } from "../hooks/validate_input";
 import { useStatefulFiles } from "../hooks/update_stateful_files";
 
 export default function NgoRegistrationDocuments(props) {
     const [generalError, setGeneralError] = useState(false);
-    const [inputErrors, setInputErrors] = useState([]);
     const [fields, fileUpdate] = useStatefulFiles({});
     const [fileLinks, setFileLinks] = useState({});
     const [clear, setClear] = useState(false);
@@ -12,18 +10,20 @@ export default function NgoRegistrationDocuments(props) {
     useEffect(async () => {
         let abort;
 
+        const data = await fetch("/ngo/profile.json").then((response) =>
+            response.json()
+        );
+
         if (!abort) {
-            const data = await fetch("/ngo/profile.json").then((response) =>
-                response.json()
-            );
-            if (data.rows[0]) {
+            if (data.rows) {
                 setFileLinks({
-                    statute: data.rows[0].statute,
-                    representativeId: data.rows[0].representative_id,
-                    logo: data.rows[0].logo,
+                    statute: data.rows.statute,
+                    representativeId: data.rows.representative_id,
+                    logo: data.rows.logo,
                 });
             }
         }
+
         return () => {
             abort = true;
         };
@@ -31,7 +31,6 @@ export default function NgoRegistrationDocuments(props) {
 
     function handleUpload(e) {
         e.preventDefault();
-
 
         if (Object.values(fields).length !== 0) {
             const fd = new FormData();
@@ -81,10 +80,7 @@ export default function NgoRegistrationDocuments(props) {
                 <label htmlFor="registration-form">
                     <h3>Part 3: Uploads</h3>
                 </label>
-                {inputErrors.length != 0 && (
-                    <h3 id="error">Please fill in the required fields</h3>
-                )}
-                {generalError && inputErrors.length == 0 && (
+                {generalError && (
                     <h3 id="error">Something went wrong. Please try again!</h3>
                 )}
                 {fileLinks.statute ? (
@@ -255,15 +251,6 @@ export default function NgoRegistrationDocuments(props) {
                     </button>
                     <button onClick={handleUpload}>Upload</button>
                 </div>
-                <input
-                    type="reset"
-                    value="Reset"
-                    onClick={() => {
-                        setInputErrors([]);
-                        setGeneralError(false);
-                        setClear(true);
-                    }}
-                ></input>
             </form>
         </div>
     );
