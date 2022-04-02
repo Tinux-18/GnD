@@ -2,6 +2,17 @@ const express = require("express");
 const ngoRouter = express.Router();
 const db = require("../sql/db");
 
+ngoRouter.get("/ngo/all-names.json", async (req, res) => {
+    db.getNgos()
+        .then(({ rows }) => {
+            res.status("200");
+            res.json(rows);
+        })
+        .catch((err) => {
+            console.log(`getNgos failed with: ${err}`);
+        });
+});
+
 ngoRouter.get("/ngo/profile.json", async (req, res) => {
     db.getNgoProfileByUser(req.session.userId)
         .then(({ rows }) => {

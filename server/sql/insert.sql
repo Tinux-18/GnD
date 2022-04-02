@@ -26,11 +26,11 @@
 
 
 INSERT INTO donations (user_id, ngo_id, amount, accepted)
-VALUES  (2, 29, 5, 'true'),
-        (2, 29, 10, 'true'),
-        (2, 29, 20, 'true'),
-        (2, 29, 30, 'true'),
-        (2, 29, 10, 'true'),
-        (2, 29, 100, 'true'),
-        (2, 29, 110, 'false')
+VALUES  (2, 37, 5, 'true'),
+        (2, 37, 10, 'true'),
+        (2, 37, 20, 'true'),
+        (2, 37, 30, 'true'),
+        (2, 37, 10, 'true'),
+        (2, 37, 100, 'true'),
+        (2, 37, 110, 'false')
 ;

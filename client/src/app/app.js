@@ -64,9 +64,9 @@ export default function App() {
                 <Route path="/ngo-area">
                     <NgoArea />
                 </Route>
-                <Route path="/ngo-registration">
+                {/* <Route path="/ngo-registration">
                     <NgoRegistration />
-                </Route>
+                </Route> */}
                 <Route path="/shopping/:card">
                     {app.isUserLoggedIn ? <ShoppingForm /> : <Auth />}
                 </Route>

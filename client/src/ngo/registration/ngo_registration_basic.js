@@ -13,15 +13,25 @@ export default function NgoRegistrationBasic(props) {
 
     const handleNext = (e) => {
         e.preventDefault();
+
+        const requiredFields = {
+            display_name: fields.display_name,
+            description: fields.description,
+            facebook: fields.facebook,
+        };
+
         setInputErrors([]);
         useInputErrors(
-            ["display_name", "description", "facebook"],
-            fields,
+            Object.keys(requiredFields),
+            requiredFields,
             setInputErrors
         );
 
-        console.log("fields :>> ", fields);
-        if (fields.display_name && fields.description && fields.facebook) {
+        let noEmptyFields = !Object.values(requiredFields).some(
+            (field) => !field
+        );
+
+        if (noEmptyFields) {
             fetch("/ngo/upsert-profile.json", {
                 method: "POST",
                 headers: {

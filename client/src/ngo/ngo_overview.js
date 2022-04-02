@@ -146,6 +146,9 @@ export default function NgoOverview() {
                 ) : (
                     <h4>No donations for now</h4>
                 )}
+                {!ngoProfile.display_name && (
+                    <h4>Register your orgnisations to receive some</h4>
+                )}
             </Styles>
         </div>
     );

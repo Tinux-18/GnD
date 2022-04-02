@@ -3,7 +3,11 @@ import { useStatefulFields } from "../../hooks/update_stateful_fields";
 import { useInputErrors } from "../../hooks/validate_input";
 import { formatDateForInputPopulation } from "../../utils/formatDate";
 
-export default function NgoRegistrationLegal(props) {
+export default function NgoRegistrationLegal({
+    ngoProfile,
+    nextSubform,
+    prevSubform,
+}) {
     const [generalError, setGeneralError] = useState(false);
     const [inputErrors, setInputErrors] = useState([]);
     const [fields, inputUpdate, updateAll] = useStatefulFields({});
@@ -15,8 +19,6 @@ export default function NgoRegistrationLegal(props) {
 
     useEffect(async () => {
         let abort;
-
-        const ngoProfile = props.ngoProfile;
 
         if (!abort) {
             if (ngoProfile) {
@@ -45,8 +47,9 @@ export default function NgoRegistrationLegal(props) {
         const requiredFields = { ...fields };
         delete requiredFields.extra_address;
         let noEmptyFields = !Object.values(requiredFields).some(
-            (field) => field.length == 0
+            (field) => !field
         );
+
         setInputErrors([]);
         useInputErrors(
             Object.keys(requiredFields),
@@ -69,7 +72,7 @@ export default function NgoRegistrationLegal(props) {
                 .then((res) => res.json())
                 .then((postResponse) => {
                     if (postResponse.success) {
-                        props.nextSubform();
+                        nextSubform();
                     } else {
                         setGeneralError(true);
                     }
@@ -276,7 +279,7 @@ export default function NgoRegistrationLegal(props) {
                 <div className="buttons">
                     <button
                         onClick={() => {
-                            props.prevSubform();
+                            prevSubform();
                         }}
                     >
                         Previous

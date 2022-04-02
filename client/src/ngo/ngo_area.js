@@ -21,6 +21,41 @@ export default function NgoArea() {
         return null;
     }
 
+    const sideMenu = (
+        <menu>
+            <h3>Registration status</h3>
+            {!ngoProfile.display_name && (
+                <h3 style={{ color: "#dc4c3f" }}>Not started</h3>
+            )}
+            {ngoProfile.registration_complete == false && (
+                <h3 style={{ color: "#86C1E3" }}>Incomplete</h3>
+            )}
+            {ngoProfile.verified == false &&
+                ngoProfile.registration_complete && (
+                    <h3 style={{ color: "orange" }}>Pending Verification</h3>
+                )}
+            {ngoProfile.verified && ngoProfile.registration_complete && (
+                <h3 style={{ color: "#61b99a" }}>Verified</h3>
+            )}
+            <h3
+                className="welcome-link"
+                onClick={() => {
+                    setShowNgoRegistration(true);
+                }}
+            >
+                Edit Profile
+            </h3>
+            <h3
+                className="welcome-link"
+                onClick={() => {
+                    setShowNgoRegistration(false);
+                }}
+            >
+                Admin Portal
+            </h3>
+        </menu>
+    );
+
     return (
         <>
             <nav className="nav">
@@ -28,54 +63,20 @@ export default function NgoArea() {
                 <div className="nav-right">
                     <a href="/">Home</a>
                     <a href="/logout">Logout</a>
+                    <img
+                        src={
+                            ngoProfile.logo
+                                ? ngoProfile.logo
+                                : "/default_logo.png"
+                        }
+                        className="profile-pic"
+                    ></img>
                 </div>
             </nav>
             <div className="ngo-area">
-                {ngoProfile.display_name && (
-                    <menu>
-                        <img
-                            src={
-                                ngoProfile.logo
-                                    ? ngoProfile.logo
-                                    : "/default_logo.png"
-                            }
-                            className="profile-pic"
-                        ></img>
-                        <h3>Registration status</h3>
-                        {ngoProfile.registration_complete == false && (
-                            <h3 style={{ color: "#86C1E3" }}>Incomplete</h3>
-                        )}
-                        {ngoProfile.verified == false &&
-                            ngoProfile.registration_complete && (
-                                <h3 style={{ color: "orange" }}>
-                                    Pending Verification
-                                </h3>
-                            )}
-                        {ngoProfile.verified &&
-                            ngoProfile.registration_complete && (
-                                <h3 style={{ color: "#61b99a" }}>Verified</h3>
-                            )}
-                        <h3
-                            className="welcome-link"
-                            onClick={() => {
-                                setShowNgoRegistration(true);
-                            }}
-                        >
-                            Edit Profile
-                        </h3>
-                        <h3
-                            className="welcome-link"
-                            onClick={() => {
-                                setShowNgoRegistration(false);
-                            }}
-                        >
-                            Admin Portal
-                        </h3>
-                    </menu>
-                )}
-
+                {sideMenu}
                 <div className="ngo-area__main">
-                    {ngoProfile.logo && !showNgoRegistration ? (
+                    {!showNgoRegistration ? (
                         <NgoOverview />
                     ) : (
                         <NgoRegistration />

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Logo from "../general/logo";
 import { useParams } from "react-router";
 import { useStatefulFields } from "../hooks/update_stateful_fields";
@@ -13,12 +13,31 @@ export default function ShoppingForm() {
     const [fields, inputUpdate] = useStatefulFields({});
     const [inputErrors, setInputErrors] = useState([]);
     const [showForm, setShowForm] = useState(true);
+    const [ngos, setNgos] = useState();
+
+    useEffect(async () => {
+        const data = await fetch("/ngo/all-names.json").then((res) =>
+            res.json()
+        );
+        console.log("ngos :>> ", data);
+        setNgos(data);
+    }, []);
 
     const handleSubmit = (e) => {
         e.preventDefault();
+        let ngoId;
+
+        for (const ngo in ngos) {
+            if (Object.hasOwnProperty.call(ngos, ngo)) {
+                if (ngos[ngo].display_name == fields.ngo) {
+                    ngoId = ngos[ngo].id;
+                }
+            }
+        }
         const requiredFields = {
             receiver_email: fields.receiver_email,
             amount: fields.amount,
+            ngo: fields.ngo,
         };
 
         let noEmptyFields = !Object.values(requiredFields).some(
@@ -32,13 +51,14 @@ export default function ShoppingForm() {
             setInputErrors
         );
 
+        console.log("fields :>> ", fields);
         if (noEmptyFields) {
             fetch("/donation/make-donation.json", {
                 method: "POST",
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
                 },
-                body: JSON.stringify({ ...fields, card: card, ngo_id: 29 }), // hardcoded NGO
+                body: JSON.stringify({ ...fields, card: card, ngo_id: ngoId }),
             })
                 .then((res) => res.json())
                 .then((postResponse) => {
@@ -112,6 +132,25 @@ export default function ShoppingForm() {
                             : "white",
                     }}
                 ></input>
+                <label htmlFor="ngo">Organisation</label>
+                <input
+                    type="text"
+                    name="ngo"
+                    id="ngo"
+                    list="ngos"
+                    onChange={inputUpdate}
+                />
+                <datalist id="ngos">
+                    {ngos &&
+                        ngos.map((ngo) => {
+                            return (
+                                <option
+                                    key={ngo.id}
+                                    value={ngo.display_name}
+                                ></option>
+                            );
+                        })}
+                </datalist>
                 <div className="buttons">
                     <button onClick={handleSubmit}>Purchase</button>
                     <input

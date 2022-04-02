@@ -33,6 +33,43 @@ exports.getUsers = (input) => {
     }
 };
 
+exports.getNgos = (input) => {
+    if (!isNaN(input)) {
+        // input is a number, expecting NGO ID
+        return db.query(
+            `
+        SELECT * FROM ngos
+        WHERE id = $1`,
+            [input]
+        );
+    } else if (typeof input === "string") {
+        // input is text, expecting email
+        return db.query(
+            `
+        SELECT * FROM ngos
+        WHERE id = $1`,
+            [input]
+        );
+    } else {
+        // input is undefined, returning all ngos
+        return db.query(
+            `
+        SELECT display_name, id FROM ngos
+        `
+        );
+    }
+};
+
+exports.getNgoProfileByUser = (user_id) =>
+    db.query(
+        `
+        SELECT *
+        FROM ngos
+        WHERE representative_user_id = $1
+        `,
+        [user_id]
+    );
+
 exports.getDonationsForNgo = (ngo_id, limit) =>
     db.query(
         `
@@ -54,17 +91,6 @@ exports.getDonationsForNgo = (ngo_id, limit) =>
         `,
         [ngo_id, limit]
     );
-
-exports.getNgoProfileByUser = (user_id) =>
-    db.query(
-        `
-        SELECT *
-        FROM ngos
-        WHERE representative_user_id = $1
-        `,
-        [user_id]
-    );
-
 //Insert Rows
 
 exports.addUser = (role, first, last, email, password) =>
