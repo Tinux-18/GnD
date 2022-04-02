@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import { useStatefulFields } from "../hooks/update_stateful_fields ";
 import { validateInput } from "../hooks/validate_input";
 
@@ -192,7 +191,6 @@ export default function SignIn() {
                             setInputErrors([]);
                             setGeneralError(false);
                             setpassError(false);
-                            setCheckError(false);
                         }}
                     ></input>
                 </div>

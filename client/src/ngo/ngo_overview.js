@@ -79,65 +79,74 @@ export default function NgoOverview() {
             }
         }
     `;
+    const table = (
+        <>
+            <h3>Donation overview</h3>
+            {generalError && (
+                <h3 id="error">Something went wrong. Please try again!</h3>
+            )}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Accept</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {donations &&
+                        donations.map((donation, key) => {
+                            return (
+                                <tr key={key}>
+                                    <td>{donation.created_at}</td>
+                                    <td>{donation.amount}</td>
+                                    <td>{donation.status}</td>
+                                    <td>{donation.donnor_name}</td>
+                                    <td>{donation.email}</td>
+                                    <td>
+                                        {!donation.accepted ? (
+                                            <input
+                                                type="checkbox"
+                                                id={donation.id}
+                                                name="accept-donation"
+                                                onChange={handleClick}
+                                                defaultChecked={
+                                                    donation.accepted
+                                                }
+                                            ></input>
+                                        ) : (
+                                            <input
+                                                type="checkbox"
+                                                id={donation.id}
+                                                name="accept-donation"
+                                                checked={true}
+                                                readOnly={true}
+                                            ></input>
+                                        )}
+                                    </td>
+                                </tr>
+                            );
+                        })}
+                </tbody>
+            </table>
+            <button onClick={expandDonations}>See all</button>
+        </>
+    );
     return (
         <div className="ngo-area__main">
             <section>
                 <h2>{ngoProfile.display_name}</h2>
-                <h3>Donation overview</h3>
-                {generalError && (
-                    <h3 id="error">Something went wrong. Please try again!</h3>
-                )}
             </section>
             <Styles>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Amount</th>
-                            <th>Status</th>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Accept</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {donations &&
-                            donations.map((donation, key) => {
-                                return (
-                                    <tr key={key}>
-                                        <td>{donation.created_at}</td>
-                                        <td>{donation.amount}</td>
-                                        <td>{donation.status}</td>
-                                        <td>{donation.donnor_name}</td>
-                                        <td>{donation.email}</td>
-                                        <td>
-                                            {!donation.accepted ? (
-                                                <input
-                                                    type="checkbox"
-                                                    id={donation.id}
-                                                    name="accept-donation"
-                                                    onChange={handleClick}
-                                                    defaultChecked={
-                                                        donation.accepted
-                                                    }
-                                                ></input>
-                                            ) : (
-                                                <input
-                                                    type="checkbox"
-                                                    id={donation.id}
-                                                    name="accept-donation"
-                                                    checked={true}
-                                                    readOnly={true}
-                                                ></input>
-                                            )}
-                                        </td>
-                                    </tr>
-                                );
-                            })}
-                    </tbody>
-                </table>
+                {donations && donations.length != 0 ? (
+                    table
+                ) : (
+                    <h4>No donations for now</h4>
+                )}
             </Styles>
-            <button onClick={expandDonations}>See all</button>
         </div>
     );
 }

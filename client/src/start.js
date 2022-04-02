@@ -6,11 +6,9 @@ import * as immutableState from "redux-immutable-state-invariant";
 import { composeWithDevTools } from "redux-devtools-extension";
 import thunk from "redux-thunk";
 import reducer from "./redux/reducer.js";
-import { init } from "./utils/socket.js";
 
 // Import components
 import ReactDOM from "react-dom";
-import Auth from "./auth/auth";
 import App from "./app/app";
 
 // Redux set-up

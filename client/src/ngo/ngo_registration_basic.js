@@ -20,6 +20,7 @@ export default function NgoRegistrationBasic(props) {
             setInputErrors
         );
 
+        console.log("fields :>> ", fields);
         if (fields.display_name && fields.description && fields.facebook) {
             fetch("/ngo/upsert-profile.json", {
                 method: "POST",

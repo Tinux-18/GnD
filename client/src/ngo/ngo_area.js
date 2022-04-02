@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { receiveNgoProfile } from "../redux/ngo/slice";
 import Logo from "../general/logo";
-import ProfilePic from "../general/profile_pic";
 import NgoRegistration from "./ngo_registration";
 import NgoOverview from "./ngo_overview";
 
@@ -29,14 +28,17 @@ export default function NgoArea() {
                 <div className="nav-right">
                     <a href="/">Home</a>
                     <a href="/logout">Logout</a>
-                    <ProfilePic />
                 </div>
             </nav>
             <div className="ngo-area">
                 {ngoProfile.display_name && (
                     <menu>
                         <img
-                            src={ngoProfile.logo}
+                            src={
+                                ngoProfile.logo
+                                    ? ngoProfile.logo
+                                    : "/default_logo.png"
+                            }
                             className="profile-pic"
                         ></img>
                         <h3>Registration status</h3>
@@ -73,7 +75,7 @@ export default function NgoArea() {
                 )}
 
                 <div className="ngo-area__main">
-                    {ngoProfile.display_name && !showNgoRegistration ? (
+                    {ngoProfile.logo && !showNgoRegistration ? (
                         <NgoOverview />
                     ) : (
                         <NgoRegistration />

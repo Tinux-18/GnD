@@ -2,7 +2,7 @@ import { useStatefulFields } from "../hooks/update_stateful_fields ";
 import { useState, useEffect } from "react";
 
 export default function ResetPass() {
-    const [fields, inputUpdate, updateUserId] = useStatefulFields({
+    const [fields, inputUpdate] = useStatefulFields({
         email: "",
         pass1: "",
         code: "",

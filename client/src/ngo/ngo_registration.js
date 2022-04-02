@@ -4,8 +4,6 @@ import { receiveNgoProfile } from "../redux/ngo/slice";
 import NgoRegistrationBasic from "./ngo_registration_basic";
 import NgoRegistrationLegal from "./ngo_registration_legal";
 import NgoRegistrationDocuments from "./ngo_registration_documents";
-import Logo from "../general/logo";
-import ProfilePic from "../general/profile_pic";
 
 export default function NgoRegistration() {
     const [generalError, setGeneralError] = useState(false);

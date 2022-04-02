@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Logo from "../general/logo";
-import ProfilePic from "../general/profile_pic";
 import { useParams } from "react-router";
 import { useStatefulFields } from "../hooks/update_stateful_fields ";
 import { validateInput } from "../hooks/validate_input";
@@ -9,7 +8,7 @@ export default function ShoppingForm() {
     const { card: rawCard } = useParams();
     let card = rawCard.replace(":", "").split(".")[0];
     let cardSrc = "/cards/" + rawCard.replace(":", "");
-    console.log("cardSrc :>> ", card);
+
     const [generalError, setGeneralError] = useState(false);
     const [fields, inputUpdate] = useStatefulFields({});
     const [inputErrors, setInputErrors] = useState([]);
@@ -22,7 +21,6 @@ export default function ShoppingForm() {
             amount: fields.amount,
         };
 
-        console.log("reqiuredFields :>> ", requiredFields);
         let noEmptyFields = !Object.values(requiredFields).some(
             (field) => !field
         );
@@ -40,7 +38,7 @@ export default function ShoppingForm() {
                 headers: {
                     "Content-type": "application/json; charset=UTF-8",
                 },
-                body: JSON.stringify({ ...fields, card: card, ngo_id: 29 }),
+                body: JSON.stringify({ ...fields, card: card, ngo_id: 29 }), // hardcoded NGO
             })
                 .then((res) => res.json())
                 .then((postResponse) => {
@@ -120,7 +118,7 @@ export default function ShoppingForm() {
                         type="reset"
                         value="Clear"
                         onClick={() => {
-                            setInputError(false);
+                            setInputErrors([]);
                             setGeneralError(false);
                         }}
                     ></input>
@@ -144,7 +142,6 @@ export default function ShoppingForm() {
                 <Logo />
                 <div className="nav-right">
                     <a href="/logout">Logout</a>
-                    <ProfilePic />
                 </div>
             </nav>
             <div className="welcome">{showForm ? donationForm : success}</div>

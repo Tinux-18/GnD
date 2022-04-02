@@ -1,4 +1,3 @@
-import { BrowserRouter, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 import Logo from "../general/logo.js";

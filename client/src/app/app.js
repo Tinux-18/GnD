@@ -5,8 +5,6 @@ import { receiveProfile } from "../redux/app/slice";
 
 import Logo from "../general/logo";
 import Footer from "../general/footer";
-import ProfilePic from "../general/profile_pic";
-import Uploader from "../general/uploader";
 import Cards from "./cards";
 import Auth from "../auth/auth";
 import NgoArea from "../ngo/ngo_area";
@@ -37,7 +35,6 @@ export default function App() {
                 </Link>
             )}
             <a href="/logout">Logout</a>
-            <ProfilePic />
         </>
     );
 
@@ -71,7 +68,7 @@ export default function App() {
                     <NgoRegistration />
                 </Route>
                 <Route path="/shopping/:card">
-                    <ShoppingForm />
+                    {app.isUserLoggedIn ? <ShoppingForm /> : <Auth />}
                 </Route>
             </BrowserRouter>
             <Footer />
