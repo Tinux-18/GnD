@@ -76,10 +76,10 @@ export default function NgoArea() {
             <div className="ngo-area">
                 {sideMenu}
                 <div className="ngo-area__main">
-                    {!showNgoRegistration ? (
-                        <NgoOverview />
-                    ) : (
+                    {showNgoRegistration ? (
                         <NgoRegistration />
+                    ) : (
+                        <NgoOverview />
                     )}
                 </div>
             </div>

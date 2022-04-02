@@ -19,7 +19,6 @@ export default function ShoppingForm() {
         const data = await fetch("/ngo/all-names.json").then((res) =>
             res.json()
         );
-        console.log("ngos :>> ", data);
         setNgos(data);
     }, []);
 
