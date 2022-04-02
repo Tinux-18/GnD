@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { useStatefulFields } from "../hooks/update_stateful_fields ";
-import { validateInput } from "../hooks/validate_input";
-import { formatDateForInputPopulation } from "../utils/formatDate";
+import { useStatefulFields } from "../../hooks/update_stateful_fields";
+import { useInputErrors } from "../../hooks/validate_input";
+import { formatDateForInputPopulation } from "../../utils/formatDate";
 
 export default function NgoRegistrationLegal(props) {
     const [generalError, setGeneralError] = useState(false);
@@ -48,7 +48,7 @@ export default function NgoRegistrationLegal(props) {
             (field) => field.length == 0
         );
         setInputErrors([]);
-        validateInput(
+        useInputErrors(
             Object.keys(requiredFields),
             requiredFields,
             setInputErrors

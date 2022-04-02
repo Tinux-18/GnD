@@ -33,46 +33,6 @@ exports.getUsers = (input) => {
     }
 };
 
-exports.getLatestUsers = (limit, pattern) => {
-    if (pattern) {
-        return db.query(
-            `
-    SELECT id, first, last, bio, image FROM users
-    WHERE (first ILIKE $2 or last ILIKE $2) 
-    ORDER BY id DESC 
-    LIMIT $1`,
-            [limit, pattern + "%"]
-        );
-    } else {
-        return db.query(
-            `
-    SELECT id, first, last, bio, image FROM users
-    ORDER BY id DESC 
-    LIMIT $1`,
-            [limit]
-        );
-    }
-};
-
-exports.getProfilePics = (userId) => {
-    if (userId) {
-        return db.query(
-            "SELECT * FROM profile_pics WHERE user_id = ($1) ORDER BY id DESC",
-            [userId]
-        );
-    } else {
-        return db.query("SELECT * FROM profile_pics");
-    }
-};
-
-exports.getFriendshipBetweenTwoUsers = (sender_id, recipient_id) =>
-    db.query(
-        `
-        SELECT * FROM friendship_requests
-        WHERE (sender_id = $1 AND recipient_id = $2) or (sender_id = $2 AND recipient_id = $1)`,
-        [sender_id, recipient_id]
-    );
-
 exports.getDonationsForNgo = (ngo_id, limit) =>
     db.query(
         `
@@ -104,31 +64,6 @@ exports.getNgoProfileByUser = (user_id) =>
         `,
         [user_id]
     );
-
-exports.getMessages = (limit, id) => {
-    if (id) {
-        return db.query(
-            `
-        SELECT chat_messages.id, message, chat_messages.created_at, user_id, first, last, image FROM chat_messages 
-        LEFT OUTER JOIN users
-        ON user_id = users.id
-        WHERE chat_messages.id = $2
-        ORDER BY chat_messages.id DESC
-        LIMIT $1`,
-            [limit, id]
-        );
-    } else {
-        return db.query(
-            `
-        SELECT chat_messages.id, message, chat_messages.created_at, user_id, first, last, image FROM chat_messages 
-        LEFT OUTER JOIN users
-        ON user_id = users.id
-        ORDER BY chat_messages.id DESC
-        LIMIT $1`,
-            [limit]
-        );
-    }
-};
 
 //Insert Rows
 
@@ -222,23 +157,7 @@ exports.addDonation = (
         ]
     );
 
-exports.addMessage = (user_id, message) =>
-    db.query(
-        "INSERT INTO chat_messages (user_id, message) VALUES ($1, $2) RETURNING *",
-        [user_id, message]
-    );
-
 //Update Rows
-
-exports.updateProfilePic = (user_id, url) =>
-    db.query(
-        `
-        UPDATE users
-        SET image = $1
-        WHERE id = $2
-        RETURNING image`,
-        [url, user_id]
-    );
 
 exports.updateNgoProfileLegal = (
     representative_user_id,

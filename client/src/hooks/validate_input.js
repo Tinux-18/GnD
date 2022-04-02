@@ -1,4 +1,4 @@
-export function validateInput(requiredFields, values, setInputErrors) {
+export function useInputErrors(requiredFields, values, setInputErrors) {
     setInputErrors([]);
     let inputErrors = [];
     Object.entries(values).forEach(([key, value]) => {

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useStatefulFiles } from "../hooks/update_stateful_files";
+import { useStatefulFiles } from "../../hooks/update_stateful_files";
 
 export default function NgoRegistrationDocuments(props) {
     const [generalError, setGeneralError] = useState(false);

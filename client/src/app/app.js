@@ -8,7 +8,7 @@ import Footer from "../general/footer";
 import Cards from "./cards";
 import Auth from "../auth/auth";
 import NgoArea from "../ngo/ngo_area";
-import NgoRegistration from "../ngo/ngo_registration";
+import NgoRegistration from "../ngo/registration/ngo_registration";
 import ShoppingForm from "./shopping_form";
 
 export default function App() {

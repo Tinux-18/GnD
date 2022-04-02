@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useStatefulFields } from "../hooks/update_stateful_fields ";
-import { validateInput } from "../hooks/validate_input";
+import { useStatefulFields } from "../../hooks/update_stateful_fields";
+import { useInputErrors } from "../../hooks/validate_input";
 
 export default function NgoRegistrationBasic(props) {
     const [generalError, setGeneralError] = useState(false);
@@ -14,7 +14,7 @@ export default function NgoRegistrationBasic(props) {
     const handleNext = (e) => {
         e.preventDefault();
         setInputErrors([]);
-        validateInput(
+        useInputErrors(
             ["display_name", "description", "facebook"],
             fields,
             setInputErrors

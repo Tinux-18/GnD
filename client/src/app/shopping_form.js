@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Logo from "../general/logo";
 import { useParams } from "react-router";
-import { useStatefulFields } from "../hooks/update_stateful_fields ";
-import { validateInput } from "../hooks/validate_input";
+import { useStatefulFields } from "../hooks/update_stateful_fields";
+import { useInputErrors } from "../hooks/validate_input";
 
 export default function ShoppingForm() {
     const { card: rawCard } = useParams();
@@ -26,7 +26,7 @@ export default function ShoppingForm() {
         );
 
         setInputErrors([]);
-        validateInput(
+        useInputErrors(
             Object.keys(requiredFields),
             requiredFields,
             setInputErrors

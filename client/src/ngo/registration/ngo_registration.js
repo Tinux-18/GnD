@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { receiveNgoProfile } from "../redux/ngo/slice";
+import { receiveNgoProfile } from "../../redux/ngo/slice";
 import NgoRegistrationBasic from "./ngo_registration_basic";
 import NgoRegistrationLegal from "./ngo_registration_legal";
 import NgoRegistrationDocuments from "./ngo_registration_documents";

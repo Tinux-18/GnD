@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { receiveNgoProfile } from "../redux/ngo/slice";
 import Logo from "../general/logo";
-import NgoRegistration from "./ngo_registration";
+import NgoRegistration from "./registration/ngo_registration";
 import NgoOverview from "./ngo_overview";
 
 export default function NgoArea() {

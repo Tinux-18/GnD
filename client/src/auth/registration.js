@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import { useStatefulFields } from "../hooks/update_stateful_fields ";
-import { validateInput } from "../hooks/validate_input";
+import { useStatefulFields } from "../hooks/update_stateful_fields";
+import { useInputErrors } from "../hooks/validate_input";
 
 export default function SignIn() {
     const [generalError, setGeneralError] = useState(false);
@@ -39,7 +39,7 @@ export default function SignIn() {
     const handleSubmit = (e) => {
         e.preventDefault();
         setInputErrors([]);
-        validateInput(
+        useInputErrors(
             ["first", "second", "email", "pass1"],
             fields,
             setInputErrors
