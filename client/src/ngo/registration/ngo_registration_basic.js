@@ -57,7 +57,7 @@ export default function NgoRegistrationBasic(props) {
     };
 
     return (
-        <div className="welcome">
+        <div className="form" id="registration-basic">
             <form id="registration-form" className="form">
                 <label htmlFor="registration-form">
                     <h3>Part 1: Essential information</h3>
@@ -112,45 +112,55 @@ export default function NgoRegistrationBasic(props) {
                         backgroundColor: "white",
                     }}
                 ></input>
-                <label htmlFor="facebook">Facebook</label>
-                <input
-                    name="facebook"
-                    id="facebook"
-                    type="text"
-                    value={fields.facebook ? fields.facebook : ""}
-                    placeholder="@code4romania"
-                    required
-                    onChange={inputUpdate}
-                    style={{
-                        backgroundColor: inputErrors.includes("facebook")
-                            ? "#ffafcc"
-                            : "white",
-                    }}
-                ></input>
-                <label htmlFor="instagram">Instagram</label>
-                <input
-                    name="instagram"
-                    id="instagram"
-                    type="text"
-                    placeholder="@code4romania"
-                    value={fields.instagram ? fields.instagram : ""}
-                    onChange={inputUpdate}
-                    style={{
-                        backgroundColor: "white",
-                    }}
-                ></input>
-                <label htmlFor="tiktok">TikTok</label>
-                <input
-                    name="tiktok"
-                    id="tiktok"
-                    type="text"
-                    placeholder="@code4romania"
-                    value={fields.tiktok ? fields.tiktok : ""}
-                    onChange={inputUpdate}
-                    style={{
-                        backgroundColor: "white",
-                    }}
-                ></input>
+                <div id="social-media">
+                    <div>
+                        <label htmlFor="facebook">Facebook</label>
+                        <input
+                            name="facebook"
+                            id="facebook"
+                            type="text"
+                            value={fields.facebook ? fields.facebook : ""}
+                            placeholder="@code4romania"
+                            required
+                            onChange={inputUpdate}
+                            style={{
+                                backgroundColor: inputErrors.includes(
+                                    "facebook"
+                                )
+                                    ? "#ffafcc"
+                                    : "white",
+                            }}
+                        ></input>
+                    </div>
+                    <div>
+                        <label htmlFor="instagram">Instagram</label>
+                        <input
+                            name="instagram"
+                            id="instagram"
+                            type="text"
+                            placeholder="@code4romania"
+                            value={fields.instagram ? fields.instagram : ""}
+                            onChange={inputUpdate}
+                            style={{
+                                backgroundColor: "white",
+                            }}
+                        ></input>
+                    </div>
+                    <div>
+                        <label htmlFor="tiktok">TikTok</label>
+                        <input
+                            name="tiktok"
+                            id="tiktok"
+                            type="text"
+                            placeholder="@code4romania"
+                            value={fields.tiktok ? fields.tiktok : ""}
+                            onChange={inputUpdate}
+                            style={{
+                                backgroundColor: "white",
+                            }}
+                        ></input>
+                    </div>
+                </div>
                 <label htmlFor="description">Description</label>
                 <textarea
                     id="description"
@@ -165,16 +175,20 @@ export default function NgoRegistrationBasic(props) {
                     }}
                 ></textarea>
                 <div className="buttons">
-                    <button onClick={handleNext}>Next</button>
+                    <div className="buttons">
+                        <button onClick={handleNext} type="submit">
+                            Next
+                        </button>
+                        <input
+                            type="reset"
+                            value="Reset"
+                            onClick={() => {
+                                setInputErrors([]);
+                                setGeneralError(false);
+                            }}
+                        ></input>
+                    </div>
                 </div>
-                <input
-                    type="reset"
-                    value="Reset"
-                    onClick={() => {
-                        setInputErrors([]);
-                        setGeneralError(false);
-                    }}
-                ></input>
             </form>
         </div>
     );

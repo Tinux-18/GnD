@@ -52,21 +52,7 @@ export default function NgoRegistration() {
 
     return (
         <>
-            <div className="welcome form">
-                {ngoProfile.display_name ? (
-                    <h2 onClick={() => setSubForm(1)}>Edit your profile</h2>
-                ) : (
-                    <>
-                        <h2 onClick={() => setSubForm(1)}>
-                            Register your organisation
-                        </h2>
-
-                        <p className="note">
-                            Please fill in the four sections of our form
-                        </p>
-                    </>
-                )}
-
+            <div className="form-style-5">
                 {generalError && (
                     <h3 id="error">Something went wrong. Please try again!</h3>
                 )}

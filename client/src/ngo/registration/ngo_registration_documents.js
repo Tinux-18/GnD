@@ -86,7 +86,7 @@ export default function NgoRegistrationDocuments(props) {
                 )}
                 {fileLinks.statute ? (
                     <>
-                        <div className="buttons">
+                        <div className="upload-box">
                             <a
                                 id="file-link"
                                 href={fileLinks.statute}
@@ -95,17 +95,17 @@ export default function NgoRegistrationDocuments(props) {
                             >
                                 Current statute
                             </a>
-                            <div className="buttons">
+                            <div>
                                 <input
                                     className="file"
                                     type="file"
                                     name="statute"
-                                    id="statute"
+                                    id="file-update"
                                     accept="application/pdf"
                                     required
                                     onChange={fileUpdate}
                                 />
-                                <label htmlFor="statute" id="file-label">
+                                <label htmlFor="file-update" id="file-label">
                                     Update
                                 </label>
                             </div>
@@ -140,7 +140,7 @@ export default function NgoRegistrationDocuments(props) {
 
                 {fileLinks.representativeId ? (
                     <>
-                        <div className="buttons">
+                        <div className="upload-box">
                             <a
                                 id="file-link"
                                 href={fileLinks.representativeId}
@@ -149,7 +149,7 @@ export default function NgoRegistrationDocuments(props) {
                             >
                                 Current ID
                             </a>
-                            <div className="buttons">
+                            <div>
                                 <input
                                     className="file"
                                     type="file"
@@ -193,7 +193,7 @@ export default function NgoRegistrationDocuments(props) {
 
                 {fileLinks.logo ? (
                     <>
-                        <div className="buttons">
+                        <div className="upload-box">
                             <a
                                 id="file-link"
                                 href={fileLinks.logo}
@@ -202,7 +202,7 @@ export default function NgoRegistrationDocuments(props) {
                             >
                                 Logo
                             </a>
-                            <div className="buttons">
+                            <div>
                                 <input
                                     className="file"
                                     type="file"
@@ -244,13 +244,16 @@ export default function NgoRegistrationDocuments(props) {
                 )}
                 <div className="buttons">
                     <button
+                        type="submit"
                         onClick={() => {
                             props.prevSubform();
                         }}
                     >
                         Previous
                     </button>
-                    <button onClick={handleUpload}>Upload</button>
+                    <button type="submit" onClick={handleUpload}>
+                        Upload
+                    </button>
                 </div>
             </form>
         </div>

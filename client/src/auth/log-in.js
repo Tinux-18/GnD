@@ -91,7 +91,7 @@ export default function LogIn() {
                                 : "white",
                         }}
                     ></input>
-                    <div className="buttons">
+                    <div className="login-buttons">
                         <button onClick={handleSubmit} type="submit">
                             Log in
                         </button>

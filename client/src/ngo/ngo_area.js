@@ -8,7 +8,7 @@ import NgoOverview from "./ngo_overview";
 export default function NgoArea() {
     const dispatch = useDispatch();
     const ngoProfile = useSelector((state) => state.ngo);
-    const [showNgoRegistration, setShowNgoRegistration] = useState(false);
+    const [showNgoRegistration, setShowNgoRegistration] = useState(true);
 
     useEffect(() => {
         console.log("NGO area mounted");
@@ -39,12 +39,19 @@ export default function NgoArea() {
             )}
             <h3
                 className="welcome-link"
+                id="edit-profile"
                 onClick={() => {
                     setShowNgoRegistration(true);
                 }}
             >
                 Edit Profile
             </h3>
+            {showNgoRegistration ? (
+                <div className="selector"></div>
+            ) : (
+                <div className="no-selector"></div>
+            )}
+
             <h3
                 className="welcome-link"
                 onClick={() => {
@@ -53,6 +60,11 @@ export default function NgoArea() {
             >
                 Admin Portal
             </h3>
+            {!showNgoRegistration ? (
+                <div className="selector"></div>
+            ) : (
+                <div className="no-selector"></div>
+            )}
         </menu>
     );
 

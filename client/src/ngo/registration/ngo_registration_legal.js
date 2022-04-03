@@ -263,7 +263,10 @@ export default function NgoRegistrationLegal({
                             : "white",
                     }}
                 ></input>
-                <div>
+                <div className="checkbox-div">
+                    <label htmlFor="legalRepresentativeCheck">
+                        I am one of the legal representatives.
+                    </label>
                     <input
                         type="checkbox"
                         id="legalRepresentativeCheck"
@@ -272,30 +275,30 @@ export default function NgoRegistrationLegal({
                             setLegalRepresentativeCheck(e.target.checked)
                         }
                     ></input>
-                    <label htmlFor="legalRepresentativeCheck">
-                        I am one of the legal representatives.
-                    </label>
                 </div>
                 <div className="buttons">
                     <button
+                        type="submit"
                         onClick={() => {
                             prevSubform();
                         }}
                     >
                         Previous
                     </button>
-                    <button onClick={handleNext}>Next</button>
+                    <input
+                        type="reset"
+                        value="Reset"
+                        onClick={() => {
+                            setInputErrors([]);
+                            setGeneralError(false);
+                            setLegalRepresentativeError(false);
+                            setClear(true);
+                        }}
+                    ></input>
+                    <button onClick={handleNext} type="submit">
+                        Next
+                    </button>
                 </div>
-                <input
-                    type="reset"
-                    value="Reset"
-                    onClick={() => {
-                        setInputErrors([]);
-                        setGeneralError(false);
-                        setLegalRepresentativeError(false);
-                        setClear(true);
-                    }}
-                ></input>
             </form>
         </div>
     );
