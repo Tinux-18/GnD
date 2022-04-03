@@ -46,7 +46,7 @@ export default function Auth() {
             <nav className="nav">
                 <Logo />
             </nav>
-            <div className="welcome">
+            <div className="welcome auth">
                 {showPassReset ? passReset : login}
                 <div className="welcome__line"></div>
                 <Registration />

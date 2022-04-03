@@ -13,8 +13,8 @@ export default function Cards() {
                 <a href="/shopping/:christmas.jpg">
                     <img alt="christmas card" src="/cards/christmas.jpg" />
                 </a>
-                <a href="/shopping/:thank-you.webp">
-                    <img alt="thank you card" src="cards/thank-you.webp" />
+                <a href="/shopping/:thank-you.jpg">
+                    <img alt="thank you card" src="cards/thank-you.jpg" />
                 </a>
             </div>
         </>

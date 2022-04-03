@@ -1,9 +1,14 @@
 body {
-    background-color: #f6fbef;
-    font-family: "Fredoka", sans-serif;
+    background-color: #f6fbdd;
+    font-family: "Josefin Sans", sans-serif;
     margin: 0;
     display: flex;
     justify-content: center;
+}
+
+main {
+    position: relative;
+    height: 100vh;
 }
 
 .welcome {
@@ -17,9 +22,6 @@ body {
     margin: 0;
 }
 
-#cards {
-    height: 50vh;
-}
 .welcome__line {
     height: 410px;
     border-left: 2px solid #6d6e71;
@@ -37,10 +39,14 @@ body {
 }
 
 .welcome img {
-    width: 380px;
-    height: 260px;
+    width: 410px;
+    height: 270px;
+    box-shadow: 5px 5px 15px 5px grey;
 }
 
+.auth {
+    padding: 50px;
+}
 form,
 .form {
     display: flex;
@@ -77,8 +83,7 @@ form h2,
     width: 80px;
 }
 
-nav,
-footer {
+nav {
     height: 90px;
     width: 100vw;
     display: flex;
@@ -86,7 +91,7 @@ footer {
     align-items: center;
     gap: 15px;
     align-self: flex-start;
-    background-color: #86c1e3;
+    background-color: #9ccde9;
 }
 
 .welcome_message {
@@ -94,7 +99,7 @@ footer {
     width: 100vw;
     display: flex;
     align-items: center;
-    background-color: #61b99a;
+    color: #539e83;
     justify-content: center;
 }
 
@@ -103,7 +108,7 @@ footer {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding-right: 15px;
+    padding-right: 40px;
 }
 
 .nav-left {
@@ -117,13 +122,14 @@ footer {
 .nav-left a {
     color: #363435;
     text-decoration: none;
+    font-weight: bolder;
 }
 
 nav .logo,
 .profile-pic {
     width: 80px;
     height: 80px;
-    padding: 15px;
+    padding: 40px;
     overflow: hidden;
 }
 
@@ -343,6 +349,14 @@ nav .logo,
 
 footer {
     height: 40px;
+    width: 100vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    background-color: #9ccde9;
+    position: absolute;
+    bottom: 0;
 }
 
 footer p {
