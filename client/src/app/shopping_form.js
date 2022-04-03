@@ -79,97 +79,110 @@ export default function ShoppingForm() {
     const donationForm = (
         <>
             <img alt="donation card" src={cardSrc} />
-            <div className="welcome form">
-                <h2>Complete your purchase</h2>
-                {inputErrors.length != 0 && (
-                    <h3 id="error">Please fill in the required fields</h3>
-                )}
-                {generalError && inputErrors.length == 0 && (
-                    <h3 id="error">Something went wrong. Please try again!</h3>
-                )}
-                <h3>Who are you giving to?</h3>
-                <label htmlFor="name">Name</label>
-                <input
-                    name="receiver_name"
-                    id="name"
-                    type="text"
-                    maxLength="255"
-                    placeholder="Mihaela Alexe"
-                    onChange={inputUpdate}
-                ></input>
-                <label htmlFor="email">Email</label>
-                <input
-                    name="receiver_email"
-                    id="email"
-                    type="email"
-                    maxLength="255"
-                    placeholder="mihaela.alexe@aol.com"
-                    onChange={inputUpdate}
-                    style={{
-                        backgroundColor: inputErrors.includes("receiver_email")
-                            ? "#ffafcc"
-                            : "white",
-                    }}
-                ></input>
-                <label htmlFor="message">Your message</label>
-                <textarea
-                    id="message"
-                    name="card_message"
-                    className="bio-input"
-                    onChange={inputUpdate}
-                ></textarea>
-                <label htmlFor="amount">Amount</label>
-                <input
-                    name="amount"
-                    id="amount"
-                    type="number"
-                    placeholder="20€"
-                    onChange={inputUpdate}
-                    style={{
-                        backgroundColor: inputErrors.includes("amount")
-                            ? "#ffafcc"
-                            : "white",
-                    }}
-                ></input>
-                <label htmlFor="ngo">Organisation</label>
-                <input
-                    type="text"
-                    name="ngo"
-                    id="ngo"
-                    list="ngos"
-                    onChange={inputUpdate}
-                />
-                <datalist id="ngos">
-                    {ngos &&
-                        ngos.map((ngo) => {
-                            return (
-                                <option
-                                    key={ngo.id}
-                                    value={ngo.display_name}
-                                ></option>
-                            );
-                        })}
-                </datalist>
-                <div className="buttons">
-                    <button onClick={handleSubmit}>Purchase</button>
+            <div className="form-style-5">
+                <form className="form">
+                    <h2>Complete your purchase</h2>
+                    {inputErrors.length != 0 && (
+                        <h3 id="error">Please fill in the required fields</h3>
+                    )}
+                    {generalError && inputErrors.length == 0 && (
+                        <h3 id="error">
+                            Something went wrong. Please try again!
+                        </h3>
+                    )}
+                    <h3>Who are you giving to?</h3>
+                    <label htmlFor="name">Name</label>
                     <input
-                        type="reset"
-                        value="Clear"
-                        onClick={() => {
-                            setInputErrors([]);
-                            setGeneralError(false);
+                        name="receiver_name"
+                        id="name"
+                        type="text"
+                        maxLength="255"
+                        placeholder="Mihaela Alexe"
+                        onChange={inputUpdate}
+                    ></input>
+                    <label htmlFor="email">Email</label>
+                    <input
+                        name="receiver_email"
+                        id="email"
+                        type="email"
+                        maxLength="255"
+                        placeholder="mihaela.alexe@aol.com"
+                        onChange={inputUpdate}
+                        style={{
+                            backgroundColor: inputErrors.includes(
+                                "receiver_email"
+                            )
+                                ? "#ffafcc"
+                                : "white",
                         }}
                     ></input>
-                </div>
+                    <label htmlFor="message">Your message</label>
+                    <textarea
+                        id="message"
+                        name="card_message"
+                        className="bio-input"
+                        onChange={inputUpdate}
+                    ></textarea>
+                    <label htmlFor="amount">Amount</label>
+                    <input
+                        name="amount"
+                        id="amount"
+                        type="number"
+                        placeholder="20€"
+                        onChange={inputUpdate}
+                        style={{
+                            backgroundColor: inputErrors.includes("amount")
+                                ? "#ffafcc"
+                                : "white",
+                        }}
+                    ></input>
+                    <label htmlFor="ngo">Organisation</label>
+                    <input
+                        type="text"
+                        name="ngo"
+                        id="ngo"
+                        list="ngos"
+                        onChange={inputUpdate}
+                        style={{
+                            backgroundColor: inputErrors.includes("ngo")
+                                ? "#ffafcc"
+                                : "white",
+                        }}
+                    />
+                    <datalist id="ngos">
+                        {ngos &&
+                            ngos.map((ngo) => {
+                                return (
+                                    <option
+                                        key={ngo.id}
+                                        value={ngo.display_name}
+                                    ></option>
+                                );
+                            })}
+                    </datalist>
+                    <div className="buttons">
+                        <button onClick={handleSubmit} type="submit">
+                            Purchase
+                        </button>
+                        <input
+                            type="reset"
+                            value="Clear"
+                            onClick={() => {
+                                setInputErrors([]);
+                                setGeneralError(false);
+                            }}
+                        ></input>
+                    </div>
+                </form>
             </div>
         </>
     );
 
     const success = (
         <div className="welcome form">
-            <h2>Thank for caring!</h2>
+            <h2 id="thank-you-4-caring">Thank you for caring!</h2>
             <a href="/" className="welcome-link">
-                <h3>Make another pruchase</h3>
+                <h2>Make another pruchase</h2>
             </a>
         </div>
     );
