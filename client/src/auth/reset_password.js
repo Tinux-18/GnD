@@ -1,7 +1,7 @@
 import { useStatefulFields } from "../hooks/update_stateful_fields";
 import { useState, useEffect } from "react";
 
-export default function ResetPass() {
+export default function ResetPass({ showPassReset, setShowPassReset }) {
     const [fields, inputUpdate] = useStatefulFields({
         email: "",
         pass1: "",
@@ -72,6 +72,12 @@ export default function ResetPass() {
 
     const sendRequestForm = (
         <>
+            <label htmlFor="reset-password-form">
+                <h2>Reset your password</h2>
+            </label>
+            {generalError && (
+                <h3 id="error">Something went wrong. Please try again!</h3>
+            )}
             <label htmlFor="email">Email</label>
             <input
                 name="email"
@@ -82,7 +88,7 @@ export default function ResetPass() {
                 onChange={inputUpdate}
                 required
             ></input>
-            <button name="sendRequestForm" onClick={handleSubmit}>
+            <button name="sendRequestForm" onClick={handleSubmit} type="submit">
                 Submit
             </button>
         </>
@@ -90,6 +96,12 @@ export default function ResetPass() {
 
     const resetPasswordForm = (
         <>
+            <label htmlFor="reset-password-form">
+                <h2>Reset your password</h2>
+            </label>
+            {generalError && (
+                <h3 id="error">Something went wrong. Please try again!</h3>
+            )}
             <label htmlFor="code">Enter the code you received</label>
             <input
                 name="code"
@@ -109,7 +121,11 @@ export default function ResetPass() {
                 required
                 onChange={inputUpdate}
             ></input>
-            <button name="resetPasswordForm" onClick={handleSubmit}>
+            <button
+                name="resetPasswordForm"
+                onClick={handleSubmit}
+                type="submit"
+            >
                 Submit
             </button>
         </>
@@ -118,22 +134,27 @@ export default function ResetPass() {
     const successMessage = (
         <>
             <h2 style={{ "align-self": "center" }}>Success!!!</h2>
+            <a
+                href="#"
+                className="welcome-link"
+                onClick={() => {
+                    setShowPassReset(!showPassReset);
+                }}
+            >
+                <h3>Log in</h3>
+            </a>
         </>
     );
 
     return (
         <>
-            <form id="reset-password-form" className="form">
-                <label htmlFor="reset-password-form">
-                    <h2>Reset your password</h2>
-                </label>
-                {generalError && (
-                    <h3 id="error">Something went wrong. Please try again!</h3>
-                )}
-                {showPassResetForm && !showSuccess && resetPasswordForm}
-                {!showPassResetForm && !showSuccess && sendRequestForm}
-                {showSuccess && successMessage}
-            </form>
+            <div className="form-style-5">
+                <form id="reset-password-form" className="form">
+                    {showPassResetForm && !showSuccess && resetPasswordForm}
+                    {!showPassResetForm && !showSuccess && sendRequestForm}
+                    {showSuccess && successMessage}
+                </form>
+            </div>
         </>
     );
 }

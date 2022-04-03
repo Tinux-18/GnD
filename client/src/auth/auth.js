@@ -19,6 +19,7 @@ export default function Auth() {
             <a
                 href="#"
                 className="welcome-link"
+                id="reset-link"
                 onClick={() => {
                     setShowPassReset(!showPassReset);
                 }}
@@ -29,16 +30,10 @@ export default function Auth() {
     );
     const passReset = (
         <div className="form">
-            <ResetPass />
-            <a
-                href="#"
-                className="welcome-link"
-                onClick={() => {
-                    setShowPassReset(!showPassReset);
-                }}
-            >
-                Log in
-            </a>
+            <ResetPass
+                showPassReset={showPassReset}
+                setShowPassReset={setShowPassReset}
+            />
         </div>
     );
     return (

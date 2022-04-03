@@ -44,39 +44,12 @@ main {
     box-shadow: 5px 5px 15px 5px grey;
 }
 
-.auth {
-    padding: 50px;
-}
-form,
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.form .buttons {
-    display: flex;
-    gap: 10px;
-    align-self: center;
-}
-form h2,
-.welcome__banner {
-    color: #363435;
-}
-
-#error {
-    color: crimson;
-    width: 180px;
-    margin: 0;
-}
-
-#ngo-check {
-    margin-right: 10px;
-}
-
 .welcome-link {
     align-self: center;
     cursor: pointer;
+    text-decoration: none;
+    font-weight: bolder;
+    color: #363435;
 }
 
 .find-users {
@@ -402,4 +375,153 @@ menu {
 .hovertext:hover:before {
     opacity: 1;
     visibility: visible;
+}
+
+.auth {
+    padding: 10px;
+}
+
+form,
+.form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form .buttons {
+    display: flex;
+    align-self: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+#form-header {
+    color: #363435;
+    padding: 0;
+    padding-left: 10px;
+}
+
+#error {
+    color: crimson;
+    width: 180px;
+    margin: 0;
+}
+
+.form-style-5 {
+    max-width: 500px;
+    border-radius: 8px;
+    width: 280px;
+}
+.form-style-5 fieldset {
+    border: none;
+}
+.form-style-5 legend {
+    font-size: 1.4em;
+    margin-bottom: 10px;
+}
+.form-style-5 label {
+    display: block;
+    padding: 15px;
+    padding-left: 10px;
+}
+.form-style-5 input,
+.form-style-5 textarea,
+.form-style-5 select {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    margin: 0;
+    outline: 0;
+    padding: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    background-color: white;
+    color: #8a97a0;
+    -webkit-box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset;
+}
+
+.form-style-5 input:focus,
+.form-style-5 textarea:focus,
+.form-style-5 select:focus {
+    background: #d2d9dd;
+}
+.form-style-5 select {
+    -webkit-appearance: menulist-button;
+    height: 35px;
+}
+.form-style-5 .number {
+    background: #1abc9c;
+    color: #fff;
+    height: 30px;
+    width: 30px;
+    display: inline-block;
+    font-size: 0.8em;
+    margin-right: 4px;
+    line-height: 30px;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2);
+    border-radius: 15px 15px 15px 0px;
+}
+
+.form-style-5 button[type="submit"] {
+    position: relative;
+    display: block;
+    color: #fff;
+    margin: 0 auto;
+    background: #61b99a;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    border-width: 1px 1px 3px;
+    margin-bottom: 10px;
+    width: 90px;
+    border-radius: 4px;
+    border: none;
+}
+
+.form-style-5 input[type="reset"] {
+    position: relative;
+    display: block;
+    color: #fff;
+    margin: 0 auto;
+    background: #dc4c3f;
+    font-size: 18px;
+    text-align: center;
+    font-style: normal;
+    border-width: 1px 1px 3px;
+    margin-bottom: 10px;
+    width: 90px;
+}
+
+.form-style-5 input[type="submit"]:hover,
+.form-style-5 input[type="button"]:hover {
+    background: #109177;
+}
+
+.checkbox-div {
+    display: flex;
+    align-items: center;
+}
+
+.checkbox-div label {
+    width: 80%;
+    padding-right: 0;
+}
+
+#ngo-check {
+    margin-right: 10px;
+    width: 20%;
+    height: 18px;
+}
+
+#reset-link {
+    margin-top: 10px;
+}
+
+#reset-password-form button {
+    margin: 15px;
+    align-self: center;
 }

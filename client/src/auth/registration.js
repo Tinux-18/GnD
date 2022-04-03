@@ -81,120 +81,132 @@ export default function SignIn() {
 
     return (
         <>
-            <form id="registration-form" className="form">
-                <label htmlFor="registration-form">
-                    <h2>Register</h2>
-                </label>
-                {inputErrors.length != 0 && (
-                    <h3 id="error">Please fill in the required fields</h3>
-                )}
-                {generalError && inputErrors.length == 0 && (
-                    <h3 id="error">Something went wrong. Please try again!</h3>
-                )}
-                <label htmlFor="first">First name</label>
-                <input
-                    name="first"
-                    id="first"
-                    type="text"
-                    maxLength="255"
-                    placeholder="Mihaela"
-                    required
-                    onChange={inputUpdate}
-                    style={{
-                        backgroundColor: inputErrors.includes("first")
-                            ? "#ffafcc"
-                            : "white",
-                    }}
-                ></input>
-                <label htmlFor="second">Last name</label>
-                <input
-                    name="second"
-                    id="second"
-                    type="text"
-                    maxLength="255"
-                    placeholder="Drăgan"
-                    required
-                    onChange={inputUpdate}
-                    style={{
-                        backgroundColor: inputErrors.includes("second")
-                            ? "#ffafcc"
-                            : "white",
-                    }}
-                ></input>
-                <label htmlFor="email">Email</label>
-                <input
-                    name="email"
-                    id="registration_email"
-                    type="email"
-                    maxLength="255"
-                    placeholder="miha.dragan@tnb.ro"
-                    onChange={inputUpdate}
-                    required
-                    style={{
-                        backgroundColor: inputErrors.includes("email")
-                            ? "#ffafcc"
-                            : "white",
-                    }}
-                ></input>
-                {passError && <h4 id="error">Your passwords do not match</h4>}
-                <label htmlFor="pass1">Password</label>
-                <input
-                    name="pass1"
-                    id="registration_pass1"
-                    type="password"
-                    minLength="3"
-                    placeholder="***"
-                    required
-                    onChange={(e) => {
-                        inputUpdate(e);
-                        showConfirmPassword(e);
-                    }}
-                    style={{
-                        backgroundColor: inputErrors.includes("pass1")
-                            ? "#ffafcc"
-                            : "white",
-                    }}
-                ></input>
-                {showPasswordConfirmation && (
-                    <>
-                        <label htmlFor="pass2">Repeat Password</label>
-                        <input
-                            name="pass2"
-                            id="pass2"
-                            type={
-                                showPasswordConfirmation ? "password" : "hidden"
-                            }
-                            minLength="3"
-                            required
-                            onChange={inputUpdate}
-                            style={{
-                                backgroundColor: passError && "#ffafcc",
-                            }}
-                        ></input>
-                    </>
-                )}
-                <div>
+            <div className="form-style-5">
+                <form id="registration-form" className="form">
+                    <label htmlFor="registration-form" id="form-header">
+                        <h2>Register</h2>
+                    </label>
+                    {inputErrors.length != 0 && (
+                        <h3 id="error">Please fill in the required fields</h3>
+                    )}
+                    {generalError && inputErrors.length == 0 && (
+                        <h3 id="error">
+                            Something went wrong. Please try again!
+                        </h3>
+                    )}
+                    <label htmlFor="first">First name</label>
                     <input
-                        type="checkbox"
-                        id="ngo-check"
-                        name="ngoCheck"
-                        onChange={(e) => setNgoCheck(e.target.checked)}
-                    ></input>
-                    <label htmlFor="ngo-check">Also register a NGO</label>
-                </div>
-                <div className="buttons">
-                    <button onClick={handleSubmit}>Register</button>
-                    <input
-                        type="reset"
-                        value="Clear"
-                        onClick={() => {
-                            setInputErrors([]);
-                            setGeneralError(false);
-                            setpassError(false);
+                        name="first"
+                        id="first"
+                        type="text"
+                        maxLength="255"
+                        placeholder="Mihaela"
+                        required
+                        onChange={inputUpdate}
+                        style={{
+                            backgroundColor: inputErrors.includes("first")
+                                ? "#ffafcc"
+                                : "white",
                         }}
                     ></input>
-                </div>
-            </form>
+                    <label htmlFor="second">Last name</label>
+                    <input
+                        name="second"
+                        id="second"
+                        type="text"
+                        maxLength="255"
+                        placeholder="Drăgan"
+                        required
+                        onChange={inputUpdate}
+                        style={{
+                            backgroundColor: inputErrors.includes("second")
+                                ? "#ffafcc"
+                                : "white",
+                        }}
+                    ></input>
+                    <label htmlFor="email">Email</label>
+                    <input
+                        name="email"
+                        id="registration_email"
+                        type="email"
+                        maxLength="255"
+                        placeholder="miha.dragan@tnb.ro"
+                        onChange={inputUpdate}
+                        required
+                        style={{
+                            backgroundColor: inputErrors.includes("email")
+                                ? "#ffafcc"
+                                : "white",
+                        }}
+                    ></input>
+                    {passError && (
+                        <h4 id="error">Your passwords do not match</h4>
+                    )}
+                    <label htmlFor="pass1">Password</label>
+                    <input
+                        name="pass1"
+                        id="registration_pass1"
+                        type="password"
+                        minLength="3"
+                        placeholder="***"
+                        required
+                        onChange={(e) => {
+                            inputUpdate(e);
+                            showConfirmPassword(e);
+                        }}
+                        style={{
+                            backgroundColor: inputErrors.includes("pass1")
+                                ? "#ffafcc"
+                                : "white",
+                        }}
+                    ></input>
+                    {showPasswordConfirmation && (
+                        <>
+                            <label htmlFor="pass2">Repeat Password</label>
+                            <input
+                                name="pass2"
+                                id="pass2"
+                                type={
+                                    showPasswordConfirmation
+                                        ? "password"
+                                        : "hidden"
+                                }
+                                minLength="3"
+                                required
+                                onChange={inputUpdate}
+                                style={{
+                                    backgroundColor: passError && "#ffafcc",
+                                }}
+                            ></input>
+                        </>
+                    )}
+                    <div className="checkbox-div">
+                        <label htmlFor="ngo-check">
+                            Also register an organisation
+                        </label>
+                        <input
+                            type="checkbox"
+                            id="ngo-check"
+                            name="ngoCheck"
+                            onChange={(e) => setNgoCheck(e.target.checked)}
+                        ></input>
+                    </div>
+                    <div className="buttons">
+                        <button type="submit" onClick={handleSubmit}>
+                            Register
+                        </button>
+                        <input
+                            type="reset"
+                            value="Clear"
+                            onClick={() => {
+                                setInputErrors([]);
+                                setGeneralError(false);
+                                setpassError(false);
+                            }}
+                        ></input>
+                    </div>
+                </form>
+            </div>
         </>
     );
 }
