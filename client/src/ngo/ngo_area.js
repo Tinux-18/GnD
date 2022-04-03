@@ -8,7 +8,7 @@ import NgoOverview from "./ngo_overview";
 export default function NgoArea() {
     const dispatch = useDispatch();
     const ngoProfile = useSelector((state) => state.ngo);
-    const [showNgoRegistration, setShowNgoRegistration] = useState(true);
+    const [showNgoRegistration, setShowNgoRegistration] = useState(false);
 
     useEffect(() => {
         console.log("NGO area mounted");
@@ -37,6 +37,7 @@ export default function NgoArea() {
             {ngoProfile.verified && ngoProfile.registration_complete && (
                 <h3 style={{ color: "#61b99a" }}>Verified</h3>
             )}
+            <div className="no-selector"></div>
             <h3
                 className="welcome-link"
                 id="edit-profile"

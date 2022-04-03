@@ -8,16 +8,18 @@ export default function NgoOverview() {
     const [donations, setDonations] = useState();
     const [update, setUpdate] = useState(false);
     const [generalError, setGeneralError] = useState(false);
+    const [showExpandButton, setShowExpandButton] = useState(true);
+    const [sum, setSum] = useState();
 
     useEffect(async () => {
         const data = await fetch(
             `/donation/current-donations.json?ngo_id=${ngoProfile.id}&limit=5`
         ).then((response) => response.json());
         setDonations(data);
+        setSum(sumDonations(data));
     }, [update]);
 
     function handleClick({ target }) {
-        console.log("target :>> ", target.id);
         fetch("/donation/update-donation-status.json", {
             method: "POST",
             headers: {
@@ -48,37 +50,28 @@ export default function NgoOverview() {
             `/donation/current-donations.json?ngo_id=${ngoProfile.id}&limit=1000`
         ).then((response) => response.json());
         setDonations(data);
+        setSum(sumDonations(data));
+        setShowExpandButton(false);
+    }
+
+    function sumDonations(donations) {
+        let donationsSum = 0;
+        for (const donation in donations) {
+            if (Object.hasOwnProperty.call(donations, donation)) {
+                console.log(
+                    "donations[donation].amount :>> ",
+                    donations[donation].amount
+                );
+                donationsSum += parseInt(donations[donation].amount);
+            }
+        }
+        return donationsSum;
     }
 
     if (!ngoProfile && !donations) {
         return null;
     }
-    const Styles = styled.div`
-        table {
-            border-spacing: 0;
-            border: 1px solid black;
 
-            tr {
-                :last-child {
-                    td {
-                        border-bottom: 0;
-                    }
-                }
-            }
-
-            th,
-            td {
-                margin: 0;
-                padding: 0.5rem;
-                border-bottom: 1px solid black;
-                border-right: 1px solid black;
-
-                :last-child {
-                    border-right: 0;
-                }
-            }
-        }
-    `;
     const table = (
         <>
             <h3>Donation overview</h3>
@@ -102,7 +95,7 @@ export default function NgoOverview() {
                             return (
                                 <tr key={key}>
                                     <td>{donation.created_at}</td>
-                                    <td>{donation.amount}</td>
+                                    <td>€{donation.amount}</td>
                                     <td>{donation.status}</td>
                                     <td>{donation.donnor_name}</td>
                                     <td>{donation.email}</td>
@@ -130,9 +123,17 @@ export default function NgoOverview() {
                                 </tr>
                             );
                         })}
+                    <tr id="sum-row">
+                        <th>Sum</th>
+                        <th>€{sum}</th>
+                    </tr>
                 </tbody>
             </table>
-            <button onClick={expandDonations}>See all</button>
+            {showExpandButton && (
+                <button onClick={expandDonations} id="see-all">
+                    See all
+                </button>
+            )}
         </>
     );
     return (
@@ -140,16 +141,16 @@ export default function NgoOverview() {
             <section>
                 <h2>{ngoProfile.display_name}</h2>
             </section>
-            <Styles>
-                {donations && donations.length != 0 ? (
-                    table
-                ) : (
-                    <h4>No donations for now</h4>
-                )}
-                {!ngoProfile.display_name && (
-                    <h4>Register your orgnisations to receive some</h4>
-                )}
-            </Styles>
+            {donations && donations.length != 0 ? (
+                table
+            ) : (
+                <h4>No donations for now</h4>
+            )}
+            {!ngoProfile.display_name && (
+                <a href="#" className="welcome-link">
+                    <h4>Register your orgnisation to receive some</h4>
+                </a>
+            )}
         </div>
     );
 }
