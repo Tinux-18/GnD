@@ -138,9 +138,6 @@ export default function NgoOverview() {
     );
     return (
         <div className="ngo-area__main">
-            <section>
-                <h2>{ngoProfile.display_name}</h2>
-            </section>
             {donations && donations.length != 0 ? (
                 table
             ) : (

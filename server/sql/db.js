@@ -278,6 +278,14 @@ exports.acceptDonation = (id) =>
 
 //Delete Rows
 
+exports.removeUser = (id) =>
+    db.query(
+        `
+        DELETE FROM users
+        WHERE id = $1`,
+        [id]
+    );
+
 exports.removeDonationById = (id) =>
     db.query(
         `
@@ -302,7 +310,7 @@ exports.removeDonationByUserId = (sender_id) =>
         [sender_id]
     );
 
-exports.removeNgo = (representative_user_id) =>
+exports.removeDonationByRpresentativeId = (representative_user_id) =>
     db.query(
         `
         DELETE FROM ngos

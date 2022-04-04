@@ -66,6 +66,13 @@ export default function NgoArea() {
             ) : (
                 <div className="no-selector"></div>
             )}
+            <a href="/">
+                <h3 className="welcome-link">Home</h3>
+            </a>
+            <div className="no-selector"></div>
+            <a href="/logout">
+                <h3 className="welcome-link">Logout</h3>
+            </a>
         </menu>
     );
 
@@ -74,8 +81,7 @@ export default function NgoArea() {
             <nav className="nav">
                 <Logo />
                 <div className="nav-right">
-                    <a href="/">Home</a>
-                    <a href="/logout">Logout</a>
+                    <h2>{ngoProfile.display_name}</h2>
                     <img
                         src={
                             ngoProfile.logo

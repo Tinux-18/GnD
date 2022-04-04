@@ -51,7 +51,8 @@ donationRouter.post("/donation/make-donation.json", (req, res) => {
         ...req.body,
     };
 
-    if (dbQueryInput.amount > 100) {
+    // Should be set by the organisation
+    if (dbQueryInput.amount > 300) {
         dbQueryInput.accepted = "false";
     }
     console.log("object :>> ", dbQueryInput);
