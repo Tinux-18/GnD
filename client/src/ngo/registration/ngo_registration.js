@@ -52,7 +52,7 @@ export default function NgoRegistration() {
 
     return (
         <>
-            <div className="form-style-5">
+            <div className="form-style-5" id="ngo-reg">
                 {generalError && (
                     <h3 id="error">Something went wrong. Please try again!</h3>
                 )}

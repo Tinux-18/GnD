@@ -537,3 +537,73 @@ a:active {
     width: 80px;
     border-top: 2px solid #61b99a;
 }
+
+@media screen and (min-width: 1800px) {
+    body {
+        font-size: 2rem;
+    }
+    footer {
+        height: 80px;
+    }
+    .welcome-link {
+        font-size: 2rem;
+    }
+    .nav-right a,
+    .nav-left a {
+        font-size: 1.8rem;
+    }
+    nav {
+        height: 120px;
+    }
+    nav .logo {
+        width: 120px;
+        height: 120px;
+    }
+    .nav-right {
+        gap: 30px;
+    }
+    .welcome img {
+        width: 690px;
+        height: 470px;
+    }
+    .auth {
+        margin-top: 200px;
+    }
+
+    .shopping {
+        margin-top: 200px;
+    }
+
+    .welcome {
+        gap: 120px;
+    }
+
+    .form-style-5 {
+        max-width: 700px;
+        width: 450px;
+    }
+
+    .form-style-5 input,
+    .form-style-5 textarea,
+    .form-style-5 select {
+        font-size: 1.5rem;
+    }
+
+    .form-style-5 button[type="submit"] {
+        font-size: 1.5rem;
+
+        width: 120px;
+        height: 60px;
+    }
+
+    .form-style-5 input[type="reset"] {
+        font-size: 1.5rem;
+        width: 100px;
+        height: 60px;
+    }
+
+    #ngo-reg {
+        max-width: 1000px;
+        width: 650px;
+    }
+}

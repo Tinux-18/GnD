@@ -89,10 +89,13 @@ export default function SignIn() {
                     {inputErrors.length != 0 && (
                         <h3 id="error">Please fill in the required fields</h3>
                     )}
-                    {generalError && inputErrors.length == 0 && (
+                    {generalError && inputErrors.length == 0 && !passError && (
                         <h3 id="error">
                             Something went wrong. Please try again!
                         </h3>
+                    )}
+                    {passError && (
+                        <h4 id="error">Your passwords do not match</h4>
                     )}
                     <label htmlFor="first">First name</label>
                     <input
@@ -139,9 +142,7 @@ export default function SignIn() {
                                 : "white",
                         }}
                     ></input>
-                    {passError && (
-                        <h4 id="error">Your passwords do not match</h4>
-                    )}
+
                     <label htmlFor="pass1">Password</label>
                     <input
                         name="pass1"

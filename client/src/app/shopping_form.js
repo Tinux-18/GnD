@@ -180,7 +180,7 @@ export default function ShoppingForm() {
 
     const success = (
         <div className="welcome form">
-            <h2 id="thank-you-4-caring">Thank you for caring!</h2>
+            <h2 id="thank-you-4-caring">Thank you for caring !</h2>
             <a href="/" className="welcome-link">
                 <h2>Make another pruchase</h2>
             </a>
@@ -195,7 +195,9 @@ export default function ShoppingForm() {
                     <a href="/logout">Logout</a>
                 </div>
             </nav>
-            <div className="welcome">{showForm ? donationForm : success}</div>
+            <div className="welcome shopping">
+                {showForm ? donationForm : success}
+            </div>
         </>
     );
 }
