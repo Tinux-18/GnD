@@ -218,7 +218,7 @@ footer p {
 }
 
 menu {
-    width: 30vw;
+    width: 20%;
     align-self: flex-start;
 }
 
@@ -256,6 +256,15 @@ menu {
 .hovertext:hover:before {
     opacity: 1;
     visibility: visible;
+}
+
+::placeholder {
+    color: grey;
+    opacity: 0.5;
+}
+
+#ngo-reg {
+    margin-left: 300px;
 }
 
 #registration-basic {
@@ -602,8 +611,22 @@ a:active {
         height: 60px;
     }
 
+    #registration-basic {
+        width: 500px;
+    }
+    #social-media input {
+        width: 145px;
+    }
+
+    #description {
+        height: 170px;
+    }
+
     #ngo-reg {
-        max-width: 1000px;
-        width: 650px;
+        margin-left: 600px;
+    }
+
+    table {
+        width: 1500px;
     }
 }

@@ -120,7 +120,7 @@ export default function NgoRegistrationBasic(props) {
                             id="facebook"
                             type="text"
                             value={fields.facebook ? fields.facebook : ""}
-                            placeholder="@code4romania"
+                            placeholder="@code"
                             required
                             onChange={inputUpdate}
                             style={{
@@ -138,7 +138,7 @@ export default function NgoRegistrationBasic(props) {
                             name="instagram"
                             id="instagram"
                             type="text"
-                            placeholder="@code4romania"
+                            placeholder="@code"
                             value={fields.instagram ? fields.instagram : ""}
                             onChange={inputUpdate}
                             style={{
@@ -152,7 +152,7 @@ export default function NgoRegistrationBasic(props) {
                             name="tiktok"
                             id="tiktok"
                             type="text"
-                            placeholder="@code4romania"
+                            placeholder="@code"
                             value={fields.tiktok ? fields.tiktok : ""}
                             onChange={inputUpdate}
                             style={{
