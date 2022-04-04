@@ -509,3 +509,31 @@ a:hover {
 a:active {
     text-decoration: none;
 }
+
+#motivation {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+}
+
+.motivation__text {
+    width: 600px;
+}
+
+.motivation__text h3 {
+    margin-left: 230px;
+}
+
+.motivation__text-ngo {
+    width: 600px;
+    margin-bottom: 80px;
+}
+
+.motivation__text-ngo h3 {
+    margin-left: 70px;
+}
+
+.separator {
+    width: 80px;
+    border-top: 2px solid #61b99a;
+}

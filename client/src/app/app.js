@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { receiveProfile } from "../redux/app/slice";
 
@@ -8,12 +8,13 @@ import Footer from "../general/footer";
 import Cards from "./cards";
 import Auth from "../auth/auth";
 import NgoArea from "../ngo/ngo_area";
-import NgoRegistration from "../ngo/registration/ngo_registration";
 import ShoppingForm from "./shopping_form";
+import Motivation from "./motivation";
 
 export default function App() {
     const dispatch = useDispatch();
     const app = useSelector((state) => state.app);
+    const [showMotivation, setShowMotivation] = useState(false);
 
     useEffect(() => {
         console.log("App mounted");
@@ -56,7 +57,11 @@ export default function App() {
                             {app.isUserLoggedIn ? loggedInNav : loggedOutNav}
                         </div>
                     </nav>
-                    <Cards />
+                    {showMotivation ? (
+                        <Motivation setShowMotivation={setShowMotivation} />
+                    ) : (
+                        <Cards />
+                    )}
                 </Route>
                 <Route path="/auth">
                     <Auth />
@@ -64,14 +69,11 @@ export default function App() {
                 <Route path="/ngo-area">
                     <NgoArea />
                 </Route>
-                {/* <Route path="/ngo-registration">
-                    <NgoRegistration />
-                </Route> */}
                 <Route path="/shopping/:card">
                     {app.isUserLoggedIn ? <ShoppingForm /> : <Auth />}
                 </Route>
             </BrowserRouter>
-            <Footer />
+            <Footer setShowMotivation={setShowMotivation} />
         </>
     );
 }
