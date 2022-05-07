@@ -2,7 +2,6 @@ import { useSelector } from "react-redux";
 
 export default function Footer(props) {
     const app = useSelector((state) => state.app);
-    console.log("app :>> ", app);
     return (
         <footer>
             <p>© Tinux 2022</p>

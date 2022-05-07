@@ -15,8 +15,6 @@ exports.prepareTableInput = (data) => {
 };
 
 function formatDateForTable(sqlDate) {
-    console.log("sqlDate :>> ", sqlDate);
     let dateParams = sqlDate.replace("T", " ").replace("Z", "").split(/[- :]/);
-    console.log("dateParams :>> ", dateParams);
     return `${dateParams[1]} ${dateParams[2]} ${dateParams[3]}`;
 }
