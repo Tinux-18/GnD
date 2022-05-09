@@ -113,7 +113,13 @@ ngoRouter.post("/ngo/store-registration-part.json", async (req, res) => {
 });
 
 ngoRouter.get("/ngo/registration-part.json", async (req, res) => {
-    res.status("200");
-    res.json({ registrationPart: req.session.registrationPart });
+    if (req.session.registrationPart) {
+        res.status("200");
+        res.json({ registrationPart: req.session.registrationPart });
+    } else {
+        res.status("200");
+        res.json({ registrationPart: 1 });
+    }
 });
+
 module.exports = ngoRouter;

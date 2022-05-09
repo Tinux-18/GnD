@@ -40,7 +40,6 @@ export default function NgoRegistration() {
                 setSubForm(data.registrationPart);
             }
         }
-
         return () => {
             abort = true;
         };

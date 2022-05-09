@@ -95,8 +95,7 @@ export default function NgoArea() {
             <div className="ngo-area">
                 {sideMenu}
                 <div className="ngo-area__main">
-                    {!ngoProfile.registration_complete ||
-                    showNgoRegistration ? (
+                    {!showNgoRegistration ? (
                         <NgoRegistration />
                     ) : (
                         <NgoOverview />
