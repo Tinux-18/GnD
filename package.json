@@ -59,7 +59,6 @@
         "semantic-ui-react": "^2.1.2",
         "spiced-pg": "^1.0.4",
         "styled-components": "^5.3.5",
-        "ts-loader": "^9.2.4",
         "uid-safe": "^2.1.4",
         "webfontloader": "^1.6.28",
         "webpack": "^5.11.0",
