@@ -32,6 +32,7 @@ GnD’s goals are: very easy registration and administration for the NGOs and gr
 ## Techstack
 
 This was my graduation project from the Spiced Academy full-stack web development bootcamp.
+
 I am to develop this project further and go live sometime in 2022.
 
 ### Front-end
