@@ -35,5 +35,5 @@ app.get("*", function (req, res) {
 });
 
 server.listen(process.env.PORT || 3001, function () {
-    console.log("GTKOG listening \nhttp://localhost:3000");
+    console.log("GnD listening \nhttp://localhost:3000");
 });
