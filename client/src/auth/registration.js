@@ -50,7 +50,11 @@ export default function SignIn() {
         let noEmptyFields = !Object.values(fields).some(
             (field) => field.length == 0
         );
-        if (noEmptyFields && !arePasswordsDifferent()) {
+        console.log("noEmptyFields :>> ", noEmptyFields);
+
+        if (arePasswordsDifferent()) {
+            setpassError(true);
+        } else if (noEmptyFields) {
             const role = ngoCheck ? "organiser" : "donor";
 
             fetch("/user/addProfile.json", {
@@ -203,6 +207,7 @@ export default function SignIn() {
                                 setInputErrors([]);
                                 setGeneralError(false);
                                 setpassError(false);
+                                setShowPasswordConfirmation(false);
                             }}
                         ></input>
                     </div>
