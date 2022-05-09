@@ -24,10 +24,10 @@ GnD’s goals are: very easy registration and administration for the NGOs and gr
 
 1. Clone the repo
 2. Set-up your secrets.json file based on the
-   [provided example](https://github.com/Tinux-18/Netoscope/blob/main/secrets_example.json)
+   [provided example](https://github.com/Tinux-18/GnD/blob/main/secrets_example.json)
 3. Set-up your database with `createdb <database_name>`
 4. Create the tables from
-   [setup.sql](https://github.com/Tinux-18/Netoscope/blob/main/sql/images.sql)
+   [setup.sql](https://github.com/Tinux-18/GnD/blob/main/server/sql/setup.sql)
 5. Install npm packages with `npm i`
 6. Start the client with `npm run dev:client`
 7. Start Redis with `redis-server --daemonize yes`
@@ -51,12 +51,13 @@ I am to develop this project further and go live sometime in 2022.
 
 ## Features
 
--   basicAuth
--   Upload image
--   Comment on image
--   Delete comments
--   Expand all comments
--   Infininte scroll
+**User registration**
+
+**NGO registration**
+
+**Gift shopping**
+
+**NGO dashboard**
 
 ## Todo
 
