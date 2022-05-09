@@ -16,18 +16,22 @@ GnD’s goals are: very easy registration and administration for the NGOs and gr
 
 ## Notes
 
+-   I haven't tried the instructions for running locally so please reach out if you get stuck
+
 ## Tried it yourself locally
 
-**Requirements**: git, node, npm, postgreSQL
+**Requirements**: git, node, npm, postgreSQL, redis
 
 1. Clone the repo
 2. Set-up your secrets.json file based on the
    [provided example](https://github.com/Tinux-18/Netoscope/blob/main/secrets_example.json)
 3. Set-up your database with `createdb <database_name>`
 4. Create the tables from
-   [images.sql](https://github.com/Tinux-18/Netoscope/blob/main/sql/images.sql)
+   [setup.sql](https://github.com/Tinux-18/Netoscope/blob/main/sql/images.sql)
 5. Install npm packages with `npm i`
-6. Run the app locally with `node .`
+6. Start the client with `npm run dev:client`
+7. Start Redis with `redis-server --daemonize yes`
+8. Start the server with `npm start`
 
 ## Techstack
 
@@ -56,8 +60,8 @@ I am to develop this project further and go live sometime in 2022.
 
 ## Todo
 
--   improve image load speed
--   refactor UI with Grid
+-   fix vulnerability issues
+-   refactor UI
 -   deploy to Heroku
 
 ## Preview

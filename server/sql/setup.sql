@@ -46,19 +46,19 @@
 --     created_at              TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 -- );
 
-DROP TABLE IF EXISTS donations;
-CREATE TABLE donations (
-    id              SERIAL PRIMARY KEY,
-    sender_id       INTEGER NOT NULL REFERENCES users(id),
-    ngo_id          INTEGER NOT NULL REFERENCES ngos(id),
-    amount          INTEGER,
-    accepted        BOOLEAN NOT NULL,
-    receiver_name   VARCHAR(255),
-    receiver_email  VARCHAR(255),
-    card_message    VARCHAR,
-    card_id         VARCHAR(255),
-    created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+-- DROP TABLE IF EXISTS donations;
+-- CREATE TABLE donations (
+--     id              SERIAL PRIMARY KEY,
+--     sender_id       INTEGER NOT NULL REFERENCES users(id),
+--     ngo_id          INTEGER NOT NULL REFERENCES ngos(id),
+--     amount          INTEGER,
+--     accepted        BOOLEAN NOT NULL,
+--     receiver_name   VARCHAR(255),
+--     receiver_email  VARCHAR(255),
+--     card_message    VARCHAR,
+--     card_id         VARCHAR(255),
+--     created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+-- );
 
 -- -- ALTER TABLE
 
