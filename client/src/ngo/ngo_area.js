@@ -47,7 +47,7 @@ export default function NgoArea() {
             >
                 Edit Profile
             </h3>
-            {!ngoProfile.registration_complete || showNgoRegistration ? (
+            {showNgoRegistration ? (
                 <div className="selector"></div>
             ) : (
                 <div className="no-selector"></div>
@@ -61,7 +61,7 @@ export default function NgoArea() {
             >
                 Admin Portal
             </h3>
-            {ngoProfile.registration_complete && !showNgoRegistration ? (
+            {!showNgoRegistration ? (
                 <div className="selector"></div>
             ) : (
                 <div className="no-selector"></div>
@@ -95,7 +95,7 @@ export default function NgoArea() {
             <div className="ngo-area">
                 {sideMenu}
                 <div className="ngo-area__main">
-                    {!showNgoRegistration ? (
+                    {showNgoRegistration ? (
                         <NgoRegistration />
                     ) : (
                         <NgoOverview />
