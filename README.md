@@ -54,9 +54,23 @@ I am to develop this project further and go live sometime in 2022.
 
 **User registration**
 
-**NGO registration**
+-   forms for login, registration and password reset
+-   client side form validation
+-   password reset using AWS SES
+-   separate user profiles for shoppers and NGO admins
+
+<img align="left" alt="project preview" src="previews/user_login_registration.gif" />
 
 **Gift shopping**
+
+-   forms for login, registration and password reset
+-   client side form validation
+-   password reset using AWS SES
+-   separate user profiles for shoppers and NGO admins
+
+<img align="left" alt="project preview" src="previews/user_login_registration.gif" />
+
+**NGO registration**
 
 **NGO dashboard**
 
@@ -65,7 +79,3 @@ I am to develop this project further and go live sometime in 2022.
 -   fix vulnerability issues / productionalize
 -   refactor UI
 -   deploy to Heroku
-
-## Preview
-
-<img align="left" alt="linkedin" src="previews/netoscope_landing_preview.png" />

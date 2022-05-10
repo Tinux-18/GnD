@@ -50,7 +50,6 @@ export default function SignIn() {
         let noEmptyFields = !Object.values(fields).some(
             (field) => field.length == 0
         );
-        console.log("noEmptyFields :>> ", noEmptyFields);
 
         if (arePasswordsDifferent()) {
             setpassError(true);
