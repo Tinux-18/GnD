@@ -63,19 +63,43 @@ I am to develop this project further and go live sometime in 2022.
 
 **Gift shopping**
 
--   forms for login, registration and password reset
--   client side form validation
--   password reset using AWS SES
--   separate user profiles for shoppers and NGO admins
+-   purchase a card
+-   select from existing list of organisations
 
-<img align="left" alt="project preview" src="previews/user_login_registration.gif" />
+<img align="left" alt="project preview" src="previews/shopping.gif" />
 
 **NGO registration**
+
+-   3-part registration form
+-   file upload
+-   pre-population of fields upon returning to page even from a different machine
+
+<img align="left" alt="project preview" src="previews/ngo_registration.gif" />
 
 **NGO dashboard**
 
 ## Todo
 
+**General**
+
 -   fix vulnerability issues / productionalize
+-   add terms and conditions
 -   refactor UI
 -   deploy to Heroku
+
+**Registration**
+
+-   add more input constraints
+-   integrate registration with Google, Facebook
+-   stylise email sent for password reset
+
+**NGO registration**
+
+-   fix redirect after file upload
+
+**Purchase**
+
+-   send email after purchase to gift receiver with card and custom message
+-   add more input constraints
+-   integrate paypal donation
+-   develop legal and financial processes
