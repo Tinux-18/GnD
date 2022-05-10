@@ -16,7 +16,8 @@ GnD’s goals are: very easy registration and administration for the NGOs and gr
 
 ## Notes
 
--   I haven't tried the instructions for running locally so please reach out if you get stuck
+-   I haven't tried the instructions for running locally (will do soon) so please reach out if you get stuck
+-   The project is still in development phase
 
 ## Tried it yourself locally
 
@@ -61,7 +62,7 @@ I am to develop this project further and go live sometime in 2022.
 
 ## Todo
 
--   fix vulnerability issues
+-   fix vulnerability issues / productionalize
 -   refactor UI
 -   deploy to Heroku
 

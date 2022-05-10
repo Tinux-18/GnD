@@ -78,8 +78,6 @@ export default function SignIn() {
                     );
                     setGeneralError(true);
                 });
-        } else {
-            setGeneralError(true);
         }
     };
 

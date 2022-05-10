@@ -22,4 +22,4 @@
 -- WHERE representative_user_id = 20;
 
 -- DELETE FROM users
--- WHERE id = 20;
+-- WHERE id > 23;
