@@ -59,14 +59,14 @@ I am to develop this project further and go live sometime in 2022.
 -   password reset using AWS SES
 -   separate user profiles for shoppers and NGO admins
 
-<img align="left" margin-bottom="20px" alt="project preview" src="previews/user_login_registration.gif" />
+<img align="left" alt="project preview" src="previews/user_login_registration.gif" /> &nbsp;
 
 **Gift shopping**
 
 -   purchase a card
 -   select from existing list of organisations
 
-<img align="left" margin-bottom="20px" alt="project preview" src="previews/shopping.gif" />
+<img align="left" alt="project preview" src="previews/shopping.gif" /> &nbsp;
 
 **NGO registration**
 
@@ -74,14 +74,14 @@ I am to develop this project further and go live sometime in 2022.
 -   file upload
 -   pre-population of fields upon returning to page even from a different machine
 
-<img align="left" margin-bottom="20px" alt="project preview" src="previews/ngo_registration.gif" />
+<img align="left" alt="project preview" src="previews/ngo_registration.gif" /> &nbsp;
 
 **NGO dashboard**
 
 -   overview of donations
 -   approve donations over €300
 
-<img align="left" margin-bottom="20px" alt="project preview" src="previews/ngo_dashboard.gif" />
+<img align="left" alt="project preview" src="previews/ngo_dashboard.gif" /> &nbsp;
 
 ## Todo
 
@@ -102,7 +102,7 @@ I am to develop this project further and go live sometime in 2022.
 **NGO registration**
 
 -   fix redirect after file upload
--   add donation treshold (above which approval is needed)
+-   add donation threshold (above which approval is needed)
 
 **Purchase**
 
