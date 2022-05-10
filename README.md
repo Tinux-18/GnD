@@ -102,6 +102,7 @@ I am to develop this project further and go live sometime in 2022.
 **NGO registration**
 
 -   fix redirect after file upload
+-   implement: if registration is not started, user should be shown form-part-1 when entering Edit Profile section
 -   add donation threshold (above which approval is needed)
 
 **Purchase**
@@ -116,6 +117,7 @@ I am to develop this project further and go live sometime in 2022.
 -   add column for donation sender
 -   add email notification for NGO
 -   enable multiple administrators
+-   fix date bug
 
 **Validation**
 
