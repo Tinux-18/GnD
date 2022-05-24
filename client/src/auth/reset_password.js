@@ -150,8 +150,10 @@ export default function ResetPass({ showPassReset, setShowPassReset }) {
         <>
             <div className="form-style-5">
                 <form id="reset-password-form" className="form">
+                    {/* TODO Turn into ternary */}
                     {showPassResetForm && !showSuccess && resetPasswordForm}
                     {!showPassResetForm && !showSuccess && sendRequestForm}
+
                     {showSuccess && successMessage}
                 </form>
             </div>

@@ -21,6 +21,8 @@ export default function NgoArea() {
         return null;
     }
 
+    // TODO simplify rendering logic
+
     const sideMenu = (
         <menu>
             <h3>Registration status</h3>

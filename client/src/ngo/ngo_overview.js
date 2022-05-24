@@ -58,10 +58,6 @@ export default function NgoOverview() {
         let donationsSum = 0;
         for (const donation in donations) {
             if (Object.hasOwnProperty.call(donations, donation)) {
-                console.log(
-                    "donations[donation].amount :>> ",
-                    donations[donation].amount
-                );
                 donationsSum += parseInt(donations[donation].amount);
             }
         }

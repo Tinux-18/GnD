@@ -17,6 +17,8 @@ export default function NgoRegistration() {
 
         dispatch(receiveNgoProfile());
 
+        // TODO move this logic to local store
+        
         if (subForm) {
             fetch("/ngo/store-registration-part.json", {
                 method: "POST",
