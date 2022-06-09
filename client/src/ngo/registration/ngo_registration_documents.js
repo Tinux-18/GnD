@@ -3,7 +3,7 @@ import { useStatefulFiles } from "../../hooks/update_stateful_files";
 
 export default function NgoRegistrationDocuments(props) {
     const [generalError, setGeneralError] = useState(false);
-    const [fields, fileUpdate] = useStatefulFiles({});
+    const [files, fileUpdate] = useStatefulFiles({});
     const [fileLinks, setFileLinks] = useState({});
     const [clear, setClear] = useState(false);
 
@@ -32,11 +32,11 @@ export default function NgoRegistrationDocuments(props) {
     function handleUpload(e) {
         e.preventDefault();
 
-        if (Object.values(fields).length !== 0) {
+        if (Object.values(files).length !== 0) {
             const fd = new FormData();
-            for (const file in fields) {
+            for (const file in files) {
                 if (fileLinks[file] == null) {
-                    fd.append(file, fields[file]);
+                    fd.append(file, files[file]);
                 }
             }
 
