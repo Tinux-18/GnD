@@ -1,5 +1,7 @@
 # Give and Donate
 
+## Status - Beta ready
+
 ## Overview
 
 Give and Donate (GnD) is a platform for buying donations, which hopes to turn into a small social enterprise in the near future.
