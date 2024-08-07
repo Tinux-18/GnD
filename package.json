@@ -35,7 +35,7 @@
         "depcheck": "^1.4.3",
         "eslint": "^7.16.0",
         "eslint-plugin-react": "^7.12.4",
-        "express": "^4.14.0",
+        "express": "^4.19.2",
         "gulp": "^4.0.2",
         "jest": "^26.6.3",
         "jest-fetch-mock": "^3.0.3",
